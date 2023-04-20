@@ -9,5 +9,10 @@ package com.mycompany.comp603_project_1_chess;
  * @author rh200
  */
 public class Player {
+    public ChessPieces colourPiece;
     
+    public Player(ChessPieces colourPiece)
+    {
+        this.colourPiece = colourPiece;
+    }
 }

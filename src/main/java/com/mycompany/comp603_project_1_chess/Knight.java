@@ -8,6 +8,9 @@ package com.mycompany.comp603_project_1_chess;
  *
  * @author rh200
  */
-public class Knight {
-    //Characteristic
+public class Knight extends Piece {
+    public Knight(char col, int row)
+    {
+        super(col, row);
+    }
 }
