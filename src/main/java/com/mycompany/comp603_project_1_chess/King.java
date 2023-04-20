@@ -9,8 +9,8 @@ package com.mycompany.comp603_project_1_chess;
  * @author rh200
  */
 public class King extends Piece {
-    public King(char col, int row)
+    public King(ChessPieceColour colour, char col, int row)
     {
-        super(col, row);
+        super(colour, col, row);
     }
 }

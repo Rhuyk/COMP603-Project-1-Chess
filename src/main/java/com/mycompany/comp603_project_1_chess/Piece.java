@@ -11,9 +11,11 @@ package com.mycompany.comp603_project_1_chess;
 public class Piece {
     private char column;
     private int row;
+    private ChessPieceColour colour;
     
-    public Piece(char col, int row)
+    public Piece(ChessPieceColour colour, char col, int row)
     {
+        this.colour = colour;
         this.column = col;
         this.row = row;
     }

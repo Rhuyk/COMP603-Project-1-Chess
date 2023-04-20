@@ -9,8 +9,8 @@ package com.mycompany.comp603_project_1_chess;
  * @author rh200
  */
 public class Pawn extends Piece {
-    public Pawn(char col, int row)
+    public Pawn(ChessPieceColour colour, char col, int row)
     {
-        super(col, row);
+        super(colour, col, row);
     }
 }
