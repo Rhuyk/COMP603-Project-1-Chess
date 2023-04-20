@@ -14,7 +14,7 @@ public class ChessGame {
     {
         ChessBoard board = new ChessBoard();
         board.startBoard();
-        board.printBoard();
+        board.printBoard(false);
         
     }
 }
