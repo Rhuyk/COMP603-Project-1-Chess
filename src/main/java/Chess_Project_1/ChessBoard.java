@@ -10,7 +10,7 @@ package Chess_Project_1;
  */
 public class ChessBoard {
 
-    private Piece[][] board; // int[row][column]
+    private Piece[][] board; // Piece[row][column]
     
     public ChessBoard()
     {
@@ -37,12 +37,12 @@ public class ChessBoard {
         
         board[7][1] = new Knight(ChessPieceColour.WHITE,7,1);
         board[7][6] = new Knight(ChessPieceColour.WHITE,7,6);
-        board[0][1] = new Knight(ChessPieceColour.WHITE,0,1);
-        board[0][6] = new Knight(ChessPieceColour.WHITE,0,6);
+        board[0][1] = new Knight(ChessPieceColour.BLACK,0,1);
+        board[0][6] = new Knight(ChessPieceColour.BLACK,0,6);
         
         for(int i = 0; i < 8; i++)
         {
-            board[1][i] = new Pawn(ChessPieceColour.WHITE,1,i);
+            board[1][i] = new Pawn(ChessPieceColour.BLACK,1,i);
             board[6][i] = new Pawn(ChessPieceColour.WHITE,6,i);
         }
     }
@@ -52,18 +52,17 @@ public class ChessBoard {
         int chessRows = 8;
         
         System.out.println("Chess Board: \n");
-        System.out.println("     a   b   c   d   e   f   g   h\n");
+        System.out.println("     a    b    c    d    e    f    g    h\n");
         
         for(Piece[] row: board)
         {
-            System.out.println("   +---+---+---+---+---+---+---+---+");
+            System.out.println("   +----+----+----+----+----+----+----+----+");
             System.out.print(chessRows + "  | ");
             for(Piece piece: row)
             {
-                
                 if(piece == null)
                 {
-                    System.out.print("- | ");
+                    System.out.print("-- | ");
                 }
                 else
                 {
@@ -74,6 +73,11 @@ public class ChessBoard {
             chessRows--;
         }
         
-        System.out.println("\n     a   b   c   d   e   f   g   h");
+        System.out.println("\n     a    b    c    d    e    f    g    h");
+    }
+    
+    public Piece getPiece(int row, int column)
+    {
+        return board[row][column];
     }
 }

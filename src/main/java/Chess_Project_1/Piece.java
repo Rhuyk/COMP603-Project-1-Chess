@@ -51,8 +51,8 @@ public class Piece {
         this.row = row;
     }
     
-    public char getSymbol()
+    public String getSymbol()
     {
-        return '?';
+        return "?";
     }
 }

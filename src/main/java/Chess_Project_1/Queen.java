@@ -17,8 +17,15 @@ public class Queen extends Piece
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'Q';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wQ";
+        } 
+        else
+        {
+            return "bQ";
+        }
     }
 }

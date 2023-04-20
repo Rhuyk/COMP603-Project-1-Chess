@@ -16,8 +16,15 @@ public class Bishop extends Piece{
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'B';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wB";
+        } 
+        else
+        {
+            return "bB";
+        }
     }
 }

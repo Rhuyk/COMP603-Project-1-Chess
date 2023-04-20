@@ -16,8 +16,15 @@ public class Rook extends Piece {
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'R';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wR";
+        } 
+        else
+        {
+            return "bR";
+        }
     }
 }

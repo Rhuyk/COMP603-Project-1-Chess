@@ -16,8 +16,15 @@ public class Pawn extends Piece {
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'P';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wP";
+        } 
+        else
+        {
+            return "bP";
+        }
     }
 }

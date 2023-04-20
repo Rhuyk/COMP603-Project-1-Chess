@@ -16,8 +16,15 @@ public class King extends Piece {
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'K';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wK";
+        } 
+        else
+        {
+            return "bK";
+        }
     }
 }

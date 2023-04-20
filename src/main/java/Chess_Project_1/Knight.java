@@ -16,8 +16,15 @@ public class Knight extends Piece {
     }
     
     @Override
-    public char getSymbol()
+    public String getSymbol()
     {
-        return 'N';
+        if (getColour() == ChessPieceColour.WHITE) 
+        {
+            return "wN";
+        } 
+        else
+        {
+            return "bN";
+        }
     }
 }
