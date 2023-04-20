@@ -2,15 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.comp603_project_1_chess;
+package Chess_Project_1;
 
 /**
  *
  * @author rh200
  */
-public class Bishop extends Piece{
-    public Bishop(ChessPieceColour colour, char col, int row)
+public class Rook extends Piece {
+    
+    public Rook(ChessPieceColour colour,int row, int col)
     {
         super(colour, col, row);
+    }
+    
+    @Override
+    public char getSymbol()
+    {
+        return 'R';
     }
 }

@@ -2,12 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.comp603_project_1_chess;
+package Chess_Project_1;
 
 /**
  *
  * @author rh200
  */
-public class ChessGame {
-    //main, user interation?
+public class Player {
+    public ChessPieces colourPiece;
+    
+    public Player(ChessPieces colourPiece)
+    {
+        this.colourPiece = colourPiece;
+    }
 }

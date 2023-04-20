@@ -2,17 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.comp603_project_1_chess;
+package Chess_Project_1;
 
 /**
  *
  * @author rh200
  */
-public class Opponent {
-    private ChessPieces colourPiece;
+public class Pawn extends Piece {
     
-    public Opponent(ChessPieces colourPiece)
+    public Pawn(ChessPieceColour colour,int row, int col)
     {
-        this.colourPiece = colourPiece;
+        super(colour, col, row);
+    }
+    
+    @Override
+    public char getSymbol()
+    {
+        return 'P';
     }
 }
