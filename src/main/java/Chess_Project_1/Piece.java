@@ -13,22 +13,13 @@ public class Piece {
     private int row;
     private int column;
     private ChessPieceColour colour;
+    private boolean[][] availableMoves;
     
     public Piece(ChessPieceColour colour, int col, int row)
     {
         this.colour = colour;
-        this.row = row;
         this.column = col;
-    }
-    
-    public ChessPieceColour getColour()
-    {
-        return colour;
-    }
-    
-    public void setColour(ChessPieceColour colour)
-    {
-        this.colour = colour;
+        this.row = row;
     }
     
     public int getColumn()
@@ -36,14 +27,14 @@ public class Piece {
         return this.column;
     }
     
-    public int getRow()
-    {
-        return this.row;
-    }
-    
     public void setColumn(int col)
     {
         this.column = col;
+    }
+    
+    public int getRow()
+    {
+        return this.row;
     }
     
     public void setRow(int row)
@@ -51,8 +42,23 @@ public class Piece {
         this.row = row;
     }
     
+    public ChessPieceColour getColour()
+    {
+        return colour;
+    }
+    
     public String getSymbol()
     {
         return "?";
+    }
+    
+    public boolean[][] getAvailableMoves()
+    {
+        return this.availableMoves;
+    }
+    
+    public void setAvailableMoves(boolean[][] availableMoves)
+    {
+        this.availableMoves = availableMoves;
     }
 }

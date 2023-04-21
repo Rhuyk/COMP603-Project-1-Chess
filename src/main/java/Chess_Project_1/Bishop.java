@@ -10,7 +10,7 @@ package Chess_Project_1;
  */
 public class Bishop extends Piece{
     
-    public Bishop(ChessPieceColour colour,int row, int col)
+    public Bishop(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }
@@ -26,5 +26,103 @@ public class Bishop extends Piece{
         {
             return "bB";
         }
+    }
+    
+    public void bishopMoves()
+    {
+        ChessPieces pieces = new ChessPieces();
+        int col;
+        int row;
+        
+        boolean[][] availableMoves = new boolean[8][8];
+        for(boolean[] i : availableMoves)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() +1;
+        while(col <= 7 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+                col++;
+                row++;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+                break;
+            }
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() -1;
+        while(col <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+                col++;
+                row--;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+                break;
+            }
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() +1;
+        while(col >= 0 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+                col--;
+                row++;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+                break;
+            }
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() -1;
+        while(col >= 0 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+                col--;
+                row--;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+                break;
+            }
+        }
+        
+        super.setAvailableMoves(availableMoves);
     }
 }

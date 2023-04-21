@@ -10,7 +10,7 @@ package Chess_Project_1;
  */
 public class Pawn extends Piece {
     
-    public Pawn(ChessPieceColour colour,int row, int col)
+    public Pawn(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }

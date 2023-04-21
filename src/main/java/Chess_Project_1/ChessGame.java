@@ -12,9 +12,7 @@ public class ChessGame {
     
     public static void main(String[] args) 
     {
-        ChessBoard board = new ChessBoard();
-        board.startBoard();
+        PrintBoard board = new PrintBoard();
         board.printBoard(false);
-        
     }
 }
