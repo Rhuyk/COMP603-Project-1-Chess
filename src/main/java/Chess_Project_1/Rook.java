@@ -9,6 +9,7 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Rook extends Piece {
+    private boolean firstMove = true;
     
     public Rook(ChessPieceColour colour,int col, int row)
     {
@@ -28,9 +29,10 @@ public class Rook extends Piece {
         }
     }
     
-    public void rookMoves()
+    @Override
+    public boolean[][] getAvailableMoves()
     {
-        ChessPieces pieces = new ChessPieces();
+        PiecesOnBoard pieces = new PiecesOnBoard();
         int col;
         int row;
         
@@ -115,6 +117,79 @@ public class Rook extends Piece {
             }
         }
         
-        super.setAvailableMoves(availableMoves);
+        return availableMoves;
+    }
+    
+    @Override
+    public boolean[][] getTargetArea()
+    {
+        PiecesOnBoard pieces = new PiecesOnBoard();
+        int col;
+        int row;
+        
+        boolean[][] targetArea = new boolean[8][8];
+        for(boolean[] i : targetArea)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        
+        col = super.getColumn() +1;
+        while(col <= 7)
+        {
+            if(pieces.getPiece(col, super.getRow()) != null)
+            {
+                targetArea[col][super.getRow()] = true;
+                break;
+            }
+            targetArea[col][super.getRow()] = true;
+            col++;
+        }
+        
+        col = super.getColumn() -1;
+        while(col >= 0)
+        {
+            if(pieces.getPiece(col, super.getRow()) != null)
+            {
+                targetArea[col][super.getRow()] = true;
+                break;
+            }
+            targetArea[col][super.getRow()] = true;
+            col--;
+        }
+        
+        row = super.getRow() +1;
+        while(row <= 7)
+        {
+            if(pieces.getPiece(super.getColumn(), row) != null)
+            {
+                targetArea[super.getColumn()][row] = true;
+                break;
+            }
+            targetArea[super.getColumn()][row] = true;
+            row++;
+        }
+        
+        row = super.getRow() -1;
+        while(row <= 7)
+        {
+            if(pieces.getPiece(super.getColumn(), row) != null)
+            {
+                targetArea[super.getColumn()][row] = true;
+                break;
+            }
+            targetArea[super.getColumn()][row] = true;
+            row--;
+        }
+        
+        return targetArea;
+    }
+    
+    @Override
+    public void setFirstMove()
+    {
+        this.firstMove = false;
     }
 }

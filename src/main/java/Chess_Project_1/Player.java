@@ -9,9 +9,9 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Player {
-    public ChessPieces colourPiece;
+    public PiecesOnBoard colourPiece;
     
-    public Player(ChessPieces colourPiece)
+    public Player(PiecesOnBoard colourPiece)
     {
         this.colourPiece = colourPiece;
     }

@@ -9,9 +9,9 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Opponent {
-    private ChessPieces colourPiece;
+    private PiecesOnBoard colourPiece;
     
-    public Opponent(ChessPieces colourPiece)
+    public Opponent(PiecesOnBoard colourPiece)
     {
         this.colourPiece = colourPiece;
     }

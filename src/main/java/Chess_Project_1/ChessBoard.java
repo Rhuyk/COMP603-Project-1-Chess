@@ -9,7 +9,7 @@ package Chess_Project_1;
  * @author rh200
  */
 public class ChessBoard {
-    ChessPieces pieces = new ChessPieces();
+    PiecesOnBoard pieces = new PiecesOnBoard();
     
     public ChessBoard()
     {

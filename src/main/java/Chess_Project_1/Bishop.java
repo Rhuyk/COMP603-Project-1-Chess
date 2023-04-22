@@ -28,9 +28,10 @@ public class Bishop extends Piece{
         }
     }
     
-    public void bishopMoves()
+    @Override
+    public boolean[][] getAvailableMoves()
     {
-        ChessPieces pieces = new ChessPieces();
+        PiecesOnBoard pieces = new PiecesOnBoard();
         int col;
         int row;
         
@@ -123,6 +124,81 @@ public class Bishop extends Piece{
             }
         }
         
-        super.setAvailableMoves(availableMoves);
+        return availableMoves;
+    }
+    
+    @Override
+    public boolean[][] getTargetArea()
+    {
+        PiecesOnBoard pieces = new PiecesOnBoard();
+        int col;
+        int row;
+        
+        boolean[][] targetArea = new boolean[8][8];
+        for(boolean[] i : targetArea)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() +1;
+        while(col <= 7 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col++;
+            row++;
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() -1;
+        while(col <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col++;
+            row--;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() +1;
+        while(col >= 0 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col--;
+            row++;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() -1;
+        while(col >= 0 && row >= 0)
+        {
+                targetArea[col][row] = true;
+                col--;
+                row--;
+                if(pieces.getPiece(col, row) != null)
+                {
+                    targetArea[col][row] = true;
+                    break;
+                }
+        }
+        
+        return targetArea;
     }
 }

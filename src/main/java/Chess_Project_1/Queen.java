@@ -29,9 +29,10 @@ public class Queen extends Piece
         }
     }
     
-    public void queenMoves()
+    @Override
+    public boolean[][] getAvailableMoves()
     {
-        ChessPieces pieces = new ChessPieces();
+        PiecesOnBoard pieces = new PiecesOnBoard();
         int col;
         int row;
         
@@ -196,6 +197,129 @@ public class Queen extends Piece
             }
         }
         
-        super.setAvailableMoves(availableMoves);
+        return availableMoves;
+    }
+    
+    @Override
+    public boolean[][] getTargetArea()
+    {
+        PiecesOnBoard pieces = new PiecesOnBoard();
+        int col;
+        int row;
+        
+        boolean[][] targetArea = new boolean[8][8];
+        for(boolean[] i : targetArea)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        
+        col = super.getColumn() +1;
+        while(col <= 7)
+        {
+            if(pieces.getPiece(col, super.getRow()) != null)
+            {
+                targetArea[col][super.getRow()] = true;
+                break;
+            }
+            targetArea[col][super.getRow()] = true;
+            col++;
+        }
+        
+        col = super.getColumn() -1;
+        while(col >= 0)
+        {
+            if(pieces.getPiece(col, super.getRow()) != null)
+            {
+                targetArea[col][super.getRow()] = true;
+                break;
+            }
+            targetArea[col][super.getRow()] = true;
+            col--;
+        }
+        
+        row = super.getRow() +1;
+        while(row <= 7)
+        {
+            if(pieces.getPiece(super.getColumn(), row) != null)
+            {
+                targetArea[super.getColumn()][row] = true;
+                break;
+            }
+            targetArea[super.getColumn()][row] = true;
+            row++;
+        }
+        
+        row = super.getRow() -1;
+        while(row <= 7)
+        {
+            if(pieces.getPiece(super.getColumn(), row) != null)
+            {
+                targetArea[super.getColumn()][row] = true;
+                break;
+            }
+            targetArea[super.getColumn()][row] = true;
+            row--;
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() +1;
+        while(col <= 7 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col++;
+            row++;
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() -1;
+        while(col <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col++;
+            row--;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() +1;
+        while(col >= 0 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col--;
+            row++;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() -1;
+        while(col >= 0 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                break;
+            }
+            targetArea[col][row] = true;
+            col--;
+            row--;
+        }
+        
+        return targetArea;
     }
 }

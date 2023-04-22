@@ -13,7 +13,6 @@ public class Piece {
     private int row;
     private int column;
     private ChessPieceColour colour;
-    private boolean[][] availableMoves;
     
     public Piece(ChessPieceColour colour, int col, int row)
     {
@@ -54,11 +53,32 @@ public class Piece {
     
     public boolean[][] getAvailableMoves()
     {
-        return this.availableMoves;
+        boolean[][] availableMoves = new boolean[8][8];
+        for(boolean[] i : availableMoves)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        return availableMoves;
     }
     
-    public void setAvailableMoves(boolean[][] availableMoves)
+    public boolean[][] getTargetArea()
     {
-        this.availableMoves = availableMoves;
+        boolean[][] targetArea = new boolean[8][8];
+        for(boolean[] i : targetArea)
+        {
+            for(boolean j : i)
+            {
+                j = false;
+            }
+        }
+        return targetArea;
+    }
+    
+    public void setFirstMove()
+    {
+        
     }
 }

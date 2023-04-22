@@ -9,6 +9,7 @@ package Chess_Project_1;
  * @author rh200
  */
 public class King extends Piece {
+    private boolean firstMove = true;
     
     public King(ChessPieceColour colour, int col, int row)
     {
@@ -28,8 +29,13 @@ public class King extends Piece {
         }
     }
     
-    public void kingMoves()
+    @Override
+    public boolean[][] getAvailableMoves()
     {
+        PiecesOnBoard pieces = new PiecesOnBoard();
+        int col;
+        int row;
+        
         boolean[][] availableMoves = new boolean[8][8];
         for(boolean[] i : availableMoves)
         {
@@ -39,57 +45,215 @@ public class King extends Piece {
             }
         }
         
-        if(super.getColumn()+1 <= 7)
+        col = super.getColumn() +1;
+        if(col <= 7)
         {
-            availableMoves[super.getColumn()+1][super.getRow()] = true;
-            
-            if(super.getRow()+1 <= 7)
+            if(pieces.getPiece(col, super.getRow()) == null)
             {
-                availableMoves[super.getColumn()+1][super.getRow()+1] = true;
+                availableMoves[col][super.getRow()] = true;
             }
-            if(super.getRow()-1 >= 0)
+            else
             {
-                availableMoves[super.getColumn()+1][super.getRow()-1] = true;
-            }
-        }
-        if(super.getColumn()-1 >= 0)
-        {
-            availableMoves[super.getColumn()-1][super.getRow()] = true;
-            
-            if(super.getRow()+1 <= 7)
-            {
-                availableMoves[super.getColumn()-1][super.getRow()+1] = true;
-            }
-            if(super.getRow()-1 >= 0)
-            {
-                availableMoves[super.getColumn()-1][super.getRow()-1] = true;
+                if(pieces.getPiece(col, super.getRow()).getColour() != super.getColour())
+                {
+                    availableMoves[col][super.getRow()] = true;
+                }
             }
         }
-        if(super.getRow()+1 <= 7)
+                
+        col = super.getColumn() -1;
+        if(col >= 0)
         {
-            availableMoves[super.getColumn()][super.getRow()+1] = true;
-        }
-        if(super.getRow()-1 >= 0)
-        {
-            availableMoves[super.getColumn()][super.getRow()-1] = true;
+            if(pieces.getPiece(col, super.getRow()) == null)
+            {
+                availableMoves[col][super.getRow()] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, super.getRow()).getColour() != super.getColour())
+                {
+                    availableMoves[col][super.getRow()] = true;
+                }
+            }
         }
         
-        ChessPieces pieces = new ChessPieces();
-        int counter = 0;
-        for(boolean[] i : availableMoves)
+        row = super.getRow() +1;
+        if(row <= 7)
         {
-            int counter2 = 0;
+            if(pieces.getPiece(super.getColumn(), row) == null)
+            {
+                availableMoves[super.getColumn()][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(super.getColumn(), row).getColour() != super.getColour())
+                {
+                    availableMoves[super.getColumn()][row] = true;
+                }
+            }
+        }
+        
+        row = super.getRow() -1;
+        if(row <= 7)
+        {
+            if(pieces.getPiece(super.getColumn(), row) == null)
+            {
+                availableMoves[super.getColumn()][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(super.getColumn(), row).getColour() != super.getColour())
+                {
+                    availableMoves[super.getColumn()][row] = true;
+                }
+            }
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() +1;
+        if(col <= 7 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() -1;
+        if(col <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() +1;
+        if(col >= 0 && row <= 7)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() -1;
+        if(col >= 0 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+        
+        return availableMoves;
+    }
+    
+    @Override
+    public boolean[][] getTargetArea()
+    {
+        PiecesOnBoard pieces = new PiecesOnBoard();
+        int col;
+        int row;
+        
+        boolean[][] targetArea = new boolean[8][8];
+        for(boolean[] i : targetArea)
+        {
             for(boolean j : i)
             {
-                if(j == true && pieces.getPiece(counter, counter2).getColour() == super.getColour())
-                {
-                    j = false;
-                }
-                counter2++;
+                j = false;
             }
-            counter++;
         }
         
-        super.setAvailableMoves(availableMoves);
+        col = super.getColumn() +1;
+        if(col <= 7)
+        {
+            targetArea[col][super.getRow()] = true;
+        }
+                
+        col = super.getColumn() -1;
+        if(col >= 0)
+        {
+            targetArea[col][super.getRow()] = true;
+        }
+        
+        row = super.getRow() +1;
+        if(row <= 7)
+        {
+            targetArea[super.getColumn()][row] = true;
+        }
+        
+        row = super.getRow() -1;
+        if(row <= 7)
+        {
+            targetArea[super.getColumn()][row] = true;
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() +1;
+        if(col <= 7 && row <= 7)
+        {
+            targetArea[col][row] = true;
+        }
+        
+        col = super.getColumn() +1;
+        row = super.getRow() -1;
+        if(col <= 7 && row >= 0)
+        {
+            targetArea[col][row] = true;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() +1;
+        if(col >= 0 && row <= 7)
+        {
+            targetArea[col][row] = true;
+        }
+        
+        col = super.getColumn() -1;
+        row = super.getRow() -1;
+        if(col >= 0 && row >= 0)
+        {
+            targetArea[col][row] = true;
+        }
+        
+        return targetArea;
+    }
+    
+    @Override
+    public void setFirstMove()
+    {
+        this.firstMove = false;
     }
 }
