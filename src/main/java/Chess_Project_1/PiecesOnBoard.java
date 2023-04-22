@@ -43,8 +43,12 @@ public class PiecesOnBoard {
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
+                    else
+                    {
+                        //unavailable move
+                    }
                 }
-                else if(selectedPiece.getSymbol().equals("wP"))
+                else
                 {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
@@ -53,15 +57,13 @@ public class PiecesOnBoard {
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
-                }
-                else
-                {
-                    selectedPiece.setColAndRow(toCol, toRow);
-                    board[toCol][toRow] = selectedPiece;
-                    board[fromCol][fromRow] = null;
+                    else
+                    {
+                        //unavailable move
+                    }
                 }
             }
-            if(selectedPiece.getColour() == ChessPieceColour.BLACK)
+            else if(selectedPiece.getColour() == ChessPieceColour.BLACK)
             {
                 if(selectedPiece.getSymbol().equals("bK"))
                 {
@@ -72,8 +74,12 @@ public class PiecesOnBoard {
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
+                    else
+                    {
+                        //unavailable move
+                    }
                 }
-                else if(selectedPiece.getSymbol().equals("bP"))
+                else
                 {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
@@ -82,14 +88,16 @@ public class PiecesOnBoard {
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
-                }
-                else
-                {
-                    selectedPiece.setColAndRow(toCol, toRow);
-                    board[toCol][toRow] = selectedPiece;
-                    board[fromCol][fromRow] = null;
+                    else
+                    {
+                        //unavailable move
+                    }
                 }
             }
+        }
+        else
+        {
+            //invalid selection
         }
     }
 

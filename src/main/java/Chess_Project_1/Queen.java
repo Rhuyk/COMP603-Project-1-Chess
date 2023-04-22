@@ -10,6 +10,7 @@ package Chess_Project_1;
  */
 public class Queen extends Piece 
 {
+    private boolean firstMove = true;
     
     public Queen(ChessPieceColour colour,int col, int row)
     {
@@ -321,5 +322,11 @@ public class Queen extends Piece
         }
         
         return targetArea;
+    }
+    
+    @Override
+    public void setFirstMove()
+    {
+        this.firstMove = false;
     }
 }

@@ -9,6 +9,7 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Knight extends Piece {
+    private boolean firstMove = true;
     
     public Knight(ChessPieceColour colour,int col, int row)
     {
@@ -256,5 +257,11 @@ public class Knight extends Piece {
         }
         
         return targetArea;
+    }
+    
+    @Override
+    public void setFirstMove()
+    {
+        this.firstMove = false;
     }
 }
