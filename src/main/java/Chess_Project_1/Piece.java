@@ -41,6 +41,12 @@ public class Piece {
         this.row = row;
     }
     
+    public void setColAndRow(int col, int row)
+    {
+        this.column = col;
+        this.row = row;
+    }
+    
     public ChessPieceColour getColour()
     {
         return colour;

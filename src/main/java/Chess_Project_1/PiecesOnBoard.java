@@ -39,6 +39,7 @@ public class PiecesOnBoard {
                     if(!blackpieces.getTargetAreas()[toCol][toRow] 
                             && whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
@@ -48,12 +49,14 @@ public class PiecesOnBoard {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         selectedPiece.setFirstMove();
+                        selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
                 }
                 else
                 {
+                    selectedPiece.setColAndRow(toCol, toRow);
                     board[toCol][toRow] = selectedPiece;
                     board[fromCol][fromRow] = null;
                 }
@@ -65,6 +68,7 @@ public class PiecesOnBoard {
                     if(!blackpieces.getTargetAreas()[toCol][toRow] 
                             && whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
@@ -74,12 +78,14 @@ public class PiecesOnBoard {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         selectedPiece.setFirstMove();
+                        selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
                     }
                 }
                 else
                 {
+                    selectedPiece.setColAndRow(toCol, toRow);
                     board[toCol][toRow] = selectedPiece;
                     board[fromCol][fromRow] = null;
                 }
