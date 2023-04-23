@@ -94,7 +94,7 @@ public class King extends Piece {
         }
         
         row = super.getRow() -1;
-        if(row <= 7)
+        if(row >= 0)
         {
             if(pieces.getPiece(super.getColumn(), row) == null)
             {
@@ -215,7 +215,7 @@ public class King extends Piece {
         }
         
         row = super.getRow() -1;
-        if(row <= 7)
+        if(row >= 0)
         {
             targetArea[super.getColumn()][row] = true;
         }

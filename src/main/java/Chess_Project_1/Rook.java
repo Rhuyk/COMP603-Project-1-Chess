@@ -173,7 +173,7 @@ public class Rook extends Piece {
         }
         
         row = super.getRow() -1;
-        while(row <= 7)
+        while(row >= 0)
         {
             if(pieces.getPiece(super.getColumn(), row) != null)
             {

@@ -53,18 +53,17 @@ public class Pawn extends Piece {
                 if(pieces.getPiece(super.getColumn(), row) == null)
                 {
                     availableMoves[super.getColumn()][row] = true;
+                    
+                    if(this.firstMove)
+                    {
+                        if(pieces.getPiece(super.getColumn(), row+1) == null)
+                        {
+                            availableMoves[super.getColumn()][row+1] = true;
+                        }
+                    }
                 }
             }
 
-            row = super.getRow()+ 2;
-            if(this.firstMove)
-            {
-                if(pieces.getPiece(super.getColumn(), row) == null)
-                {
-                    availableMoves[super.getColumn()][row] = true;
-                }
-            }
-            
             col = super.getColumn() + 1;
             row = super.getRow() + 1;
             if(col <= 7 && row <= 7)
@@ -96,17 +95,17 @@ public class Pawn extends Piece {
                 if(pieces.getPiece(super.getColumn(), row) == null)
                 {
                     availableMoves[super.getColumn()][row] = true;
+                    
+                    if(this.firstMove)
+                    {
+                        if(pieces.getPiece(super.getColumn(), row+1) == null)
+                        {
+                            availableMoves[super.getColumn()][row+1] = true;
+                        }
+                    }
                 }
             }
 
-            row = super.getRow() - 2;
-            if(this.firstMove)
-            {
-                if(pieces.getPiece(super.getColumn(), row) == null)
-                {
-                    availableMoves[super.getColumn()][row] = true;
-                }
-            }
             
             col = super.getColumn() + 1;
             row = super.getRow() - 1;
