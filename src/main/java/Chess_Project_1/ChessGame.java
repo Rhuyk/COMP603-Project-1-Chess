@@ -15,7 +15,14 @@ public class ChessGame {
     {
         ChessBoard board = new ChessBoard();
         
-        board.pieces.movePiece(1, 1, 1, 2);
+        board.pieces.movePiece(1, 1, 1, 3);
+        board.pieces.movePiece(0, 1, 0, 2);
+        board.pieces.movePiece(0, 2, 0, 3);
+        board.pieces.movePiece(0, 0, 0, 1);
+        board.pieces.movePiece(1, 0, 2, 2);
+        board.pieces.movePiece(2, 0, 0, 2);
+        
+        
         Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
         Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
         

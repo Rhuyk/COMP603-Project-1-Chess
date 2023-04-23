@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class PiecesOnBoard {
     private static Piece[][] board = new Piece[8][8]; // Piece[column][row]
     private ArrayList<Piece> allPieces = new ArrayList<Piece>();
-    private WhitePieces whitepieces = new WhitePieces();
-    private BlackPieces blackpieces = new BlackPieces();
+    private static WhitePieces whitepieces = new WhitePieces();
+    private static BlackPieces blackpieces = new BlackPieces();
     
     public PiecesOnBoard()
     {
