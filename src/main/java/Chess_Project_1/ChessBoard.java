@@ -9,11 +9,11 @@ package Chess_Project_1;
  * @author rh200
  */
 public class ChessBoard {
-    PiecesOnBoard pieces = new PiecesOnBoard();
+    PiecesOnBoard pieces;
     
     public ChessBoard()
     {
-
+        pieces = new PiecesOnBoard();
     }
     
     public Piece[][] getBoard()
@@ -24,5 +24,17 @@ public class ChessBoard {
     public Piece getPiece(int column, int row)
     {
         return pieces.getPiece(column, row);
+    }
+    
+    public void clear()
+    {
+        Piece[][] board = pieces.getBoard();
+        for (Piece[] board1 : board) 
+        {
+            for (int j = 0; j < board1.length; j++) 
+            {
+                board1[j] = null;
+            }
+        }
     }
 }

@@ -9,15 +9,13 @@ package Chess_Project_1;
  * @author rh200
  */
 public class PrintBoard {
-    public ChessBoard board = new ChessBoard();
     
-    public void printBoard(boolean isPlayingAsWhite)
+    public static void printBoard(ChessBoard board, boolean isPlayingAsWhite)
     {
         System.out.println("Chess Board: \n");
         System.out.println("Currently Playing as White: " + isPlayingAsWhite + "\n");
         String column = "     h    g    f    e    d    c    b    a\n";
         
-
         int currentRow = 0;
         int rowNumber = 1;
         int rowChange = 1;
@@ -35,7 +33,6 @@ public class PrintBoard {
         {
             System.out.println("   +----+----+----+----+----+----+----+----+");
             System.out.print((rowNumber) + "  | ");
-
 
             for(int j = 0; j < 8; j++)
             {
@@ -58,6 +55,4 @@ public class PrintBoard {
         System.out.println("   +----+----+----+----+----+----+----+----+");
         System.out.println(column);
     }
-    
-
 }

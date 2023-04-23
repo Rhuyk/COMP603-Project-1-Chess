@@ -83,6 +83,11 @@ public class Piece {
         return targetArea;
     }
     
+    public boolean isWhite()
+    {
+        return getColour() == ChessPieceColour.WHITE;
+    }
+    
     public void setFirstMove()
     {
         
