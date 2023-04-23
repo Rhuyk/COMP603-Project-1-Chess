@@ -24,8 +24,6 @@ public class FileIOTest {
         System.out.println("type 'load' to load your old saved game: ");
         String game = scanner.nextLine();
         String username = "";
-        String filename = "";
-        String sides = "";
         Player player = new Player(ChessPieceColour.WHITE,"PJ");
         if(game.equalsIgnoreCase("new"))
         {
@@ -38,42 +36,28 @@ public class FileIOTest {
                 break;
             }
             
-            System.out.print("\nPlease enter a new name for your chess game(E.g savedGame01): ");
-            filename = scanner.nextLine();
+            PiecesOnBoard chessboard = new PiecesOnBoard();
             
-            System.out.print("\nWould you like to play as black or white?: ");
-            sides = scanner.nextLine();
-            ChessBoard chessboard = new ChessBoard();
+            System.out.println("Currently playing as "+ username);
+            PrintBoard.printBoard(chessboard,player);
 
-            if(sides.equalsIgnoreCase("white"))
-            {
-                PrintBoard.printBoard(chessboard,player);
-            }
-            else if(sides.equalsIgnoreCase("black"))
-            {
-                PrintBoard.printBoard(chessboard,player);
-            }
             
-             System.out.print("\nType in 'save' to keep your game data in a text file: ");
+            System.out.print("\nType in 'save' to keep your game data in a text file: ");
         
         String choices = scanner.nextLine();
         
         if(choices.equalsIgnoreCase("save"))
         {
-            ChessBoardFileIO.saveGameForUser(username,chessboard, filename);
+            ChessBoardFileIO.saveGameForUser(username,chessboard);
         }
-        //break;
         }
         
         else if(game.equalsIgnoreCase("load"))
         {
             System.out.print("Please enter your previous username: ");
             username = scanner.nextLine();
-            
-            System.out.print("\nPlease enter your previous name for your chess game(E.g savedGame01): ");
-            filename = scanner.nextLine();
-            
-            ChessBoard loadedGame = ChessBoardFileIO.loadGame(username, filename);
+            System.out.println("\nCurrently playing as "+ username + "\n");
+            PiecesOnBoard loadedGame = ChessBoardFileIO.loadGame(username);
             
             if(loadedGame == null)
             {
@@ -81,22 +65,15 @@ public class FileIOTest {
                 break;
             }
             
-            System.out.print("\nWould you like to play as black or white?: ");
-            sides = scanner.nextLine();
+            PrintBoard.printBoard(loadedGame,player);
+            
+            }
         
-            if(sides.equalsIgnoreCase("white"))
-            {
-                PrintBoard.printBoard(loadedGame,player);
-            }
-            else if(sides.equalsIgnoreCase("black"))
-            {
-                PrintBoard.printBoard(loadedGame,player);
-            }
-            }
         else if(game.equalsIgnoreCase("quit"))
         {
             break;
         }
+        
         }
     }
 }

@@ -115,4 +115,15 @@ public class PiecesOnBoard {
     {
         this.board[column][row] = piece;
     }
+    
+    public void clear() 
+    {
+    for(int col = 0; col < 8; col++) 
+    {
+        for(int row = 0; row < 8; row++) 
+        {
+            board[col][row] = null;
+        }
+    }
+}
 }

@@ -17,18 +17,14 @@ import java.io.IOException;
 
 public class ChessBoardFileIO {
     
-    public static void saveGame(ChessBoard board, String filename) 
+    public static void saveGameForUser(String username, PiecesOnBoard board) 
     {
-        if(!filename.endsWith(".txt"))
-        {
-            filename+= ".txt";
-        }
+        String filename = "chessData.txt";
         
-        try 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) 
         {
-            BufferedWriter writer;
-            writer = new BufferedWriter(new FileWriter(filename));
-            
+            writer.write(username + "\n");
+
             for (int row = 0; row < 8; row++) 
             {
                 for (int col = 0; col < 8; col++) 
@@ -41,87 +37,70 @@ public class ChessBoardFileIO {
                     }
                 }
             }
-            writer.close();
+            writer.write("###\n");
+
             System.out.println("Game saved successfully to file: " + filename);
-        } catch (IOException e) {
-            System.out.println("Error saving game: " + filename);
-        }
-    }
-    
-    public static void saveGameForUser(String username, ChessBoard board, String filename) 
-    {
-        if(!filename.endsWith(".txt"))
-        {
-            filename+= ".txt";
-        }
-        
-        try 
-        {
-            BufferedWriter writer;
-            writer = new BufferedWriter(new FileWriter(filename));
-
-            writer.write(username + "\n");
-
-            for (int row = 0; row < 8; row++) {
-                for (int col = 0; col < 8; col++) {
-                    Piece piece = board.getPiece(col, row);
-                    if (piece != null) {
-                        String symbol = piece.getSymbol();
-                        writer.write(symbol + " " + row + " " + col + "\n");
-                    }
-                }
-            }
-            writer.close();
-            System.out.println("Game saved successfully to file: " + filename);
-        } catch (IOException e) {
-            System.out.println("Error saving game: " + filename);
-        }
-    }
-
-    public static ChessBoard loadGame(String username, String filename) 
-    {
-        ChessBoard board = new ChessBoard();
-        board.clear();
-        
-        if(!filename.endsWith(".txt"))
-        {
-            filename+= ".txt";
-        }
-        
-        try 
-        {
-            BufferedReader reader;
-            reader = new BufferedReader(new FileReader(filename));
-            String line;
-            
-            String fileUsername = reader.readLine();
-            if(!username.equals(fileUsername))
-            {
-                System.out.println("You are not authorised to access this file!");
-                return null;
-            }
-            
-            while ((line = reader.readLine()) != null) 
-            {
-                String[] parts = line.split(" ");
-                String symbol = parts[0];
-                int row = Integer.parseInt(parts[1]);
-                int col = Integer.parseInt(parts[2]);
-                
-                Piece piece = createPiece(symbol,col,row);
-                board.pieces.setPiece(col,row,piece);
-            }
-            
-            
-            reader.close();
-            System.out.println("Game File has been loaded!");
         } 
         catch (IOException e) 
         {
-            System.out.println("Error Game file could not be loaded!");
+            System.out.println("Error saving game: " + filename);
         }
+}
+
+    public static PiecesOnBoard loadGame(String username) 
+    {
+        String filename = "chessData.txt";
+
+        PiecesOnBoard board = new PiecesOnBoard();
+        board.clear();
+
+        try {
+            BufferedReader reader;
+            reader = new BufferedReader(new FileReader(filename));
+            String line;
+            StringBuilder gameDataBuilder = new StringBuilder();
+
+            boolean userFound = false;
+            while ((line = reader.readLine()) != null) 
+            {
+                if(username.equals(line))
+                {
+                        userFound = true;
+                }
+
+                else if (line.equals("###")) 
+                {
+                    String gameData = gameDataBuilder.toString();
+                    String[] lines = gameData.split("\n");
+                for (String gameLine : lines) {
+                    String[] parts = gameLine.split(" ");
+                    if (parts.length >= 3) { // check that the line has at least 3 elements
+                        String symbol = parts[0];
+                        int row = Integer.parseInt(parts[1]);
+                        int col = Integer.parseInt(parts[2]);
+
+                        Piece piece = createPiece(symbol, col, row);
+                        board.setPiece(col, row, piece);
+                    }
+                }
+                    gameDataBuilder = new StringBuilder();
+                    userFound = false;
+                } else {
+                    gameDataBuilder.append(line).append("\n");
+                }
+            }
+
+            reader.close();
+            System.out.println("Game file has been loaded!");
+        } 
+        catch (IOException e) 
+        {
+            System.out.println("Error: Game file could not be loaded!");
+        }
+
         return board;
     }
+
 
     private static Piece createPiece(String symbol,int column,int row) {
         switch (symbol) {

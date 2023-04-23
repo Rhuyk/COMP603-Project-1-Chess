@@ -10,7 +10,7 @@ package Chess_Project_1;
  */
 public class PrintBoard {
     
-    public static void printBoard(ChessBoard board, Player CurrentPlayer)
+    public static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
     {
         System.out.println("Chess Board: \n");
         System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
