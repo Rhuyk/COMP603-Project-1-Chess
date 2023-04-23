@@ -10,16 +10,16 @@ package Chess_Project_1;
  */
 public class PrintBoard {
     
-    public static void printBoard(ChessBoard board, boolean isPlayingAsWhite)
+    public static void printBoard(ChessBoard board, Player CurrentPlayer)
     {
         System.out.println("Chess Board: \n");
-        System.out.println("Currently Playing as White: " + isPlayingAsWhite + "\n");
+        System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
         String column = "     h    g    f    e    d    c    b    a\n";
         
         int currentRow = 0;
         int rowNumber = 1;
         int rowChange = 1;
-        if(isPlayingAsWhite)
+        if(CurrentPlayer.getColourPiece() == ChessPieceColour.WHITE)
         {
             currentRow = 7;
             rowNumber = 8;

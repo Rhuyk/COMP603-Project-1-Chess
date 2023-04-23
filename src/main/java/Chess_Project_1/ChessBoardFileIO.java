@@ -16,7 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ChessBoardFileIO {
-
+    
     public static void saveGame(ChessBoard board, String filename) 
     {
         if(!filename.endsWith(".txt"))

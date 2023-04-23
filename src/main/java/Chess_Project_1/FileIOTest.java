@@ -26,9 +26,11 @@ public class FileIOTest {
         String username = "";
         String filename = "";
         String sides = "";
+        Player player = new Player(ChessPieceColour.WHITE,"PJ");
         if(game.equalsIgnoreCase("new"))
         {
             System.out.print("Please enter a new username: ");
+            
             username = scanner.nextLine();
             if(username.equals("quit"))
             {
@@ -45,11 +47,11 @@ public class FileIOTest {
 
             if(sides.equalsIgnoreCase("white"))
             {
-                PrintBoard.printBoard(chessboard,true);
+                PrintBoard.printBoard(chessboard,player);
             }
             else if(sides.equalsIgnoreCase("black"))
             {
-                PrintBoard.printBoard(chessboard,false);
+                PrintBoard.printBoard(chessboard,player);
             }
             
              System.out.print("\nType in 'save' to keep your game data in a text file: ");
@@ -84,11 +86,11 @@ public class FileIOTest {
         
             if(sides.equalsIgnoreCase("white"))
             {
-                PrintBoard.printBoard(loadedGame,true);
+                PrintBoard.printBoard(loadedGame,player);
             }
             else if(sides.equalsIgnoreCase("black"))
             {
-                PrintBoard.printBoard(loadedGame,false);
+                PrintBoard.printBoard(loadedGame,player);
             }
             }
         else if(game.equalsIgnoreCase("quit"))

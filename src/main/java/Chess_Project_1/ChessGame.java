@@ -16,9 +16,11 @@ public class ChessGame {
         ChessBoard board = new ChessBoard();
         
         board.pieces.movePiece(1, 1, 1, 2);
+        Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
+        Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
         
-        
-        PrintBoard.printBoard(board,true);
+        PrintBoard.printBoard(board,player1);
+        PrintBoard.printBoard(board,player2);
         
     }
 }

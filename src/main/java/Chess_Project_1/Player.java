@@ -10,21 +10,21 @@ package Chess_Project_1;
  */
 public class Player {
     
-    private PiecesOnBoard colourPiece;
+    private ChessPieceColour colourPiece;
     private String playerName;
     
-    public Player(PiecesOnBoard colourPiece,String playerName)
+    public Player(ChessPieceColour colourPiece,String playerName)
     {
         this.playerName = playerName;
         this.colourPiece = colourPiece;
     }
 
-    public PiecesOnBoard getColourPiece() 
+    public ChessPieceColour getColourPiece() 
     {
         return colourPiece;
     }
 
-    public void setColourPiece(PiecesOnBoard colourPiece) 
+    public void setColourPiece(ChessPieceColour colourPiece) 
     {
         this.colourPiece = colourPiece;
     }
