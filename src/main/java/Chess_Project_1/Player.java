@@ -9,10 +9,33 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Player {
-    public PiecesOnBoard colourPiece;
     
-    public Player(PiecesOnBoard colourPiece)
+    private PiecesOnBoard colourPiece;
+    private String playerName;
+    
+    public Player(PiecesOnBoard colourPiece,String playerName)
+    {
+        this.playerName = playerName;
+        this.colourPiece = colourPiece;
+    }
+
+    public PiecesOnBoard getColourPiece() 
+    {
+        return colourPiece;
+    }
+
+    public void setColourPiece(PiecesOnBoard colourPiece) 
     {
         this.colourPiece = colourPiece;
+    }
+
+    public String getPlayerName() 
+    {
+        return playerName;
+    }
+ 
+    public void setPlayerName(String playerName) 
+    {
+        this.playerName = playerName;
     }
 }

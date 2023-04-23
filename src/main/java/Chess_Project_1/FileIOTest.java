@@ -17,7 +17,6 @@ public class FileIOTest {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to our File IO Chess game Test!\n");
         
-
         while(true)
         {
         System.out.println("Remember to type quit to exit out.\n ");

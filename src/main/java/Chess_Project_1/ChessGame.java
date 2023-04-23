@@ -4,8 +4,6 @@
  */
 package Chess_Project_1;
 
-import java.util.Scanner;
-
 
 /**
  *
@@ -18,6 +16,7 @@ public class ChessGame {
         ChessBoard board = new ChessBoard();
         
         board.pieces.movePiece(1, 1, 1, 2);
+        
         
         PrintBoard.printBoard(board,true);
         
