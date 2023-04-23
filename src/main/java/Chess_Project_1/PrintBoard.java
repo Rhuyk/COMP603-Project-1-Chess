@@ -15,7 +15,8 @@ public class PrintBoard {
     {
         System.out.println("Chess Board: \n");
         System.out.println("Currently Playing as White: " + isPlayingAsWhite + "\n");
-        System.out.println("     a    b    c    d    e    f    g    h\n");
+        String column = "     h    g    f    e    d    c    b    a\n";
+        
 
         int currentRow = 0;
         int rowNumber = 1;
@@ -25,7 +26,10 @@ public class PrintBoard {
             currentRow = 7;
             rowNumber = 8;
             rowChange = -1;
+            column = "     a    b    c    d    e    f    g    h\n";
         }
+        
+        System.out.println(column);
 
         for(int i = 7; i >= 0; i--)
         {
@@ -52,7 +56,7 @@ public class PrintBoard {
             rowNumber += rowChange;
         }
         System.out.println("   +----+----+----+----+----+----+----+----+");
-        System.out.println("\n     a    b    c    d    e    f    g    h");
+        System.out.println(column);
     }
     
 
