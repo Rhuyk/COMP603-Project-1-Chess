@@ -88,31 +88,45 @@ public class ChessBoardFileIO {
         PiecesOnBoard board = new PiecesOnBoard();
         
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            boolean userFound = false;
-            String gameData = "";
+            BufferedReader reader;
+            reader = new BufferedReader(new FileReader(filename));
             String line;
+            StringBuilder gameDataBuilder = new StringBuilder();
 
+            boolean userFound = false;
             while ((line = reader.readLine()) != null) 
             {
                 if(username.equals(line))
                 {
-                    userFound = true;
+                        userFound = true;
                 }
 
                 if (line.equals("###")) 
                 {
-                    if (userFound) 
-                    {
-                        System.out.println("Game file has been loaded!");
-                        return board;
+                    board.clear();
+                    userFound = true;
+                    String gameData = gameDataBuilder.toString();
+                    String[] lines = gameData.split("\n");
+                    
+                for (String gameLine : lines) 
+                {
+                    String[] parts = gameLine.split(" ");
+                    if (parts.length >= 3) 
+                    { 
+                        String symbol = parts[0];
+                        int row = Integer.parseInt(parts[1]);
+                        int col = Integer.parseInt(parts[2]);
+
+                        Piece piece = createPiece(symbol, col, row);
+                        board.setPiece(col, row, piece);
                     }
-                    gameData = "";
+                }
+                    gameDataBuilder = new StringBuilder();
                     userFound = false;
                 } 
                 else 
                 {
-                    gameData += line + "\n";
+                    gameDataBuilder.append(line).append("\n");
                 }
             }
 
@@ -120,7 +134,7 @@ public class ChessBoardFileIO {
         } 
         catch (IOException e) 
         {
-            System.out.println("Chess game can not be loaded!");
+            System.out.println("Error: Game file could not be loaded!");
         }
         
         return board;
@@ -170,6 +184,37 @@ public class ChessBoardFileIO {
         catch (IOException e) 
         {
             System.out.println("Chess game can not be deleted: !" + filename);
+        }
+    }
+    
+    private static Piece createPiece(String symbol,int column,int row) {
+        switch (symbol) {
+            case "wP":
+                return new Pawn(ChessPieceColour.WHITE,column,row);
+            case "wR":
+                return new Rook(ChessPieceColour.WHITE,column,row);
+            case "wN":
+                return new Knight(ChessPieceColour.WHITE,column,row);
+            case "wB":
+                return new Bishop(ChessPieceColour.WHITE,column,row);
+            case "wQ":
+                return new Queen(ChessPieceColour.WHITE,column,row);
+            case "wK":
+                return new King(ChessPieceColour.WHITE,column,row);
+            case "bP":
+                return new Pawn(ChessPieceColour.BLACK,column,row);
+            case "bR":
+                return new Rook(ChessPieceColour.BLACK,column,row);
+            case "bN":
+                return new Knight(ChessPieceColour.BLACK,column,row);
+            case "bB":
+                return new Bishop(ChessPieceColour.BLACK,column,row);
+            case "bQ":
+                return new Queen(ChessPieceColour.BLACK,column,row);
+            case "bK":
+                return new King(ChessPieceColour.BLACK,column,row);
+            default:
+                return null;
         }
     }
 }
