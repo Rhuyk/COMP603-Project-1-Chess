@@ -9,7 +9,6 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Pawn extends Piece {
-    private boolean firstMove = true;
     
     public Pawn(ChessPieceColour colour,int col, int row)
     {
@@ -54,7 +53,7 @@ public class Pawn extends Piece {
                 {
                     availableMoves[super.getColumn()][row] = true;
                     
-                    if(this.firstMove)
+                    if(super.isFirstMove())
                     {
                         if(pieces.getPiece(super.getColumn(), row+1) == null)
                         {
@@ -68,10 +67,12 @@ public class Pawn extends Piece {
             row = super.getRow() + 1;
             if(col <= 7 && row <= 7)
             {
-                if(pieces.getPiece(col, row) != null 
-                        && pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row) != null)
                 {
-                    availableMoves[col][row] = true;
+                    if(pieces.getPiece(col, row).getColour() != super.getColour())
+                    {
+                        availableMoves[col][row] = true;
+                    }
                 }
             }
             
@@ -79,10 +80,12 @@ public class Pawn extends Piece {
             row = super.getRow() + 1;
             if(col >= 0 && row <= 7)
             {
-                if(pieces.getPiece(col, row) != null 
-                        && pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row) != null)
                 {
-                    availableMoves[col][row] = true;
+                    if(pieces.getPiece(col, row).getColour() != super.getColour())
+                    {
+                        availableMoves[col][row] = true;
+                    }
                 }
             }
         }
@@ -96,7 +99,7 @@ public class Pawn extends Piece {
                 {
                     availableMoves[super.getColumn()][row] = true;
                     
-                    if(this.firstMove)
+                    if(super.isFirstMove())
                     {
                         if(pieces.getPiece(super.getColumn(), row+1) == null)
                         {
@@ -111,10 +114,12 @@ public class Pawn extends Piece {
             row = super.getRow() - 1;
             if(col <= 7 && row >= 0)
             {
-                if(pieces.getPiece(col, row) != null 
-                        && pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row) != null)
                 {
-                    availableMoves[col][row] = true;
+                    if(pieces.getPiece(col, row).getColour() != super.getColour())
+                    {
+                        availableMoves[col][row] = true;
+                    }
                 }
             }
             
@@ -122,10 +127,12 @@ public class Pawn extends Piece {
             row = super.getRow() - 1;
             if(col >= 0 && row >= 0)
             {
-                if(pieces.getPiece(col, row) != null 
-                        && pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row) != null)
                 {
-                    availableMoves[col][row] = true;
+                    if(pieces.getPiece(col, row).getColour() != super.getColour())
+                    {
+                        availableMoves[col][row] = true;
+                    }
                 }
             }
         }
@@ -184,11 +191,5 @@ public class Pawn extends Piece {
         }
         
         return targetArea;
-    }
-    
-    @Override
-    public void setFirstMove()
-    {
-        this.firstMove = false;
     }
 }

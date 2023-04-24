@@ -13,12 +13,18 @@ public class Piece {
     private int row;
     private int column;
     private ChessPieceColour colour;
+    private boolean firstMove;
+    private boolean wasFirstMove;
+    private int lastmoveNum;
     
     public Piece(ChessPieceColour colour, int col, int row)
     {
         this.colour = colour;
         this.column = col;
         this.row = row;
+        this.firstMove = true;
+        this.wasFirstMove = false;
+        this.lastmoveNum = 0;
     }
     
     public int getColumn()
@@ -26,19 +32,9 @@ public class Piece {
         return this.column;
     }
     
-    public void setColumn(int col)
-    {
-        this.column = col;
-    }
-    
     public int getRow()
     {
         return this.row;
-    }
-    
-    public void setRow(int row)
-    {
-        this.row = row;
     }
     
     public void setColAndRow(int col, int row)
@@ -55,6 +51,39 @@ public class Piece {
     public String getSymbol()
     {
         return "?";
+    }
+    
+    public int getLastMoveNum()
+    {
+        return this.lastmoveNum;
+    }
+    
+    public void setLastMoveNum(int num)
+    {
+        this.lastmoveNum = num;
+    }
+    
+    public void setFirstMove()
+    {
+        if(firstMove)
+        {
+            this.wasFirstMove = true;
+        }
+        else
+        {
+            this.wasFirstMove = false;
+        }
+        this.firstMove = false;
+    }
+    
+    public boolean isFirstMove()
+    {
+        return this.firstMove;
+    }
+    
+    public boolean isWasFirstMove()
+    {
+        return this.wasFirstMove;
     }
     
     public boolean[][] getAvailableMoves()
@@ -86,10 +115,5 @@ public class Piece {
     public boolean isWhite()
     {
         return getColour() == ChessPieceColour.WHITE;
-    }
-    
-    public void setFirstMove()
-    {
-        
     }
 }

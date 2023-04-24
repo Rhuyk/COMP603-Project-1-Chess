@@ -12,9 +12,10 @@ import java.util.ArrayList;
  */
 public class PiecesOnBoard {
     private static Piece[][] board = new Piece[8][8]; // Piece[column][row]
-    private ArrayList<Piece> allPieces = new ArrayList<Piece>();
+    private static ArrayList<Piece> allPieces = new ArrayList<Piece>();
     private static WhitePieces whitepieces = new WhitePieces();
     private static BlackPieces blackpieces = new BlackPieces();
+    private static int moveCounter = 0;
     
     public PiecesOnBoard()
     {
@@ -39,19 +40,34 @@ public class PiecesOnBoard {
                     if(!blackpieces.getTargetAreas()[toCol][toRow] 
                             && whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        moveCounter++;
+                        selectedPiece.setLastMoveNum(moveCounter);
+                        selectedPiece.setFirstMove();
                         selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
+                    }
+                    //castling
+                    else if(isCastling(selectedPiece, toCol) && toRow == 0)
+                    {
+                        castle(selectedPiece, toCol);
                     }
                     else
                     {
                         //unavailable move
                     }
                 }
+                //en passant
+                else if(isEnPassant(selectedPiece, toCol))
+                {
+                    enPassant(selectedPiece, toCol);
+                }
                 else
                 {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        moveCounter++;
+                        selectedPiece.setLastMoveNum(moveCounter);
                         selectedPiece.setFirstMove();
                         selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
@@ -67,22 +83,37 @@ public class PiecesOnBoard {
             {
                 if(selectedPiece.getSymbol().equals("bK"))
                 {
-                    if(!blackpieces.getTargetAreas()[toCol][toRow] 
-                            && whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
+                    if(!whitepieces.getTargetAreas()[toCol][toRow] 
+                            && blackpieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        moveCounter++;
+                        selectedPiece.setLastMoveNum(moveCounter);
+                        selectedPiece.setFirstMove();
                         selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
                         board[fromCol][fromRow] = null;
+                    }
+                    //castling
+                    else if(isCastling(selectedPiece, toCol) && toRow == 7)
+                    {
+                        castle(selectedPiece, toCol);
                     }
                     else
                     {
                         //unavailable move
                     }
                 }
+                //en passant
+                else if(isEnPassant(selectedPiece, toCol))
+                {
+                    enPassant(selectedPiece, toCol);
+                }
                 else
                 {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
+                        moveCounter++;
+                        selectedPiece.setLastMoveNum(moveCounter);
                         selectedPiece.setFirstMove();
                         selectedPiece.setColAndRow(toCol, toRow);
                         board[toCol][toRow] = selectedPiece;
@@ -93,6 +124,9 @@ public class PiecesOnBoard {
                         //unavailable move
                     }
                 }
+                
+                //pawn promotion
+                promote(board[toCol][toRow]);
             }
         }
         else
@@ -100,7 +134,7 @@ public class PiecesOnBoard {
             //invalid selection
         }
     }
-
+    
     public Piece[][] getBoard()
     {
         return this.board;
@@ -118,12 +152,240 @@ public class PiecesOnBoard {
     
     public void clear() 
     {
-    for(int col = 0; col < 8; col++) 
-    {
-        for(int row = 0; row < 8; row++) 
+        for(int col = 0; col < 8; col++) 
         {
-            board[col][row] = null;
+            for(int row = 0; row < 8; row++) 
+            {
+                board[col][row] = null;
+            }
         }
     }
-}
+    
+    public boolean isWinning()
+    {
+        return isCheckMate();
+    }
+    
+    public boolean isDrawing()
+    {
+        return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
+    }
+    
+    private boolean isCastling(Piece king, int toCol)
+    {
+        boolean availability = false;
+        if(king.isFirstMove())
+        {
+            //long castle
+            if(toCol == 2 && board[0][king.getRow()].isFirstMove() 
+                    && board[1][king.getRow()] == null && board[2][king.getRow()] == null && board[3][king.getRow()] == null)
+            {
+                availability = true;
+                if(king.getColour() == ChessPieceColour.WHITE)
+                {
+                    for(int col = 0; col <= 4; col++)
+                    {
+                        if(blackpieces.getTargetAreas()[col][0])
+                        {
+                            availability = false;
+                        }
+                    }
+                }
+                else if(king.getColour() == ChessPieceColour.BLACK)
+                {
+                    for(int col = 0; col <= 4; col++)
+                    {
+                        if(whitepieces.getTargetAreas()[col][7])
+                        {
+                            availability = false;
+                        }
+                    }
+                }
+            }
+            //short castle
+            else if(toCol == 6 && board[7][king.getRow()].isFirstMove() 
+                    && board[5][king.getRow()] == null && board[6][king.getRow()] == null)
+            {
+                availability = true;
+                if(king.getColour() == ChessPieceColour.WHITE)
+                {
+                    for(int col = 7; col >= 4; col--)
+                    {
+                        if(blackpieces.getTargetAreas()[col][0])
+                        {
+                            availability = false;
+                        }
+                    }
+                }
+                else if(king.getColour() == ChessPieceColour.BLACK)
+                {
+                    for(int col = 7; col >= 4; col--)
+                    {
+                        if(whitepieces.getTargetAreas()[col][7])
+                        {
+                            availability = false;
+                        }
+                    }
+                }
+            }
+        }
+        return availability;
+    }
+    
+    private void castle(Piece king, int toCol)
+    {
+        int col = king.getColumn();
+        int row = king.getRow();
+        
+        if(king.getColour() == ChessPieceColour.WHITE)
+        {
+            moveCounter++;
+            king.setLastMoveNum(moveCounter);
+            king.setFirstMove();
+            king.setColAndRow(toCol, 0);
+            board[toCol][0] = king;
+            board[col][row] = null;
+
+            if(toCol == 2) //long castle
+            {
+                board[0][0].setFirstMove();
+                board[3][0] = board[0][0];
+                board[0][0] = null;
+            }
+            else if(toCol == 6) //short castle
+            {
+                board[7][0].setFirstMove();
+                board[5][0] = board[7][0];
+                board[7][0] = null;
+            }
+        }
+        else if(king.getColour() == ChessPieceColour.BLACK)
+        {
+            moveCounter++;
+            king.setLastMoveNum(moveCounter);
+            king.setFirstMove();
+            king.setColAndRow(toCol, 7);
+            board[toCol][7] = king;
+            board[col][row] = null;
+
+            if(toCol == 2) //long castle
+            {
+                board[0][7].setFirstMove();
+                board[3][7] = board[0][7];
+                board[0][7] = null;
+            }
+            else if(toCol == 6) //short castle
+            {
+                board[7][7].setFirstMove();
+                board[5][7] = board[7][7];
+                board[7][7] = null;
+            }
+        }
+    }
+    
+    private boolean isEnPassant(Piece pawn, int toCol)
+    {
+        boolean availability = false;
+        if(pawn.getSymbol().equals("wP") && pawn.getRow() == 4 
+                && board[toCol][pawn.getRow()].getSymbol().equals("bP") 
+                && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
+                && board[toCol][pawn.getRow()].isWasFirstMove())
+        {
+            availability = true;
+        }
+        else if(pawn.getSymbol().equals("bP") && pawn.getRow() == 3 
+                && board[toCol][pawn.getRow()].getSymbol().equals("wP") 
+                && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
+                && board[toCol][pawn.getRow()].isWasFirstMove())
+        {
+            availability = true;
+        }
+        
+        return availability;
+    }
+    
+    private void enPassant(Piece pawn, int toCol)
+    {
+        int col = pawn.getColumn();
+        int row = pawn.getRow();
+        
+        if(pawn.getColour() == ChessPieceColour.WHITE)
+        {
+            moveCounter++;
+            pawn.setLastMoveNum(moveCounter);
+            pawn.setFirstMove();
+            pawn.setColAndRow(toCol, pawn.getRow()+1);
+            board[toCol][pawn.getRow()+1] = pawn;
+            board[col][row] = null;
+            board[toCol][row] = null;
+        }
+        else if(pawn.getColour() == ChessPieceColour.BLACK)
+        {
+            moveCounter++;
+            pawn.setLastMoveNum(moveCounter);
+            pawn.setFirstMove();
+            pawn.setColAndRow(toCol, pawn.getRow()-1);
+            board[toCol][pawn.getRow()-1] = pawn;
+            board[col][row] = null;
+            board[toCol][row] = null;
+        }
+    }
+    
+    private void promote(Piece pawn)
+    {
+        int col = pawn.getColumn();
+        int row = pawn.getRow();
+        
+        if(pawn.getSymbol().equals("wP") && pawn.getColour() == ChessPieceColour.WHITE && pawn.getRow() == 7)
+        {
+            //player select the which to promote
+//            board[col][row] = new Queen(ChessPieceColour.WHITE, col, row);
+//            board[col][row] = new Bishop(ChessPieceColour.WHITE, col, row);
+//            board[col][row] = new Knight(ChessPieceColour.WHITE, col, row);
+//            board[col][row] = new Rook(ChessPieceColour.WHITE, col, row);
+        }
+        else if(pawn.getSymbol().equals("bP") && pawn.getColour() == ChessPieceColour.BLACK && pawn.getRow() == 0)
+        {
+            //player select the which to promote
+//            board[col][row] = new Queen(ChessPieceColour.BLACK, col, row);
+//            board[col][row] = new Bishop(ChessPieceColour.BLACK, col, row);
+//            board[col][row] = new Knight(ChessPieceColour.BLACK, col, row);
+//            board[col][row] = new Rook(ChessPieceColour.BLACK, col, row);
+        }
+    }
+    
+    private boolean isPinning()
+    {
+        return false;
+    }
+    
+    private boolean isChecking()
+    {
+        return false;
+    }
+    
+    private boolean isCheckMate()
+    {
+        return false;
+    }
+    
+    private boolean isStalemate()
+    {
+        return false;
+    }
+    
+    private boolean isDeadPosition()
+    {
+        return false;
+    }
+    
+    private boolean isThreefoldRepetition()
+    {
+        return false;
+    }
+    
+    private boolean isFiftyMoveRule()
+    {
+        return false;
+    }
 }

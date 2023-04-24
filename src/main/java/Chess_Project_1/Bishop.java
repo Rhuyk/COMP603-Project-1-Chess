@@ -9,7 +9,6 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Bishop extends Piece{
-    private boolean firstMove = true;
     
     public Bishop(ChessPieceColour colour,int col, int row)
     {
@@ -201,11 +200,5 @@ public class Bishop extends Piece{
         }
         
         return targetArea;
-    }
-    
-    @Override
-    public void setFirstMove()
-    {
-        this.firstMove = false;
     }
 }
