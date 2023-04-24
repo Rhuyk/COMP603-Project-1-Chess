@@ -124,10 +124,9 @@ public class PiecesOnBoard {
                         //unavailable move
                     }
                 }
-                
-                //pawn promotion
-                promote(board[toCol][toRow]);
             }
+            //pawn promotion
+            promote(board[toCol][toRow]);
         }
         else
         {
