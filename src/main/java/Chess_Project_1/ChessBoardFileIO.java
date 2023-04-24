@@ -11,15 +11,50 @@ package Chess_Project_1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ChessBoardFileIO {
     
-    public static void saveGameForUser(String username, PiecesOnBoard board) 
+    public static void saveGameForUser(String username, PiecesOnBoard board) throws FileNotFoundException, IOException 
     {
         String filename = "chessData.txt";
+        boolean overwrite = false;
+        String line;
+        
+         try {
+            BufferedReader reader;
+            reader = new BufferedReader(new FileReader(filename));
+
+            while ((line = reader.readLine()) != null) 
+            {
+                if(username.equals(line))
+                {
+                    System.out.println("Player Name already exist in the file.");
+                    System.out.print("Do you wish to overwrite (Y/N): ");
+                    Scanner scanner = new Scanner(System.in);
+                    String choice = scanner.nextLine();
+                    
+                    if(choice.equalsIgnoreCase("Y"))
+                    {
+                        overwrite = true;
+                    }
+                    else
+                    {
+                        System.out.println("Game not saved.");
+                        return;
+                    }
+                }
+            }
+         }
+         catch (IOException e) 
+        {
+            System.out.println("Error: Game file could not be loaded!");
+        }
+         
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) 
         {
@@ -45,6 +80,7 @@ public class ChessBoardFileIO {
         {
             System.out.println("Error saving game: " + filename);
         }
+        
 }
 
     public static PiecesOnBoard loadGame(String username) 
@@ -72,9 +108,11 @@ public class ChessBoardFileIO {
                 {
                     String gameData = gameDataBuilder.toString();
                     String[] lines = gameData.split("\n");
-                for (String gameLine : lines) {
+                for (String gameLine : lines) 
+                {
                     String[] parts = gameLine.split(" ");
-                    if (parts.length >= 3) { // check that the line has at least 3 elements
+                    if (parts.length >= 3) 
+                    { 
                         String symbol = parts[0];
                         int row = Integer.parseInt(parts[1]);
                         int col = Integer.parseInt(parts[2]);
@@ -85,7 +123,9 @@ public class ChessBoardFileIO {
                 }
                     gameDataBuilder = new StringBuilder();
                     userFound = false;
-                } else {
+                } 
+                else 
+                {
                     gameDataBuilder.append(line).append("\n");
                 }
             }
@@ -97,6 +137,7 @@ public class ChessBoardFileIO {
         {
             System.out.println("Error: Game file could not be loaded!");
         }
+        
 
         return board;
     }

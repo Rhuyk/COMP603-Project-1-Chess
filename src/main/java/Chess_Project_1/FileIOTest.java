@@ -48,7 +48,7 @@ public class FileIOTest {
         
         if(choices.equalsIgnoreCase("save"))
         {
-            ChessBoardFileIO.saveGameForUser(username,chessboard);
+            //ChessBoardFileIO.saveGameForUser(username,chessboard);
         }
         }
         

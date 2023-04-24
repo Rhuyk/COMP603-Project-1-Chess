@@ -4,6 +4,10 @@
  */
 package Chess_Project_1;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
 
 /**
  *
@@ -14,76 +18,66 @@ public class ChessGame {
     public static void main(String[] args) 
     {
         PiecesOnBoard board = new PiecesOnBoard();
-        
-        
-        // Test out avaliable moves for pawn. 
-        boolean[][] moves = board.getPiece(3, 1).getAvailableMoves();
-        System.out.println("Available moves for white Pawn at (3, 1):");
-        for (int i = 0; i < 8; i++) 
-        {
-            for (int j = 0; j < 8; j++) 
-            {
-                if (moves[i][j]) 
-                {
-                    System.out.println("(" + i + ", " + j + ")");
-                }
-            }  
-        }
-        
-        //Test out moving pawns
-          board.movePiece(1, 1, 1, 3);
-//        board.movePiece(0, 1, 0, 2);
-//        board.movePiece(0, 2, 0, 3);
-//        board.movePiece(0, 0, 0, 1);
-//        board.movePiece(1, 0, 2, 2);
-//        board.movePiece(2, 0, 0, 2);
-          board.movePiece(0, 1, 0, 3);
+        Scanner scanner = new Scanner(System.in);
         
         // Test out creating players
         Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
         Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
+        boolean isWhiteTurn = true;
         
-        // Test out board flip for both players
-        PrintBoard.printBoard(board,player1);
-//        PrintBoard.printBoard(board,player2);
+        while(true)
+        {
+            Player currentPlayer = player1;
+            if(!isWhiteTurn)
+            {
+                currentPlayer = player2;
+            }
+                
+            PrintBoard.printBoard(board, currentPlayer);
 
-        moves = board.getPiece(4, 6).getAvailableMoves();
-        System.out.println("Available moves for black Pawn at (4, 6):");
-        for (int i = 0; i < 8; i++) 
-        {
-            for (int j = 0; j < 8; j++) 
+            System.out.println("Enter 'quit' to leave anytime.");
+            System.out.println("Enter 'save' to save your chess game.");
+            System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g from c2 to c3): ");
+            String chessMove = scanner.nextLine();
+            
+            if(chessMove.equalsIgnoreCase("save"))
             {
-                if (moves[i][j]) {
-                    System.out.println("(" + i + ", " + j + ")");
+                try
+                {
+                ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
                 }
+                catch(FileNotFoundException e)
+                {
+                    System.out.println("");
+                }
+                catch(IOException e)
+                {
+                    System.out.println("");
+                }
+            }
+            
+            else if(chessMove.equalsIgnoreCase("quit"))
+            {
+                break;
+            }
+            else
+            {
+                String[] positions = chessMove.split(" ");
+
+                int fromCol = positions[0].charAt(0) - 'a';
+                int fromRow = Integer.parseInt(positions[0].substring(1)) - 1;
+                int toCol = positions[1].charAt(0) - 'a';
+                int toRow = Integer.parseInt(positions[1].substring(1)) - 1;
+
+                board.movePiece(fromCol, fromRow, toCol, toRow);
+
+                isWhiteTurn = !isWhiteTurn;
             }
         }
         
-        moves = board.getPiece(0, 0).getAvailableMoves();
-        System.out.println("Available moves for white Rook at (0, 0):");
-        for (int i = 0; i < 8; i++) 
-        {
-            for (int j = 0; j < 8; j++) 
-            {
-                if (moves[i][j]) {
-                    System.out.println("(" + i + ", " + j + ")");
-                }
-            }
-        }
         
-        moves = board.getPiece(2, 0).getAvailableMoves();
-        System.out.println("Available moves for white Bishop at (2, 0):");
-        for (int i = 0; i < 8; i++) 
-        {
-            for (int j = 0; j < 8; j++) 
-            {
-                if (moves[i][j]) {
-                    System.out.println("(" + i + ", " + j + ")");
-                }
-            }
-        }
-        
-        
-        
+//        PiecesOnBoard loadedGame = ChessBoardFileIO.loadGame(player2.getPlayerName());
+//        PrintBoard.printBoard(loadedGame, player2);
+//        String test = scanner.nextLine();
     }
 }
