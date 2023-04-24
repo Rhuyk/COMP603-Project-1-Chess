@@ -20,7 +20,6 @@ public class ChessGame {
         PiecesOnBoard board = new PiecesOnBoard();
         Scanner scanner = new Scanner(System.in);
         
-        // Test out creating players
         Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
         Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
         boolean isWhiteTurn = true;
@@ -37,6 +36,7 @@ public class ChessGame {
 
             System.out.println("Enter 'quit' to leave anytime.");
             System.out.println("Enter 'save' to save your chess game.");
+            System.out.println("Enter 'load' to load your saved game data.");
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g from c2 to c3): ");
             String chessMove = scanner.nextLine();
             
@@ -44,16 +44,22 @@ public class ChessGame {
             {
                 try
                 {
-                ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
+                    ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
                 }
                 catch(FileNotFoundException e)
                 {
-                    System.out.println("");
+                    System.out.println("File not found!");
                 }
                 catch(IOException e)
                 {
-                    System.out.println("");
+                    System.out.println("IO Exception!");
                 }
+            }
+            
+            else if(chessMove.equalsIgnoreCase("load"))
+            {
+                board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
+                System.out.println("Welcome back!" + currentPlayer.getPlayerName());
             }
             
             else if(chessMove.equalsIgnoreCase("quit"))
@@ -74,10 +80,5 @@ public class ChessGame {
                 isWhiteTurn = !isWhiteTurn;
             }
         }
-        
-        
-//        PiecesOnBoard loadedGame = ChessBoardFileIO.loadGame(player2.getPlayerName());
-//        PrintBoard.printBoard(loadedGame, player2);
-//        String test = scanner.nextLine();
     }
 }
