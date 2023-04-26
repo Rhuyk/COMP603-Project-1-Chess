@@ -196,6 +196,38 @@ public class Queen extends Piece
             }
         }
         
+        if(super.getIsUnderPinned())
+        {
+            boolean[][] newAvailableMoves = new boolean[8][8];
+            for(boolean[] i : newAvailableMoves)
+            {
+                for(boolean j : i)
+                {
+                    j = false;
+                }
+            }
+            
+            int index1 = 0;
+            for(boolean[] i : newAvailableMoves)
+            {
+                for(boolean[] j : newAvailableMoves)
+                {
+                    int index2 = 0;
+                    for(boolean k : j)
+                    {
+                        if(pieces.getPinPath()[index1][index2] && availableMoves[index1][index2])
+                        {
+                            k = true;
+                        }
+                        index2++;
+                    }
+                    index1++;
+                }
+            }
+            
+            return newAvailableMoves;
+        }
+        
         return availableMoves;
     }
     
@@ -205,6 +237,8 @@ public class Queen extends Piece
         PiecesOnBoard pieces = new PiecesOnBoard();
         int col;
         int row;
+        int pinnedCol;
+        int pinnedRow;
         
         boolean[][] targetArea = new boolean[8][8];
         for(boolean[] i : targetArea)
@@ -216,50 +250,222 @@ public class Queen extends Piece
         }
         
         col = super.getColumn() +1;
+        row = super.getRow();
         while(col <= 7)
         {
-            if(pieces.getPiece(col, super.getRow()) != null)
+            if(pieces.getPiece(col, row) != null)
             {
-                targetArea[col][super.getRow()] = true;
+                targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col++;
+                    
+                    for(; col <= 7; col++)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol++;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
-            targetArea[col][super.getRow()] = true;
+            targetArea[col][row] = true;
             col++;
         }
         
         col = super.getColumn() -1;
+        row = super.getRow();
         while(col >= 0)
         {
-            if(pieces.getPiece(col, super.getRow()) != null)
+            if(pieces.getPiece(col, row) != null)
             {
-                targetArea[col][super.getRow()] = true;
+                targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col--;
+                    
+                    for(; col >= 0; col--)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol--;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
-            targetArea[col][super.getRow()] = true;
+            targetArea[col][row] = true;
             col--;
         }
         
+        col = super.getColumn();
         row = super.getRow() +1;
         while(row <= 7)
         {
-            if(pieces.getPiece(super.getColumn(), row) != null)
+            if(pieces.getPiece(col, row) != null)
             {
-                targetArea[super.getColumn()][row] = true;
+                targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    row++;
+                    
+                    for(; row <= 7; row++)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathRow++;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
-            targetArea[super.getColumn()][row] = true;
+            targetArea[col][row] = true;
             row++;
         }
         
+        col = super.getColumn();
         row = super.getRow() -1;
         while(row >= 0)
         {
-            if(pieces.getPiece(super.getColumn(), row) != null)
+            if(pieces.getPiece(col, row) != null)
             {
-                targetArea[super.getColumn()][row] = true;
+                targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    row--;
+                    
+                    for(; row >= 0; row--)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathRow--;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
-            targetArea[super.getColumn()][row] = true;
+            targetArea[col][row] = true;
             row--;
         }
         
@@ -270,6 +476,50 @@ public class Queen extends Piece
             if(pieces.getPiece(col, row) != null)
             {
                 targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col++;
+                    row++;
+                    
+                    for(; col <= 7 && row <= 7; col++, row++)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol++;
+                                pathRow++;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             targetArea[col][row] = true;
@@ -284,6 +534,50 @@ public class Queen extends Piece
             if(pieces.getPiece(col, row) != null)
             {
                 targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col++;
+                    row--;
+                    
+                    for(; col <= 7 && row >= 0; col++, row--)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol++;
+                                pathRow--;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             targetArea[col][row] = true;
@@ -298,6 +592,50 @@ public class Queen extends Piece
             if(pieces.getPiece(col, row) != null)
             {
                 targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col--;
+                    row++;
+                    
+                    for(; col >= 0 && row <= 7; col--, row++)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol--;
+                                pathRow++;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             targetArea[col][row] = true;
@@ -312,6 +650,50 @@ public class Queen extends Piece
             if(pieces.getPiece(col, row) != null)
             {
                 targetArea[col][row] = true;
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    pinnedCol = col;
+                    pinnedRow = row;
+                    col--;
+                    row--;
+                    
+                    for(; col >= 0 && row >= 0; col--, row--)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(boolean[] i : pinPath)
+                            {
+                                for(boolean j : i)
+                                {
+                                    j = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(pathCol != col && pathRow != row)
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                pathCol--;
+                                pathRow--;
+                            }
+                            pieces.setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             targetArea[col][row] = true;

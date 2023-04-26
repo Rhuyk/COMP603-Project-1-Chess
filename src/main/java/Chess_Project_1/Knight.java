@@ -180,6 +180,38 @@ public class Knight extends Piece {
             }
         }
         
+        if(super.getIsUnderPinned())
+        {
+            boolean[][] newAvailableMoves = new boolean[8][8];
+            for(boolean[] i : newAvailableMoves)
+            {
+                for(boolean j : i)
+                {
+                    j = false;
+                }
+            }
+            
+            int index1 = 0;
+            for(boolean[] i : newAvailableMoves)
+            {
+                for(boolean[] j : newAvailableMoves)
+                {
+                    int index2 = 0;
+                    for(boolean k : j)
+                    {
+                        if(pieces.getPinPath()[index1][index2] && availableMoves[index1][index2])
+                        {
+                            k = true;
+                        }
+                        index2++;
+                    }
+                    index1++;
+                }
+            }
+            
+            return newAvailableMoves;
+        }
+        
         return availableMoves;
     }
     

@@ -16,6 +16,7 @@ public class PiecesOnBoard {
     private static WhitePieces whitepieces = new WhitePieces();
     private static BlackPieces blackpieces = new BlackPieces();
     private static int moveCounter = 0;
+    private static boolean[][] pinPath;
     
     public PiecesOnBoard()
     {
@@ -125,8 +126,13 @@ public class PiecesOnBoard {
                     }
                 }
             }
-            //pawn promotion
-            promote(board[toCol][toRow]);
+            
+            if(board[toCol][toRow] != null)
+            {
+                //pawn promotion
+                promote(board[toCol][toRow]);
+                checkPin();
+            }
         }
         else
         {
@@ -168,6 +174,16 @@ public class PiecesOnBoard {
     public boolean isDrawing()
     {
         return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
+    }
+    
+    public void setPinPath(boolean[][] pinPath)
+    {
+        this.pinPath = pinPath;
+    }
+    
+    public boolean[][] getPinPath()
+    {
+        return this.pinPath;
     }
     
     private boolean isCastling(Piece king, int toCol)
@@ -353,9 +369,12 @@ public class PiecesOnBoard {
         }
     }
     
-    private boolean isPinning()
+    private void checkPin()
     {
-        return false;
+        for(Piece i : allPieces)
+        {
+            i.setIsUnderPinned(false);
+        }
     }
     
     private boolean isChecking()

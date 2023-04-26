@@ -16,6 +16,8 @@ public class Piece {
     private boolean firstMove;
     private boolean wasFirstMove;
     private int lastmoveNum;
+    private boolean isPinning;
+    private boolean isUnderPinned;
     
     public Piece(ChessPieceColour colour, int col, int row)
     {
@@ -84,6 +86,21 @@ public class Piece {
     public boolean isWasFirstMove()
     {
         return this.wasFirstMove;
+    }
+    
+    public void checkPin()
+    {
+
+    }
+    
+    public void setIsUnderPinned(boolean is)
+    {
+        this.isUnderPinned = is;
+    }
+    
+    public boolean getIsUnderPinned()
+    {
+        return this.isUnderPinned;
     }
     
     public boolean[][] getAvailableMoves()
