@@ -101,9 +101,9 @@ public class Pawn extends Piece {
                     
                     if(super.isFirstMove())
                     {
-                        if(pieces.getPiece(super.getColumn(), row+1) == null)
+                        if(pieces.getPiece(super.getColumn(), row-1) == null)
                         {
-                            availableMoves[super.getColumn()][row+1] = true;
+                            availableMoves[super.getColumn()][row-1] = true;
                         }
                     }
                 }
