@@ -91,21 +91,6 @@ public class WhitePieces {
                     }
                 }
             }
-//            int index1 = 0;
-//            boolean[][] targetArea = i.getTargetArea();
-//            for(boolean[] j : allTargetArea)
-//            {
-//                int index2 = 0;
-//                for(boolean k : j)
-//                {
-//                    if(targetArea[index2][index1])
-//                    {
-//                        k = true;
-//                    }
-//                    index2++;
-//                }
-//                index1++;
-//            }
         }
         return allTargetArea;
     }

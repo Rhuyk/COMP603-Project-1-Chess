@@ -89,21 +89,6 @@ public class BlackPieces {
                     }
                 }
             }
-//            int index1 = 0;
-//            boolean[][] targetArea = i.getTargetArea();
-//            for(boolean[] j : allTargetArea)
-//            {
-//                int index2 = 0;
-//                for(boolean k : j)
-//                {
-//                    if(targetArea[index1][index2])
-//                    {
-//                        k = true;
-//                    }
-//                    index2++;
-//                }
-//                index1++;
-//            }
         }
         return allTargetArea;
     }
