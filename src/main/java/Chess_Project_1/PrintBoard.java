@@ -14,19 +14,26 @@ public class PrintBoard {
     {
         System.out.println("Chess Board: \n");
         System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
-        String column = "     h    g    f    e    d    c    b    a\n";
         
+        String column = "     a    b    c    d    e    f    g    h\n";
         int currentRow = 0;
         int rowNumber = 1;
         int rowChange = 1;
+
         if(CurrentPlayer.getColourPiece() == ChessPieceColour.WHITE)
         {
             currentRow = 7;
             rowNumber = 8;
             rowChange = -1;
-            column = "     a    b    c    d    e    f    g    h\n";
         }
-        
+        else if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+        {
+            currentRow = 0;
+            rowNumber = 1;
+            rowChange = 1;
+            //column = "     h    g    f    e    d    c    b    a\n";
+        }
+
         System.out.println(column);
 
         for(int i = 7; i >= 0; i--)
@@ -52,7 +59,9 @@ public class PrintBoard {
             currentRow += rowChange;
             rowNumber += rowChange;
         }
+        
         System.out.println("   +----+----+----+----+----+----+----+----+");
         System.out.println(column);
     }
+
 }
