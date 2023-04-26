@@ -12,28 +12,28 @@ import java.util.ArrayList;
  */
 public class WhitePieces {
 
-    private ArrayList<Piece> whitePieces = new ArrayList<Piece>();
+    private static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
     
-    private Piece king = new King(ChessPieceColour.WHITE, 4, 0);
-    private Piece queen = new Queen(ChessPieceColour.WHITE, 3, 0);
+    private static Piece king = new King(ChessPieceColour.WHITE, 4, 0);
+    private static Piece queen = new Queen(ChessPieceColour.WHITE, 3, 0);
     
-    private Piece bishop1 = new Bishop(ChessPieceColour.WHITE, 2, 0);
-    private Piece bishop2 = new Bishop(ChessPieceColour.WHITE, 5, 0);
+    private static Piece bishop1 = new Bishop(ChessPieceColour.WHITE, 2, 0);
+    private static Piece bishop2 = new Bishop(ChessPieceColour.WHITE, 5, 0);
     
-    private Piece knight1 = new Knight(ChessPieceColour.WHITE, 1, 0);
-    private Piece knight2 = new Knight(ChessPieceColour.WHITE, 6, 0);
+    private static Piece knight1 = new Knight(ChessPieceColour.WHITE, 1, 0);
+    private static Piece knight2 = new Knight(ChessPieceColour.WHITE, 6, 0);
     
-    private Piece rook1 = new Rook(ChessPieceColour.WHITE, 0, 0);
-    private Piece rook2 = new Rook(ChessPieceColour.WHITE, 7, 0);
+    private static Piece rook1 = new Rook(ChessPieceColour.WHITE, 0, 0);
+    private static Piece rook2 = new Rook(ChessPieceColour.WHITE, 7, 0);
     
-    private Piece pawn1 = new Pawn(ChessPieceColour.WHITE, 0, 1);
-    private Piece pawn2 = new Pawn(ChessPieceColour.WHITE, 1, 1);
-    private Piece pawn3 = new Pawn(ChessPieceColour.WHITE, 2, 1);
-    private Piece pawn4 = new Pawn(ChessPieceColour.WHITE, 3, 1);
-    private Piece pawn5 = new Pawn(ChessPieceColour.WHITE, 4, 1);
-    private Piece pawn6 = new Pawn(ChessPieceColour.WHITE, 5, 1);
-    private Piece pawn7 = new Pawn(ChessPieceColour.WHITE, 6, 1);
-    private Piece pawn8 = new Pawn(ChessPieceColour.WHITE, 7, 1);
+    private static Piece pawn1 = new Pawn(ChessPieceColour.WHITE, 0, 1);
+    private static Piece pawn2 = new Pawn(ChessPieceColour.WHITE, 1, 1);
+    private static Piece pawn3 = new Pawn(ChessPieceColour.WHITE, 2, 1);
+    private static Piece pawn4 = new Pawn(ChessPieceColour.WHITE, 3, 1);
+    private static Piece pawn5 = new Pawn(ChessPieceColour.WHITE, 4, 1);
+    private static Piece pawn6 = new Pawn(ChessPieceColour.WHITE, 5, 1);
+    private static Piece pawn7 = new Pawn(ChessPieceColour.WHITE, 6, 1);
+    private static Piece pawn8 = new Pawn(ChessPieceColour.WHITE, 7, 1);
     
     private static boolean isCastlingAvailable = true;
     
@@ -78,23 +78,34 @@ public class WhitePieces {
             }
         }
         
-        int index1 = 0;
         for(Piece i : whitePieces)
         {
             boolean[][] targetArea = i.getTargetArea();
-            for(boolean[] j : allTargetArea)
+            for(int col = 0; col < 8; col++)
             {
-                int index2 = 0;
-                for(boolean k : j)
+                for(int row = 0; row < 8; row++)
                 {
-                    if(targetArea[index1][index2] == true)
+                    if(targetArea[col][row])
                     {
-                        k = true;
+                        allTargetArea[col][row] = true;
                     }
-                    index2++;
                 }
-                index1++;
             }
+//            int index1 = 0;
+//            boolean[][] targetArea = i.getTargetArea();
+//            for(boolean[] j : allTargetArea)
+//            {
+//                int index2 = 0;
+//                for(boolean k : j)
+//                {
+//                    if(targetArea[index2][index1])
+//                    {
+//                        k = true;
+//                    }
+//                    index2++;
+//                }
+//                index1++;
+//            }
         }
         return allTargetArea;
     }

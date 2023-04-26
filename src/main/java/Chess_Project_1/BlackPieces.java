@@ -12,28 +12,28 @@ import java.util.ArrayList;
  */
 public class BlackPieces {
 
-    private ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+    private static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
-    private Piece king = new King(ChessPieceColour.BLACK, 4, 7);
-    private Piece queen = new Queen(ChessPieceColour.BLACK, 3, 7);
+    private static Piece king = new King(ChessPieceColour.BLACK, 4, 7);
+    private static Piece queen = new Queen(ChessPieceColour.BLACK, 3, 7);
     
-    private Piece bishop1 = new Bishop(ChessPieceColour.BLACK, 2, 7);
-    private Piece bishop2 = new Bishop(ChessPieceColour.BLACK, 5, 7);
+    private static Piece bishop1 = new Bishop(ChessPieceColour.BLACK, 2, 7);
+    private static Piece bishop2 = new Bishop(ChessPieceColour.BLACK, 5, 7);
     
-    private Piece knight1 = new Knight(ChessPieceColour.BLACK, 1, 7);
-    private Piece knight2 = new Knight(ChessPieceColour.BLACK, 6, 7);
+    private static Piece knight1 = new Knight(ChessPieceColour.BLACK, 1, 7);
+    private static Piece knight2 = new Knight(ChessPieceColour.BLACK, 6, 7);
     
-    private Piece rook1 = new Rook(ChessPieceColour.BLACK, 0, 7);
-    private Piece rook2 = new Rook(ChessPieceColour.BLACK, 7, 7);
+    private static Piece rook1 = new Rook(ChessPieceColour.BLACK, 0, 7);
+    private static Piece rook2 = new Rook(ChessPieceColour.BLACK, 7, 7);
     
-    private Piece pawn1 = new Pawn(ChessPieceColour.BLACK, 0, 6);
-    private Piece pawn2 = new Pawn(ChessPieceColour.BLACK, 1, 6);
-    private Piece pawn3 = new Pawn(ChessPieceColour.BLACK, 2, 6);
-    private Piece pawn4 = new Pawn(ChessPieceColour.BLACK, 3, 6);
-    private Piece pawn5 = new Pawn(ChessPieceColour.BLACK, 4, 6);
-    private Piece pawn6 = new Pawn(ChessPieceColour.BLACK, 5, 6);
-    private Piece pawn7 = new Pawn(ChessPieceColour.BLACK, 6, 6);
-    private Piece pawn8 = new Pawn(ChessPieceColour.BLACK, 7, 6);
+    private static Piece pawn1 = new Pawn(ChessPieceColour.BLACK, 0, 6);
+    private static Piece pawn2 = new Pawn(ChessPieceColour.BLACK, 1, 6);
+    private static Piece pawn3 = new Pawn(ChessPieceColour.BLACK, 2, 6);
+    private static Piece pawn4 = new Pawn(ChessPieceColour.BLACK, 3, 6);
+    private static Piece pawn5 = new Pawn(ChessPieceColour.BLACK, 4, 6);
+    private static Piece pawn6 = new Pawn(ChessPieceColour.BLACK, 5, 6);
+    private static Piece pawn7 = new Pawn(ChessPieceColour.BLACK, 6, 6);
+    private static Piece pawn8 = new Pawn(ChessPieceColour.BLACK, 7, 6);
     
     public BlackPieces()
     {
@@ -76,23 +76,34 @@ public class BlackPieces {
             }
         }
         
-        int index1 = 0;
         for(Piece i : blackPieces)
         {
             boolean[][] targetArea = i.getTargetArea();
-            for(boolean[] j : allTargetArea)
+            for(int col = 0; col < 8; col++)
             {
-                int index2 = 0;
-                for(boolean k : j)
+                for(int row = 0; row < 8; row++)
                 {
-                    if(targetArea[index1][index2] == true)
+                    if(targetArea[col][row])
                     {
-                        k = true;
+                        allTargetArea[col][row] = true;
                     }
-                    index2++;
                 }
-                index1++;
             }
+//            int index1 = 0;
+//            boolean[][] targetArea = i.getTargetArea();
+//            for(boolean[] j : allTargetArea)
+//            {
+//                int index2 = 0;
+//                for(boolean k : j)
+//                {
+//                    if(targetArea[index1][index2])
+//                    {
+//                        k = true;
+//                    }
+//                    index2++;
+//                }
+//                index1++;
+//            }
         }
         return allTargetArea;
     }

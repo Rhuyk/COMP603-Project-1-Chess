@@ -355,20 +355,17 @@ public class Bishop extends Piece{
         row = super.getRow() -1;
         while(col >= 0 && row >= 0)
         {
+            if(pieces.getPiece(col, row) != null)
+            {
                 targetArea[col][row] = true;
-                col--;
-                row--;
-                if(pieces.getPiece(col, row) != null)
-                {
-                    targetArea[col][row] = true;
-                    
-                    if(pieces.getPiece(col, row).getColour() != super.getColour())
+                
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
                     col--;
                     row--;
-                    
+
                     for(; col >= 0 && row >= 0; col--, row--)
                     {
                         if(pieces.getPiece(col, row) == null)
@@ -379,7 +376,7 @@ public class Bishop extends Piece{
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
                             pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
-                            
+
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
                             {
@@ -405,8 +402,11 @@ public class Bishop extends Piece{
                         }
                     }
                 }
-                    break;
-                }
+                break;
+            }
+            targetArea[col][row] = true;
+            col--;
+            row--;
         }
         
         return targetArea;
