@@ -72,7 +72,7 @@ public class ChessGame {
         PiecesOnBoard board = new PiecesOnBoard();
         Scanner scanner = new Scanner(System.in);
         
-        Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
+        Player player1 = new Player(ChessPieceColour.WHITE,"Jamar");
         Player player2 = new Player(ChessPieceColour.BLACK,"Richard");
         boolean isWhiteTurn = true;
         
@@ -102,7 +102,6 @@ public class ChessGame {
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
                 System.out.println("Welcome back! " + currentPlayer.getPlayerName());
-                //System.out.println("Piece: "+ board.getPiece(0, 0));
             }
             
             else if(chessMove.equalsIgnoreCase("quit"))
