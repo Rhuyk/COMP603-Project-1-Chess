@@ -5,6 +5,7 @@
 package Chess_Project_1;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -362,32 +363,63 @@ public class PiecesOnBoard {
     {
         int col = pawn.getColumn();
         int row = pawn.getRow();
+        Scanner scanner = new Scanner(System.in);
         
         if(pawn.getSymbol().equals("wP") && pawn.getColour() == ChessPieceColour.WHITE && pawn.getRow() == 7)
         {
             Piece promotion;
-            
+            System.out.println("Please enter your promotion: ");
+            String userInput = scanner.nextLine();
             //player select which to promote
+            if(userInput.equalsIgnoreCase("queen"))
+            {
+                promotion = new Queen(ChessPieceColour.WHITE, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("bishop"))
+            {
+                promotion = new Bishop(ChessPieceColour.WHITE, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("Knight"))
+            {
+                promotion = new Knight(ChessPieceColour.WHITE, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("Rook"))
+            {
+                promotion = new Rook(ChessPieceColour.WHITE, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+
             
-//            promotion = new Queen(ChessPieceColour.WHITE, col, row);
-//            promotion = new Bishop(ChessPieceColour.WHITE, col, row);
-//            promotion = new Knight(ChessPieceColour.WHITE, col, row);
-//            promotion = new Rook(ChessPieceColour.WHITE, col, row);
-//
-//            whitepieces.replacePiece(promotion, col, row);
         }
         else if(pawn.getSymbol().equals("bP") && pawn.getColour() == ChessPieceColour.BLACK && pawn.getRow() == 0)
         {
             Piece promotion;
-            
+            System.out.println("Please enter your promotion: ");
+            String userInput = scanner.nextLine();
             //player select which to promote
-            
-//            promotion = new Queen(ChessPieceColour.BLACK, col, row);
-//            promotion = new Bishop(ChessPieceColour.BLACK, col, row);
-//            promotion = new Knight(ChessPieceColour.BLACK, col, row);
-//            promotion = new Rook(ChessPieceColour.BLACK, col, row);
-//
-//            blackpieces.replacePiece(promotion, col, row);
+            if(userInput.equalsIgnoreCase("queen"))
+            {
+                promotion = new Queen(ChessPieceColour.BLACK, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("bishop"))
+            {
+                promotion = new Bishop(ChessPieceColour.BLACK, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("Knight"))
+            {
+                promotion = new Knight(ChessPieceColour.BLACK, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
+            else if(userInput.equalsIgnoreCase("Rook"))
+            {
+                promotion = new Rook(ChessPieceColour.BLACK, col, row);
+                whitepieces.replacePiece(promotion, col, row);
+            }
         }
     }
     
