@@ -85,6 +85,16 @@ public class BlackPieces {
         return null;
     }
     
+    public void addPiece(Piece piece)
+    {
+        blackPieces.add(piece);
+    }
+    
+    public void clearPieces()
+    {
+        blackPieces.clear();
+    }
+    
     public void removePiece(int col, int row)
     {
         for(Piece i : blackPieces)

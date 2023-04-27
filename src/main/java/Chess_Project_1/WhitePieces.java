@@ -87,6 +87,16 @@ public class WhitePieces {
         return null;
     }
     
+    public void addPiece(Piece piece)
+    {
+        whitePieces.add(piece);
+    }
+    
+    public void clearPieces()
+    {
+        whitePieces.clear();
+    }
+    
     public void removePiece(int col, int row)
     {
         for(Piece i : whitePieces)

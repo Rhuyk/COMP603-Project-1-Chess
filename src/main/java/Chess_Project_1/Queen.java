@@ -251,7 +251,7 @@ public class Queen extends Piece
                 targetArea[col][row] = true;
                 
                 if(pieces.getPiece(col, row).getColour() != super.getColour() 
-                        && pieces.getPiece(col, row).getSymbol().contains("K"))
+                && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
                     for(boolean[] i : checkPath)
@@ -268,7 +268,7 @@ public class Queen extends Piece
                         checkPath[pathCol][pathRow] = true;
                         pathCol++;
                     }
-                    break;
+                    pieces.setCheckPath(checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -325,7 +325,26 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol--;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -380,7 +399,26 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathRow++;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -435,7 +473,26 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathRow--;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -490,7 +547,27 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol++;
+                        pathRow++;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -548,7 +625,27 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol++;
+                        pathRow--;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -606,7 +703,27 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol--;
+                        pathRow++;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
@@ -664,7 +781,27 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol--;
+                        pathRow--;
+                    }
+                    pieces.setCheckPath(checkPath);
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;

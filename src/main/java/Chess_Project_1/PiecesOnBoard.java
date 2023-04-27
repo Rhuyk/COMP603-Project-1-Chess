@@ -17,7 +17,7 @@ public class PiecesOnBoard {
     private static WhitePieces whitepieces = new WhitePieces();
     private static BlackPieces blackpieces = new BlackPieces();
     private static int moveCounter = 0;
-    private boolean[][] checkPath = new boolean[8][8];
+    private static boolean[][] checkPath = new boolean[8][8];
     
     public PiecesOnBoard()
     {
@@ -29,7 +29,7 @@ public class PiecesOnBoard {
         Piece selectedPiece = board[fromCol][fromRow];
         if(selectedPiece != null)
         {
-            checkPin();
+            checkPinAndCheck();
             if(selectedPiece.getColour() == ChessPieceColour.WHITE)
             {
                 if(selectedPiece.getSymbol().equals("wK"))
@@ -63,7 +63,7 @@ public class PiecesOnBoard {
                 }
                 else
                 {
-                    if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
+                    if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow] && checkPath[toCol][toRow])
                     {
                         moveCounter++;
                         whitepieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
@@ -113,7 +113,7 @@ public class PiecesOnBoard {
                 }
                 else
                 {
-                    if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
+                    if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow] && checkPath[toCol][toRow])
                     {
                         moveCounter++;
                         blackpieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
@@ -166,9 +166,16 @@ public class PiecesOnBoard {
         return null;
     }
     
-    public void setPiece(int column, int row, Piece piece)
+    public void addPiece(int column, int row, Piece piece)
     {
-        this.board[column][row] = piece;
+        if(piece.getColour() == ChessPieceColour.WHITE)
+        {
+            whitepieces.addPiece(piece);
+        }
+        else if(piece.getColour() == ChessPieceColour.BLACK)
+        {
+            blackpieces.addPiece(piece);
+        }
     }
     
     public boolean[][] getCheckPath()
@@ -192,6 +199,12 @@ public class PiecesOnBoard {
         }
     }
     
+    public void clearAllPieces()
+    {
+        whitepieces.clearPieces();
+        blackpieces.clearPieces();
+    }
+    
     public boolean isWinning()
     {
         return isCheckMate();
@@ -204,6 +217,7 @@ public class PiecesOnBoard {
     
     public void resetBoard()
     {
+        this.moveCounter = 0;
         whitepieces = new WhitePieces();
         blackpieces = new BlackPieces();
         resfreshBoard();
@@ -219,7 +233,6 @@ public class PiecesOnBoard {
         {
             board[i.getColumn()][i.getRow()] = i;
         }
-        
     }
     
     private boolean isCastling(Piece king, int toCol)
@@ -442,11 +455,18 @@ public class PiecesOnBoard {
         }
     }
     
-    private void checkPin()
+    private void checkPinAndCheck()
     {
         for(Piece i : allPieces)
         {
             i.setIsUnderPinned(false);
+        }
+        for(int col = 0; col < 8; col++)
+        {
+            for(int row = 0; row < 8; row++)
+            {
+                checkPath[col][row] = true;
+            }
         }
         whitepieces.getTargetAreas();
         blackpieces.getTargetAreas();

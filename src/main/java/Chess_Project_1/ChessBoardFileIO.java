@@ -146,7 +146,7 @@ public class ChessBoardFileIO {
                         int col = Integer.parseInt(parts[2]);
 
                         Piece piece = createPiece(symbol, col, row);
-                        board.setPiece(col, row, piece);
+                        board.addPiece(col, row, piece);
                     }
                 }
                     gameDataBuilder = new StringBuilder();

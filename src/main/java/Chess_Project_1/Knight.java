@@ -229,6 +229,23 @@ public class Knight extends Piece {
         if(col <= 7 && row <= 7)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
                 
         col = super.getColumn() + 2;
@@ -236,6 +253,23 @@ public class Knight extends Piece {
         if(col <= 7 && row >= 0)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() + 1;
@@ -243,6 +277,23 @@ public class Knight extends Piece {
         if(col <= 7 && row <= 7)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() + 1;
@@ -250,6 +301,23 @@ public class Knight extends Piece {
         if(col <= 7 && row >= 0)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() - 1;
@@ -257,6 +325,23 @@ public class Knight extends Piece {
         if(col >= 0 && row <= 7)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() - 1;
@@ -264,6 +349,23 @@ public class Knight extends Piece {
         if(col >= 0 && row >= 0)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() - 2;
@@ -271,6 +373,23 @@ public class Knight extends Piece {
         if(col >= 0 && row <= 7)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         col = super.getColumn() - 2;
@@ -278,6 +397,23 @@ public class Knight extends Piece {
         if(col >= 0 && row >= 0)
         {
             targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setCheckPath(checkPath);
+                }
+            }
         }
         
         return targetArea;
