@@ -31,8 +31,8 @@ public class ChessGame {
         }
 
         System.out.println(column);
-
-        for(int i = 7; i >= 0; i--)
+        
+        for(int i = 0; i < 8; i++)
         {
             System.out.println("   +----+----+----+----+----+----+----+----+");
             System.out.print((rowNumber) + "  | ");
@@ -152,6 +152,10 @@ public class ChessGame {
                 catch(StringIndexOutOfBoundsException e)
                 {
                     System.out.println("You have entered a incorrect format: move must be in the format 'from to', e.g. 'c3 d4'.");
+                }
+                catch(ArrayIndexOutOfBoundsException e)
+                {
+                    System.out.println("You have entered a incorrect format: move must be between a - h, 1-8. e.g 'c2 c4'");
                 }
             }
         }
