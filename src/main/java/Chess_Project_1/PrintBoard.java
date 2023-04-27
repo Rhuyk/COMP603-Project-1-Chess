@@ -4,6 +4,8 @@
  */
 package Chess_Project_1;
 
+
+
 /**
  *
  * @author rh200
@@ -16,22 +18,16 @@ public class PrintBoard {
         System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
         
         String column = "     a    b    c    d    e    f    g    h\n";
-        int currentRow = 0;
-        int rowNumber = 1;
-        int rowChange = 1;
+        int currentRow = 7;
+        int rowNumber = 8;
+        int rowChange = -1;
 
-        if(CurrentPlayer.getColourPiece() == ChessPieceColour.WHITE)
-        {
-            currentRow = 7;
-            rowNumber = 8;
-            rowChange = -1;
-        }
-        else if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+        if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
         {
             currentRow = 0;
             rowNumber = 1;
             rowChange = 1;
-            //column = "     h    g    f    e    d    c    b    a\n";
+            column = "     h    g    f    e    d    c    b    a\n";
         }
 
         System.out.println(column);
@@ -43,7 +39,14 @@ public class PrintBoard {
 
             for(int j = 0; j < 8; j++)
             {
-                Piece piece = board.getBoard()[j][currentRow];
+                int col = j;
+                
+                if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+                {
+                    col = 7 - j;
+                }
+                
+                Piece piece = board.getBoard()[col][currentRow];
 
                 if(piece == null)
                 {
@@ -63,5 +66,4 @@ public class PrintBoard {
         System.out.println("   +----+----+----+----+----+----+----+----+");
         System.out.println(column);
     }
-
 }
