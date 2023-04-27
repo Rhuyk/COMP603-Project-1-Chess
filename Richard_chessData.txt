@@ -1,5 +1,4 @@
-
-Jamar
+Richard
 wR 0 0
 wN 0 1
 wB 0 2
@@ -10,12 +9,12 @@ wN 0 6
 wR 0 7
 wP 1 0
 wP 1 1
-wP 1 3
+wP 1 2
 wP 1 4
 wP 1 5
 wP 1 6
 wP 1 7
-wP 2 2
+wP 2 3
 bP 6 0
 bP 6 1
 bP 6 2

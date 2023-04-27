@@ -76,7 +76,7 @@ public class ChessGame {
         Scanner scanner = new Scanner(System.in);
         
         Player player1 = new Player(ChessPieceColour.WHITE,"PJ");
-        Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
+        Player player2 = new Player(ChessPieceColour.BLACK,"Richard");
         boolean isWhiteTurn = true;
         
         System.out.println("Enter 'quit' to leave anytime.");
