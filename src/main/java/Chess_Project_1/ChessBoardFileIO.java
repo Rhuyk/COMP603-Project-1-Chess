@@ -103,7 +103,7 @@ public class ChessBoardFileIO {
 
                 if (line.equals("###")) 
                 {
-                    board.clear();
+                    board.clearBoard();
                     userFound = true;
                     String gameData = gameDataBuilder.toString();
                     String[] lines = gameData.split("\n");

@@ -62,9 +62,28 @@ public class WhitePieces {
         return this.whitePieces;
     }
     
-    public Piece getPiece(int index)
+    public Piece getPiece(int col, int row)
     {
-        return this.whitePieces.get(index);
+        for(Piece i : whitePieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                return i;
+            }
+        }
+        return null;
+    }
+    
+    public void removePiece(int col, int row)
+    {
+        for(Piece i : whitePieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                whitePieces.remove(i);
+                break;
+            }
+        }
     }
     
     public boolean[][] getTargetAreas()

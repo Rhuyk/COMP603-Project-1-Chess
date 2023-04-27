@@ -116,7 +116,7 @@ public class Rook extends Piece {
             }
         }
         
-        if(super.getIsUnderPinned())
+        if(super.isUnderPinned())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
             for(boolean[] i : newAvailableMoves)
@@ -127,21 +127,14 @@ public class Rook extends Piece {
                 }
             }
             
-            int index1 = 0;
-            for(boolean[] i : newAvailableMoves)
+            for(col = 0; col < 8; col++)
             {
-                for(boolean[] j : newAvailableMoves)
+                for(row = 0; row < 8; row++)
                 {
-                    int index2 = 0;
-                    for(boolean k : j)
+                    if(pieces.getPinPath()[col][row] && availableMoves[col][row])
                     {
-                        if(pieces.getPinPath()[index1][index2] && availableMoves[index1][index2])
-                        {
-                            k = true;
-                        }
-                        index2++;
+                        newAvailableMoves[col][row] = true;
                     }
-                    index1++;
                 }
             }
             

@@ -20,13 +20,7 @@ public class PiecesOnBoard {
     
     public PiecesOnBoard()
     {
-        allPieces.addAll(whitepieces.getAllPieces());
-        allPieces.addAll(blackpieces.getAllPieces());
-        
-        for(Piece i : allPieces)
-        {
-            board[i.getColumn()][i.getRow()] = i;
-        }
+        resfreshBoard();
     }
     
     public void movePiece(int fromCol, int fromRow, int toCol, int toRow)
@@ -34,6 +28,7 @@ public class PiecesOnBoard {
         Piece selectedPiece = board[fromCol][fromRow];
         if(selectedPiece != null)
         {
+            //checkPin();
             if(selectedPiece.getColour() == ChessPieceColour.WHITE)
             {
                 if(selectedPiece.getSymbol().equals("wK"))
@@ -42,11 +37,11 @@ public class PiecesOnBoard {
                             && whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         moveCounter++;
-                        selectedPiece.setLastMoveNum(moveCounter);
-                        selectedPiece.setFirstMove();
-                        selectedPiece.setColAndRow(toCol, toRow);
-                        board[toCol][toRow] = selectedPiece;
-                        board[fromCol][fromRow] = null;
+                        whitepieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
+                        whitepieces.getPiece(fromCol, fromRow).setFirstMove();
+                        whitepieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
+                        blackpieces.removePiece(toCol, toRow);
+                        resfreshBoard();
                     }
                     //castling
                     else if(isCastling(selectedPiece, toCol) && toRow == 0)
@@ -59,7 +54,7 @@ public class PiecesOnBoard {
                     }
                 }
                 //en passant
-                else if(isEnPassant(selectedPiece, toCol))
+                else if(isEnPassant(selectedPiece, toCol) && toRow == 5)
                 {
                     enPassant(selectedPiece, toCol);
                 }
@@ -68,11 +63,11 @@ public class PiecesOnBoard {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         moveCounter++;
-                        selectedPiece.setLastMoveNum(moveCounter);
-                        selectedPiece.setFirstMove();
-                        selectedPiece.setColAndRow(toCol, toRow);
-                        board[toCol][toRow] = selectedPiece;
-                        board[fromCol][fromRow] = null;
+                        whitepieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
+                        whitepieces.getPiece(fromCol, fromRow).setFirstMove();
+                        whitepieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
+                        blackpieces.removePiece(toCol, toRow);
+                        resfreshBoard();
                     }
                     else
                     {
@@ -88,11 +83,11 @@ public class PiecesOnBoard {
                             && blackpieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         moveCounter++;
-                        selectedPiece.setLastMoveNum(moveCounter);
-                        selectedPiece.setFirstMove();
-                        selectedPiece.setColAndRow(toCol, toRow);
-                        board[toCol][toRow] = selectedPiece;
-                        board[fromCol][fromRow] = null;
+                        blackpieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
+                        blackpieces.getPiece(fromCol, fromRow).setFirstMove();
+                        blackpieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
+                        whitepieces.removePiece(toCol, toRow);
+                        resfreshBoard();
                     }
                     //castling
                     else if(isCastling(selectedPiece, toCol) && toRow == 7)
@@ -105,7 +100,7 @@ public class PiecesOnBoard {
                     }
                 }
                 //en passant
-                else if(isEnPassant(selectedPiece, toCol))
+                else if(isEnPassant(selectedPiece, toCol) && toRow == 2)
                 {
                     enPassant(selectedPiece, toCol);
                 }
@@ -114,11 +109,11 @@ public class PiecesOnBoard {
                     if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow])
                     {
                         moveCounter++;
-                        selectedPiece.setLastMoveNum(moveCounter);
-                        selectedPiece.setFirstMove();
-                        selectedPiece.setColAndRow(toCol, toRow);
-                        board[toCol][toRow] = selectedPiece;
-                        board[fromCol][fromRow] = null;
+                        blackpieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
+                        blackpieces.getPiece(fromCol, fromRow).setFirstMove();
+                        blackpieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
+                        whitepieces.removePiece(toCol, toRow);
+                        resfreshBoard();
                     }
                     else
                     {
@@ -131,7 +126,6 @@ public class PiecesOnBoard {
             {
                 //pawn promotion
                 promote(board[toCol][toRow]);
-                checkPin();
             }
         }
         else
@@ -145,9 +139,17 @@ public class PiecesOnBoard {
         return this.board;
     }
     
-    public Piece getPiece(int column, int row)
+    public Piece getPiece(int col, int row)
     {
-        return this.board[column][row];
+        if(this.board[col][row].getColour() == ChessPieceColour.WHITE)
+        {
+            return whitepieces.getPiece(col, row);
+        }
+        else if(this.board[col][row].getColour() == ChessPieceColour.BLACK)
+        {
+            return blackpieces.getPiece(col, row);
+        }
+        return null;
     }
     
     public void setPiece(int column, int row, Piece piece)
@@ -155,7 +157,7 @@ public class PiecesOnBoard {
         this.board[column][row] = piece;
     }
     
-    public void clear() 
+    public void clearBoard() 
     {
         for(int col = 0; col < 8; col++) 
         {
@@ -184,6 +186,18 @@ public class PiecesOnBoard {
     public boolean[][] getPinPath()
     {
         return this.pinPath;
+    }
+    
+    private void resfreshBoard()
+    {
+        allPieces.clear();
+        allPieces.addAll(whitepieces.getAllPieces());
+        allPieces.addAll(blackpieces.getAllPieces());
+        clearBoard();
+        for(Piece i : allPieces)
+        {
+            board[i.getColumn()][i.getRow()] = i;
+        }
     }
     
     private boolean isCastling(Piece king, int toCol)
@@ -255,45 +269,41 @@ public class PiecesOnBoard {
         if(king.getColour() == ChessPieceColour.WHITE)
         {
             moveCounter++;
-            king.setLastMoveNum(moveCounter);
-            king.setFirstMove();
-            king.setColAndRow(toCol, 0);
-            board[toCol][0] = king;
-            board[col][row] = null;
+            whitepieces.getPiece(col, row).setLastMoveNum(moveCounter);
+            whitepieces.getPiece(col, row).setFirstMove();
+            whitepieces.getPiece(col, row).setColAndRow(toCol, 0);
 
             if(toCol == 2) //long castle
             {
-                board[0][0].setFirstMove();
-                board[3][0] = board[0][0];
-                board[0][0] = null;
+                whitepieces.getPiece(0, 0).setFirstMove();
+                whitepieces.getPiece(0, 0).setColAndRow(3, 0);
+                resfreshBoard();
             }
             else if(toCol == 6) //short castle
             {
-                board[7][0].setFirstMove();
-                board[5][0] = board[7][0];
-                board[7][0] = null;
+                whitepieces.getPiece(7, 0).setFirstMove();
+                whitepieces.getPiece(7, 0).setColAndRow(5, 0);
+                resfreshBoard();
             }
         }
         else if(king.getColour() == ChessPieceColour.BLACK)
         {
             moveCounter++;
-            king.setLastMoveNum(moveCounter);
-            king.setFirstMove();
-            king.setColAndRow(toCol, 7);
-            board[toCol][7] = king;
-            board[col][row] = null;
+            blackpieces.getPiece(col, row).setLastMoveNum(moveCounter);
+            blackpieces.getPiece(col, row).setFirstMove();
+            blackpieces.getPiece(col, row).setColAndRow(toCol, 7);
 
             if(toCol == 2) //long castle
             {
-                board[0][7].setFirstMove();
-                board[3][7] = board[0][7];
-                board[0][7] = null;
+                blackpieces.getPiece(0, 7).setFirstMove();
+                blackpieces.getPiece(0, 7).setColAndRow(3, 7);
+                resfreshBoard();
             }
             else if(toCol == 6) //short castle
             {
-                board[7][7].setFirstMove();
-                board[5][7] = board[7][7];
-                board[7][7] = null;
+                blackpieces.getPiece(7, 7).setFirstMove();
+                blackpieces.getPiece(7, 7).setColAndRow(5, 7);
+                resfreshBoard();
             }
         }
     }
@@ -301,19 +311,22 @@ public class PiecesOnBoard {
     private boolean isEnPassant(Piece pawn, int toCol)
     {
         boolean availability = false;
-        if(pawn.getSymbol().equals("wP") && pawn.getRow() == 4 
-                && board[toCol][pawn.getRow()].getSymbol().equals("bP") 
-                && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
-                && board[toCol][pawn.getRow()].isWasFirstMove())
+        if(board[toCol][pawn.getRow()] != null)
         {
-            availability = true;
-        }
-        else if(pawn.getSymbol().equals("bP") && pawn.getRow() == 3 
-                && board[toCol][pawn.getRow()].getSymbol().equals("wP") 
-                && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
-                && board[toCol][pawn.getRow()].isWasFirstMove())
-        {
-            availability = true;
+            if(pawn.getSymbol().equals("wP") && pawn.getRow() == 4 
+                    && board[toCol][pawn.getRow()].getSymbol().equals("bP") 
+                    && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
+                    && board[toCol][pawn.getRow()].isWasFirstMove())
+            {
+                availability = true;
+            }
+            else if(pawn.getSymbol().equals("bP") && pawn.getRow() == 3 
+                    && board[toCol][pawn.getRow()].getSymbol().equals("wP") 
+                    && board[toCol][pawn.getRow()].getLastMoveNum() == this.moveCounter 
+                    && board[toCol][pawn.getRow()].isWasFirstMove())
+            {
+                availability = true;
+            }
         }
         
         return availability;
@@ -322,27 +335,24 @@ public class PiecesOnBoard {
     private void enPassant(Piece pawn, int toCol)
     {
         int col = pawn.getColumn();
-        int row = pawn.getRow();
         
         if(pawn.getColour() == ChessPieceColour.WHITE)
         {
             moveCounter++;
-            pawn.setLastMoveNum(moveCounter);
-            pawn.setFirstMove();
-            pawn.setColAndRow(toCol, pawn.getRow()+1);
-            board[toCol][pawn.getRow()+1] = pawn;
-            board[col][row] = null;
-            board[toCol][row] = null;
+            whitepieces.getPiece(col, 4).setLastMoveNum(moveCounter);
+            whitepieces.getPiece(col, 4).setFirstMove();
+            whitepieces.getPiece(col, 4).setColAndRow(toCol, 5);
+            blackpieces.removePiece(toCol, 4);
+            resfreshBoard();
         }
         else if(pawn.getColour() == ChessPieceColour.BLACK)
         {
             moveCounter++;
-            pawn.setLastMoveNum(moveCounter);
-            pawn.setFirstMove();
-            pawn.setColAndRow(toCol, pawn.getRow()-1);
-            board[toCol][pawn.getRow()-1] = pawn;
-            board[col][row] = null;
-            board[toCol][row] = null;
+            blackpieces.getPiece(col, 3).setLastMoveNum(moveCounter);
+            blackpieces.getPiece(col, 3).setFirstMove();
+            blackpieces.getPiece(col, 3).setColAndRow(toCol, 2);
+            whitepieces.removePiece(toCol, 3);
+            resfreshBoard();
         }
     }
     

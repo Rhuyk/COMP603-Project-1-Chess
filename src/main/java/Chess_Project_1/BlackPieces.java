@@ -60,9 +60,28 @@ public class BlackPieces {
         return this.blackPieces;
     }
     
-    public Piece getPiece(int index)
+    public Piece getPiece(int col, int row)
     {
-        return this.blackPieces.get(index);
+        for(Piece i : blackPieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                return i;
+            }
+        }
+        return null;
+    }
+    
+    public void removePiece(int col, int row)
+    {
+        for(Piece i : blackPieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                blackPieces.remove(i);
+                break;
+            }
+        }
     }
     
     public boolean[][] getTargetAreas()

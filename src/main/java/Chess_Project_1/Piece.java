@@ -98,7 +98,7 @@ public class Piece {
         this.isUnderPinned = is;
     }
     
-    public boolean getIsUnderPinned()
+    public boolean isUnderPinned()
     {
         return this.isUnderPinned;
     }
