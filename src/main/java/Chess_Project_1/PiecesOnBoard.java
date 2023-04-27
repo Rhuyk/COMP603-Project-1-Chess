@@ -241,6 +241,76 @@ public class PiecesOnBoard {
         }
     }
     
+    public boolean isWhiteCheckMate()
+    {
+        refreshPiecesStatus();
+        boolean whiteCheckmate = false;
+        if(whiteIsInCheck)
+        {
+            whiteCheckmate = true;
+            for(Piece i : whitepieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        {
+                            whiteCheckmate = false;
+                        }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!blackpieces.getTargetAreas()[col][row] 
+                            && whitepieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        whiteCheckmate = false;
+                    }
+                }
+            }
+        }
+        return whiteCheckmate;
+    }
+    
+    public boolean isBlackCheckMate()
+    {
+        refreshPiecesStatus();
+        boolean blackCheckmate = false;
+        if(blackIsInCheck)
+        {
+            blackCheckmate = true;
+            for(Piece i : blackpieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        {
+                            blackCheckmate = false;
+                        }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!whitepieces.getTargetAreas()[col][row] 
+                            && blackpieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        blackCheckmate = false;
+                    }
+                }
+            }
+        }
+        return blackCheckmate;
+    }
+    
     private boolean isCastling(Piece king, int toCol)
     {
         boolean availability = false;
@@ -478,74 +548,6 @@ public class PiecesOnBoard {
         }
         whitepieces.getTargetAreas();
         blackpieces.getTargetAreas();
-    }
-    
-    private boolean isWhiteCheckMate()
-    {
-        boolean whiteCheckmate = false;
-        if(whiteIsInCheck)
-        {
-            whiteCheckmate = true;
-            for(Piece i : whitepieces.getAllPieces())
-            {
-                for(int col = 0; col < 8; col++)
-                {
-                    for(int row = 0; row < 8; row++)
-                    {
-                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
-                        {
-                            whiteCheckmate = false;
-                        }
-                    }
-                }
-            }
-            for(int col = 0; col < 8; col++)
-            {
-                for(int row = 0; row < 8; row++)
-                {
-                    if(!blackpieces.getTargetAreas()[col][row] 
-                            && whitepieces.getKing().getAvailableMoves()[col][row])
-                    {
-                        whiteCheckmate = false;
-                    }
-                }
-            }
-        }
-        return whiteCheckmate;
-    }
-    
-    private boolean isBlackCheckMate()
-    {
-        boolean blackCheckmate = false;
-        if(blackIsInCheck)
-        {
-            blackCheckmate = true;
-            for(Piece i : blackpieces.getAllPieces())
-            {
-                for(int col = 0; col < 8; col++)
-                {
-                    for(int row = 0; row < 8; row++)
-                    {
-                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
-                        {
-                            blackCheckmate = false;
-                        }
-                    }
-                }
-            }
-            for(int col = 0; col < 8; col++)
-            {
-                for(int row = 0; row < 8; row++)
-                {
-                    if(!whitepieces.getTargetAreas()[col][row] 
-                            && blackpieces.getKing().getAvailableMoves()[col][row])
-                    {
-                        blackCheckmate = false;
-                    }
-                }
-            }
-        }
-        return blackCheckmate;
     }
     
     private boolean isStalemate()
