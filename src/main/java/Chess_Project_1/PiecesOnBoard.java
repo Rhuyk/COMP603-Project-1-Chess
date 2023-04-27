@@ -141,7 +141,11 @@ public class PiecesOnBoard {
     
     public Piece getPiece(int col, int row)
     {
-        if(this.board[col][row].getColour() == ChessPieceColour.WHITE)
+        if(this.board[col][row] == null)
+        {
+            return null;
+        }
+        else if(this.board[col][row].getColour() == ChessPieceColour.WHITE)
         {
             return whitepieces.getPiece(col, row);
         }
