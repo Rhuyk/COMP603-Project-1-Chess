@@ -139,9 +139,10 @@ public class ChessGame {
                         System.out.println("You cannot move that piece. It does not belong to you.");
                         continue; 
                     }
-
-                    if(board.movePiece(fromCol, fromRow, toCol, toRow) == true)
+                    
+                    if(board.movePiece(fromCol, fromRow, toCol, toRow))
                     {
+                        System.out.println(currentPlayer.getPlayerName() +" moved "+ chessMove +"\n");
                         isWhiteTurn = !isWhiteTurn;
                     }
                 }
