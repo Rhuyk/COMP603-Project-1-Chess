@@ -170,6 +170,7 @@ public class PiecesOnBoard {
     {
         if(piece.getColour() == ChessPieceColour.WHITE)
         {
+            
             whitepieces.addPiece(piece);
         }
         else if(piece.getColour() == ChessPieceColour.BLACK)
@@ -223,7 +224,7 @@ public class PiecesOnBoard {
         resfreshBoard();
     }
     
-    private void resfreshBoard()
+    public void resfreshBoard()
     {
         allPieces.clear();
         allPieces.addAll(whitepieces.getAllPieces());

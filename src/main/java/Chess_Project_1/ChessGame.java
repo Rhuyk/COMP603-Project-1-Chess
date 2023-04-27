@@ -102,6 +102,7 @@ public class ChessGame {
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
                 System.out.println("Welcome back! " + currentPlayer.getPlayerName());
+                //System.out.println("Piece: "+ board.getPiece(0, 0));
             }
             
             else if(chessMove.equalsIgnoreCase("quit"))

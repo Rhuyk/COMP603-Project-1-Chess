@@ -1,4 +1,3 @@
-
 PJ
 wR 0 0
 wN 0 1
@@ -8,22 +7,22 @@ wK 0 4
 wB 0 5
 wN 0 6
 wR 0 7
-wP 1 0
+wP 1 1
 wP 1 2
 wP 1 3
 wP 1 4
 wP 1 5
 wP 1 6
 wP 1 7
-wP 2 1
-bP 5 7
-bP 6 0
+wP 2 0
+bP 5 0
 bP 6 1
 bP 6 2
 bP 6 3
 bP 6 4
 bP 6 5
 bP 6 6
+bP 6 7
 bR 7 0
 bN 7 1
 bB 7 2

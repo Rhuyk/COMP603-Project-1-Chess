@@ -12,9 +12,11 @@ package Chess_Project_1;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,39 +82,36 @@ public class ChessBoardFileIO {
     
     public static void saveUserDataToFile(String username, PiecesOnBoard board)
     {
-        String filename = createGameFile(username);
-        File file = new File(filename);
         
-         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) 
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(username + "_chessData.txt"))) 
         {
-            file.createNewFile();
-            writer.write(username + "\n");
-
+            writer.println(username);
+                
             for (int row = 0; row < 8; row++) 
             {
                 for (int col = 0; col < 8; col++) 
                 {
                     Piece piece = board.getPiece(col, row);
-                    if (piece != null) 
+                    if (piece != null)
                     {
                         String symbol = piece.getSymbol();
-                        writer.write(symbol + " " + row + " " + col + "\n");
+                        writer.println(symbol + " " + row + " " + col);
                     }
                 }
             }
-            writer.write("###\n");
-
-            System.out.println("Game saved successfully to file: " + filename);
-        } 
+            writer.println("###");
+            System.out.println("Game saved successfully to file!");
+            writer.close();
+        }  
         catch (IOException e) 
         {
-            System.out.println("Chess game can not be saved!" + filename);
+            System.out.println("Chess game can not be saved!");
         }
     }
 
     public static PiecesOnBoard loadGame(String username) 
     {
-        String filename = createGameFile(username);
+        String filename = username + "_chessData.txt";
         PiecesOnBoard board = new PiecesOnBoard();
         
         try {
@@ -126,29 +125,31 @@ public class ChessBoardFileIO {
             {
                 if(username.equals(line))
                 {
-                        userFound = true;
+                    userFound = true;
                 }
 
                 if (line.equals("###")) 
                 {
                     board.clearBoard();
+                    board.clearAllPieces();
                     userFound = true;
                     String gameData = gameDataBuilder.toString();
                     String[] lines = gameData.split("\n");
                     
-                for (String gameLine : lines) 
-                {
-                    String[] parts = gameLine.split(" ");
-                    if (parts.length >= 3) 
-                    { 
-                        String symbol = parts[0];
-                        int row = Integer.parseInt(parts[1]);
-                        int col = Integer.parseInt(parts[2]);
+                    for (String gameLine : lines) 
+                    {
+                        String[] parts = gameLine.split(" ");
+                        if (parts.length >= 3) 
+                        { 
+                            String symbol = parts[0];
+                            int row = Integer.parseInt(parts[1]);
+                            int col = Integer.parseInt(parts[2]);
 
                         Piece piece = createPiece(symbol, col, row);
                         board.addPiece(col, row, piece);
+                        }
                     }
-                }
+                    board.resfreshBoard();
                     gameDataBuilder = new StringBuilder();
                     userFound = false;
                 } 
@@ -171,7 +172,7 @@ public class ChessBoardFileIO {
     private static boolean checkIfUserExists(String username, BufferedReader reader) throws IOException 
     {
         String line;
-
+        
         while ((line = reader.readLine()) != null) 
         {
             if (username.equals(line)) 
@@ -202,10 +203,7 @@ public class ChessBoardFileIO {
         {
             for (String fileLine : lines) 
             {
-                if (!fileLine.startsWith(username)) 
-                {
-                    writer.write(fileLine + "\n");
-                }
+                writer.write(fileLine + "\n");
             }
         } 
         catch (IOException e) 
