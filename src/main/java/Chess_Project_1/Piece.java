@@ -16,7 +16,6 @@ public class Piece {
     private boolean firstMove;
     private boolean wasFirstMove;
     private int lastmoveNum;
-    private boolean isPinning;
     private boolean isUnderPinned;
     private boolean[][] pinPath = new boolean[8][8];
     

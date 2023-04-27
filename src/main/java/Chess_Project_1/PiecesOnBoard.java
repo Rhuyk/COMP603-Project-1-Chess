@@ -17,6 +17,7 @@ public class PiecesOnBoard {
     private static WhitePieces whitepieces = new WhitePieces();
     private static BlackPieces blackpieces = new BlackPieces();
     private static int moveCounter = 0;
+    private boolean[][] checkPath = new boolean[8][8];
     
     public PiecesOnBoard()
     {
@@ -170,6 +171,16 @@ public class PiecesOnBoard {
         this.board[column][row] = piece;
     }
     
+    public boolean[][] getCheckPath()
+    {
+        return this.checkPath;
+    }
+    
+    public void setCheckPath(boolean[][] checkPath)
+    {
+        this.checkPath = checkPath;
+    }
+    
     public void clearBoard() 
     {
         for(int col = 0; col < 8; col++) 
@@ -191,6 +202,13 @@ public class PiecesOnBoard {
         return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
     }
     
+    public void resetBoard()
+    {
+        whitepieces = new WhitePieces();
+        blackpieces = new BlackPieces();
+        resfreshBoard();
+    }
+    
     private void resfreshBoard()
     {
         allPieces.clear();
@@ -201,6 +219,7 @@ public class PiecesOnBoard {
         {
             board[i.getColumn()][i.getRow()] = i;
         }
+        
     }
     
     private boolean isCastling(Piece king, int toCol)
@@ -433,7 +452,7 @@ public class PiecesOnBoard {
         blackpieces.getTargetAreas();
     }
     
-    private boolean isChecking()
+    private boolean isInCheck()
     {
         return false;
     }

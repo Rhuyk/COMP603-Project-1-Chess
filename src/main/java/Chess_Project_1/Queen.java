@@ -250,7 +250,27 @@ public class Queen extends Piece
             {
                 targetArea[col][row] = true;
                 
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                        && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(boolean[] i : checkPath)
+                    {
+                        for(boolean j : i)
+                        {
+                            j = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(pathCol != col && pathRow != row)
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        pathCol++;
+                    }
+                    break;
+                }
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
                     pinnedRow = row;
