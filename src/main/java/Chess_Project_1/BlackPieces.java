@@ -84,6 +84,19 @@ public class BlackPieces {
         }
     }
     
+    public void replacePiece(Piece replacement, int col, int row)
+    {
+        for(Piece i : blackPieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                removePiece(col, row);
+                blackPieces.add(replacement);
+                break;
+            }
+        }
+    }
+    
     public boolean[][] getTargetAreas()
     {
         boolean[][] allTargetArea = new boolean[8][8];

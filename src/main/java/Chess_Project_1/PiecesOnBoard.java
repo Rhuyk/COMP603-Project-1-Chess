@@ -367,19 +367,29 @@ public class PiecesOnBoard {
         
         if(pawn.getSymbol().equals("wP") && pawn.getColour() == ChessPieceColour.WHITE && pawn.getRow() == 7)
         {
-            //player select the which to promote
-//            board[col][row] = new Queen(ChessPieceColour.WHITE, col, row);
-//            board[col][row] = new Bishop(ChessPieceColour.WHITE, col, row);
-//            board[col][row] = new Knight(ChessPieceColour.WHITE, col, row);
-//            board[col][row] = new Rook(ChessPieceColour.WHITE, col, row);
+            Piece promotion;
+            
+            //player select which to promote
+            
+//            promotion = new Queen(ChessPieceColour.WHITE, col, row);
+//            promotion = new Bishop(ChessPieceColour.WHITE, col, row);
+//            promotion = new Knight(ChessPieceColour.WHITE, col, row);
+//            promotion = new Rook(ChessPieceColour.WHITE, col, row);
+//
+//            whitepieces.replacePiece(promotion, col, row);
         }
         else if(pawn.getSymbol().equals("bP") && pawn.getColour() == ChessPieceColour.BLACK && pawn.getRow() == 0)
         {
-            //player select the which to promote
-//            board[col][row] = new Queen(ChessPieceColour.BLACK, col, row);
-//            board[col][row] = new Bishop(ChessPieceColour.BLACK, col, row);
-//            board[col][row] = new Knight(ChessPieceColour.BLACK, col, row);
-//            board[col][row] = new Rook(ChessPieceColour.BLACK, col, row);
+            Piece promotion;
+            
+            //player select which to promote
+            
+//            promotion = new Queen(ChessPieceColour.BLACK, col, row);
+//            promotion = new Bishop(ChessPieceColour.BLACK, col, row);
+//            promotion = new Knight(ChessPieceColour.BLACK, col, row);
+//            promotion = new Rook(ChessPieceColour.BLACK, col, row);
+//
+//            blackpieces.replacePiece(promotion, col, row);
         }
     }
     

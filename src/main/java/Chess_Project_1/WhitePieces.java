@@ -86,6 +86,19 @@ public class WhitePieces {
         }
     }
     
+    public void replacePiece(Piece replacement, int col, int row)
+    {
+        for(Piece i : whitePieces)
+        {
+            if(i.getColumn() == col && i.getRow() == row)
+            {
+                removePiece(col, row);
+                whitePieces.add(replacement);
+                break;
+            }
+        }
+    }
+    
     public boolean[][] getTargetAreas()
     {
         boolean[][] allTargetArea = new boolean[8][8];
