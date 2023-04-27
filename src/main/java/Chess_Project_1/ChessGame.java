@@ -24,6 +24,10 @@ public class ChessGame {
         Player player2 = new Player(ChessPieceColour.BLACK,"Jamar");
         boolean isWhiteTurn = true;
         
+        System.out.println("Enter 'quit' to leave anytime.");
+        System.out.println("Enter 'save' to save your chess game.");
+        System.out.println("Enter 'load' to load your saved game data.");
+        
         while(true)
         {
             Player currentPlayer = player1;
@@ -34,9 +38,6 @@ public class ChessGame {
                 
             PrintBoard.printBoard(board, currentPlayer);
 
-            System.out.println("Enter 'quit' to leave anytime.");
-            System.out.println("Enter 'save' to save your chess game.");
-            System.out.println("Enter 'load' to load your saved game data.");
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g from c2 to c3): ");
             String chessMove = scanner.nextLine();
             
@@ -59,7 +60,7 @@ public class ChessGame {
             else if(chessMove.equalsIgnoreCase("load"))
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
-                System.out.println("Welcome back!" + currentPlayer.getPlayerName());
+                System.out.println("Welcome back! " + currentPlayer.getPlayerName());
             }
             
             else if(chessMove.equalsIgnoreCase("quit"))
@@ -74,10 +75,17 @@ public class ChessGame {
                 int fromRow = Integer.parseInt(positions[0].substring(1)) - 1;
                 int toCol = positions[1].charAt(0) - 'a';
                 int toRow = Integer.parseInt(positions[1].substring(1)) - 1;
-
-                board.movePiece(fromCol, fromRow, toCol, toRow);
-
-                isWhiteTurn = !isWhiteTurn;
+                
+                if(board.getPiece(fromCol, fromRow) == null || board.getPiece(fromCol, fromRow).getColour() != currentPlayer.getColourPiece())
+                {
+                    System.out.println("You cannot move that piece. It either doesn't exist or it does not belong to you.");
+                    continue; 
+                }
+                
+                if(board.movePiece(fromCol, fromRow, toCol, toRow) == true)
+                {
+                    isWhiteTurn = !isWhiteTurn;
+                }
             }
         }
     }

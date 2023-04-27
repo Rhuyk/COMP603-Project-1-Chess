@@ -22,7 +22,7 @@ public class PiecesOnBoard {
         resfreshBoard();
     }
     
-    public void movePiece(int fromCol, int fromRow, int toCol, int toRow)
+    public boolean movePiece(int fromCol, int fromRow, int toCol, int toRow)
     {
         Piece selectedPiece = board[fromCol][fromRow];
         if(selectedPiece != null)
@@ -50,6 +50,8 @@ public class PiecesOnBoard {
                     else
                     {
                         //unavailable move
+                        System.out.println("That was a Illegal move. Please enter a new one!");
+                        return false;
                     }
                 }
                 //en passant
@@ -71,6 +73,8 @@ public class PiecesOnBoard {
                     else
                     {
                         //unavailable move
+                        System.out.println("That was a Illegal move. Please enter a new one!");
+                        return false;
                     }
                 }
             }
@@ -96,6 +100,8 @@ public class PiecesOnBoard {
                     else
                     {
                         //unavailable move
+                        System.out.println("That was a Illegal move. Please enter a new one!");
+                        return false;
                     }
                 }
                 //en passant
@@ -117,6 +123,8 @@ public class PiecesOnBoard {
                     else
                     {
                         //unavailable move
+                        System.out.println("That was a Illegal move. Please enter a new one!");
+                        return false;
                     }
                 }
             }
@@ -131,6 +139,7 @@ public class PiecesOnBoard {
         {
             //invalid selection
         }
+        return true;
     }
     
     public Piece[][] getBoard()

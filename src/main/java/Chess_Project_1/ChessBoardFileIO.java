@@ -11,6 +11,7 @@ package Chess_Project_1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,13 +20,33 @@ import java.util.Scanner;
 
 public class ChessBoardFileIO {
     
+    private static String createGameFile(String username)
+    {
+        String filename = username + "_chessData.txt";
+        File file = new File(filename);
+        try 
+        {
+            if (!file.exists()) 
+            {
+                file.createNewFile();
+            }
+        } 
+        catch (IOException e) 
+        {
+            System.out.println("Error in creating a new file.");
+        }
+        
+        return filename;
+    }
+    
     public static void saveGameForUser(String username, PiecesOnBoard board) throws FileNotFoundException, IOException 
     {
-        String filename = "chessData.txt";
+        String filename = createGameFile(username);
         boolean overwrite = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) 
         {
+            
             boolean userFound = checkIfUserExists(username, reader);
 
             if (userFound) 
@@ -54,9 +75,12 @@ public class ChessBoardFileIO {
     
     public static void saveUserDataToFile(String username, PiecesOnBoard board)
     {
-        String filename = "chessdata.txt";
+        String filename = createGameFile(username);
+        File file = new File(filename);
+        
          try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) 
         {
+            file.createNewFile();
             writer.write(username + "\n");
 
             for (int row = 0; row < 8; row++) 
@@ -83,8 +107,7 @@ public class ChessBoardFileIO {
 
     public static PiecesOnBoard loadGame(String username) 
     {
-        String filename = "chessData.txt";
-
+        String filename = createGameFile(username);
         PiecesOnBoard board = new PiecesOnBoard();
         
         try {
@@ -167,8 +190,7 @@ public class ChessBoardFileIO {
 
     private static void deleteUserDataFromFile(String username, String filename) throws IOException 
     {
-        StringBuilder fileDataBuilder = new StringBuilder();
-        String fileData = fileDataBuilder.toString();
+        String fileData = "";
         String[] lines = fileData.split("\n");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) 
