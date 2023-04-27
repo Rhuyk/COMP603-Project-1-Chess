@@ -196,7 +196,7 @@ public class Bishop extends Piece{
                         pathCol++;
                         pathRow++;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -274,7 +274,7 @@ public class Bishop extends Piece{
                         pathCol++;
                         pathRow--;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -352,7 +352,7 @@ public class Bishop extends Piece{
                         pathCol--;
                         pathRow++;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -430,7 +430,7 @@ public class Bishop extends Piece{
                         pathCol--;
                         pathRow--;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {

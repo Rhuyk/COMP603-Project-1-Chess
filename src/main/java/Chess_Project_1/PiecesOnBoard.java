@@ -18,10 +18,12 @@ public class PiecesOnBoard {
     private static BlackPieces blackpieces = new BlackPieces();
     private static int moveCounter = 0;
     private static boolean[][] checkPath = new boolean[8][8];
+    private static boolean whiteIsInCheck = false;
+    private static boolean blackIsInCheck = false;
     
     public PiecesOnBoard()
     {
-        resfreshBoard();
+        refreshBoard();
     }
     
     public boolean movePiece(int fromCol, int fromRow, int toCol, int toRow)
@@ -29,7 +31,7 @@ public class PiecesOnBoard {
         Piece selectedPiece = board[fromCol][fromRow];
         if(selectedPiece != null)
         {
-            checkPinAndCheck();
+            refreshPiecesStatus();
             if(selectedPiece.getColour() == ChessPieceColour.WHITE)
             {
                 if(selectedPiece.getSymbol().equals("wK"))
@@ -42,7 +44,7 @@ public class PiecesOnBoard {
                         whitepieces.getPiece(fromCol, fromRow).setFirstMove();
                         whitepieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
                         blackpieces.removePiece(toCol, toRow);
-                        resfreshBoard();
+                        refreshBoard();
                     }
                     //castling
                     else if(isCastling(selectedPiece, toCol) && toRow == 0)
@@ -70,7 +72,7 @@ public class PiecesOnBoard {
                         whitepieces.getPiece(fromCol, fromRow).setFirstMove();
                         whitepieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
                         blackpieces.removePiece(toCol, toRow);
-                        resfreshBoard();
+                        refreshBoard();
                     }
                     else
                     {
@@ -92,7 +94,7 @@ public class PiecesOnBoard {
                         blackpieces.getPiece(fromCol, fromRow).setFirstMove();
                         blackpieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
                         whitepieces.removePiece(toCol, toRow);
-                        resfreshBoard();
+                        refreshBoard();
                     }
                     //castling
                     else if(isCastling(selectedPiece, toCol) && toRow == 7)
@@ -120,7 +122,7 @@ public class PiecesOnBoard {
                         blackpieces.getPiece(fromCol, fromRow).setFirstMove();
                         blackpieces.getPiece(fromCol, fromRow).setColAndRow(toCol, toRow);
                         whitepieces.removePiece(toCol, toRow);
-                        resfreshBoard();
+                        refreshBoard();
                     }
                     else
                     {
@@ -184,9 +186,17 @@ public class PiecesOnBoard {
         return this.checkPath;
     }
     
-    public void setCheckPath(boolean[][] checkPath)
+    public void setInCheck(ChessPieceColour colour, boolean[][] checkPath)
     {
         this.checkPath = checkPath;
+        if(colour == ChessPieceColour.WHITE)
+        {
+            whiteIsInCheck = true;
+        }
+        else if(colour == ChessPieceColour.BLACK)
+        {
+            blackIsInCheck = true;
+        }
     }
     
     public void clearBoard() 
@@ -206,11 +216,6 @@ public class PiecesOnBoard {
         blackpieces.clearPieces();
     }
     
-    public boolean isWinning()
-    {
-        return isCheckMate();
-    }
-    
     public boolean isDrawing()
     {
         return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
@@ -221,10 +226,10 @@ public class PiecesOnBoard {
         this.moveCounter = 0;
         whitepieces = new WhitePieces();
         blackpieces = new BlackPieces();
-        resfreshBoard();
+        refreshBoard();
     }
     
-    public void resfreshBoard()
+    public void refreshBoard()
     {
         allPieces.clear();
         allPieces.addAll(whitepieces.getAllPieces());
@@ -313,13 +318,13 @@ public class PiecesOnBoard {
             {
                 whitepieces.getPiece(0, 0).setFirstMove();
                 whitepieces.getPiece(0, 0).setColAndRow(3, 0);
-                resfreshBoard();
+                refreshBoard();
             }
             else if(toCol == 6) //short castle
             {
                 whitepieces.getPiece(7, 0).setFirstMove();
                 whitepieces.getPiece(7, 0).setColAndRow(5, 0);
-                resfreshBoard();
+                refreshBoard();
             }
         }
         else if(king.getColour() == ChessPieceColour.BLACK)
@@ -333,13 +338,13 @@ public class PiecesOnBoard {
             {
                 blackpieces.getPiece(0, 7).setFirstMove();
                 blackpieces.getPiece(0, 7).setColAndRow(3, 7);
-                resfreshBoard();
+                refreshBoard();
             }
             else if(toCol == 6) //short castle
             {
                 blackpieces.getPiece(7, 7).setFirstMove();
                 blackpieces.getPiece(7, 7).setColAndRow(5, 7);
-                resfreshBoard();
+                refreshBoard();
             }
         }
     }
@@ -379,7 +384,7 @@ public class PiecesOnBoard {
             whitepieces.getPiece(col, 4).setFirstMove();
             whitepieces.getPiece(col, 4).setColAndRow(toCol, 5);
             blackpieces.removePiece(toCol, 4);
-            resfreshBoard();
+            refreshBoard();
         }
         else if(pawn.getColour() == ChessPieceColour.BLACK)
         {
@@ -388,7 +393,7 @@ public class PiecesOnBoard {
             blackpieces.getPiece(col, 3).setFirstMove();
             blackpieces.getPiece(col, 3).setColAndRow(toCol, 2);
             whitepieces.removePiece(toCol, 3);
-            resfreshBoard();
+            refreshBoard();
         }
     }
     
@@ -456,8 +461,10 @@ public class PiecesOnBoard {
         }
     }
     
-    private void checkPinAndCheck()
+    private void refreshPiecesStatus()
     {
+        whiteIsInCheck = false;
+        blackIsInCheck = false;
         for(Piece i : allPieces)
         {
             i.setIsUnderPinned(false);
@@ -473,14 +480,72 @@ public class PiecesOnBoard {
         blackpieces.getTargetAreas();
     }
     
-    private boolean isInCheck()
+    private boolean isWhiteCheckMate()
     {
-        return false;
+        boolean whiteCheckmate = false;
+        if(whiteIsInCheck)
+        {
+            whiteCheckmate = true;
+            for(Piece i : whitepieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        {
+                            whiteCheckmate = false;
+                        }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!blackpieces.getTargetAreas()[col][row] 
+                            && whitepieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        whiteCheckmate = false;
+                    }
+                }
+            }
+        }
+        return whiteCheckmate;
     }
     
-    private boolean isCheckMate()
+    private boolean isBlackCheckMate()
     {
-        return false;
+        boolean blackCheckmate = false;
+        if(blackIsInCheck)
+        {
+            blackCheckmate = true;
+            for(Piece i : blackpieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        {
+                            blackCheckmate = false;
+                        }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!whitepieces.getTargetAreas()[col][row] 
+                            && blackpieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        blackCheckmate = false;
+                    }
+                }
+            }
+        }
+        return blackCheckmate;
     }
     
     private boolean isStalemate()

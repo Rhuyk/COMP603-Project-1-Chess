@@ -10,7 +10,6 @@ wR 0 7
 wP 1 1
 wP 1 2
 wP 1 3
-wP 1 4
 wP 1 5
 wP 1 6
 wP 1 7
@@ -18,7 +17,6 @@ wP 2 0
 bP 5 0
 bP 6 1
 bP 6 2
-bP 6 3
 bP 6 4
 bP 6 5
 bP 6 6

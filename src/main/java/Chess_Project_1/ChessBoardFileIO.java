@@ -136,7 +136,7 @@ public class ChessBoardFileIO {
                         board.addPiece(col, row, piece);
                         }
                     }
-                    board.resfreshBoard();
+                    board.refreshBoard();
                     gameDataBuilder = new StringBuilder();
                     userFound = false;
                 } 

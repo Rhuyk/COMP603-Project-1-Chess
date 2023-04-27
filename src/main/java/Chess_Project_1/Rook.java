@@ -187,7 +187,7 @@ public class Rook extends Piece {
                         checkPath[pathCol][pathRow] = true;
                         pathCol++;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -261,7 +261,7 @@ public class Rook extends Piece {
                         checkPath[pathCol][pathRow] = true;
                         pathCol--;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -335,7 +335,7 @@ public class Rook extends Piece {
                         checkPath[pathCol][pathRow] = true;
                         pathRow++;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
@@ -409,7 +409,7 @@ public class Rook extends Piece {
                         checkPath[pathCol][pathRow] = true;
                         pathRow--;
                     }
-                    pieces.setCheckPath(checkPath);
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {

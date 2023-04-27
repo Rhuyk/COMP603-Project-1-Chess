@@ -202,7 +202,7 @@ public class Pawn extends Piece {
                             }
                         }
                         checkPath[super.getColumn()][super.getRow()] = true;
-                        pieces.setCheckPath(checkPath);
+                        pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                     }
                 }
             }
@@ -226,7 +226,7 @@ public class Pawn extends Piece {
                             }
                         }
                         checkPath[super.getColumn()][super.getRow()] = true;
-                        pieces.setCheckPath(checkPath);
+                        pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                     }
                 }
             }
@@ -253,7 +253,7 @@ public class Pawn extends Piece {
                             }
                         }
                         checkPath[super.getColumn()][super.getRow()] = true;
-                        pieces.setCheckPath(checkPath);
+                        pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                     }
                 }
             }
@@ -277,7 +277,7 @@ public class Pawn extends Piece {
                             }
                         }
                         checkPath[super.getColumn()][super.getRow()] = true;
-                        pieces.setCheckPath(checkPath);
+                        pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                     }
                 }
             }
