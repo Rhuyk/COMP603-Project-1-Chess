@@ -15,6 +15,61 @@ import java.util.Scanner;
  */
 public class ChessGame {
     
+    public static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
+    {
+        System.out.println("Chess Board: \n");
+        System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
+        
+        String column = "     a    b    c    d    e    f    g    h\n";
+        int currentRow = 7;
+        int rowNumber = 8;
+        int rowChange = -1;
+
+        if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+        {
+            currentRow = 0;
+            rowNumber = 1;
+            rowChange = 1;
+            column = "     h    g    f    e    d    c    b    a\n";
+        }
+
+        System.out.println(column);
+
+        for(int i = 7; i >= 0; i--)
+        {
+            System.out.println("   +----+----+----+----+----+----+----+----+");
+            System.out.print((rowNumber) + "  | ");
+
+            for(int j = 0; j < 8; j++)
+            {
+                int currentCol = j;
+                
+                if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+                {
+                    currentCol = 7 - j;
+                }
+                
+                Piece piece = board.getBoard()[currentCol][currentRow];
+
+                if(piece == null)
+                {
+                    System.out.print("-- | ");
+                }
+                else
+                {
+                    System.out.print(piece.getSymbol() + " | ");
+                }
+            }
+
+            System.out.println(rowNumber);
+            currentRow += rowChange;
+            rowNumber += rowChange;
+        }
+        
+        System.out.println("   +----+----+----+----+----+----+----+----+");
+        System.out.println(column);
+    }
+    
     public static void main(String[] args) 
     {
         PiecesOnBoard board = new PiecesOnBoard();
@@ -36,7 +91,7 @@ public class ChessGame {
                 currentPlayer = player2;
             }
                 
-            PrintBoard.printBoard(board, currentPlayer);
+            printBoard(board, currentPlayer);
 
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g from c2 to c3): ");
             String chessMove = scanner.nextLine();
@@ -76,9 +131,14 @@ public class ChessGame {
                 int toCol = positions[1].charAt(0) - 'a';
                 int toRow = Integer.parseInt(positions[1].substring(1)) - 1;
                 
-                if(board.getPiece(fromCol, fromRow) == null || board.getPiece(fromCol, fromRow).getColour() != currentPlayer.getColourPiece())
+                if(board.getPiece(fromCol, fromRow) == null)
                 {
-                    System.out.println("You cannot move that piece. It either doesn't exist or it does not belong to you.");
+                    System.out.println("You cannot move that piece. It either doesn't exist.");
+                    continue; 
+                }
+                if(board.getPiece(fromCol, fromRow).getColour() != currentPlayer.getColourPiece())
+                {
+                    System.out.println("You cannot move that piece. It does not belong to you.");
                     continue; 
                 }
                 
