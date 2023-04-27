@@ -139,7 +139,7 @@ public class Bishop extends Piece{
             {
                 for(row = 0; row < 8; row++)
                 {
-                    if(pieces.getPinPath()[col][row] && availableMoves[col][row])
+                    if(super.getPinPath()[col][row] && availableMoves[col][row])
                     {
                         newAvailableMoves[col][row] = true;
                     }
@@ -212,7 +212,7 @@ public class Bishop extends Piece{
                                 pathCol++;
                                 pathRow++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -270,7 +270,7 @@ public class Bishop extends Piece{
                                 pathCol++;
                                 pathRow--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -328,7 +328,7 @@ public class Bishop extends Piece{
                                 pathCol--;
                                 pathRow++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -386,7 +386,7 @@ public class Bishop extends Piece{
                                 pathCol--;
                                 pathRow--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else

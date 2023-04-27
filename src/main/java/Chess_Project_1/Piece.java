@@ -18,6 +18,7 @@ public class Piece {
     private int lastmoveNum;
     private boolean isPinning;
     private boolean isUnderPinned;
+    private boolean[][] pinPath = new boolean[8][8];
     
     public Piece(ChessPieceColour colour, int col, int row)
     {
@@ -86,6 +87,16 @@ public class Piece {
     public boolean isWasFirstMove()
     {
         return this.wasFirstMove;
+    }
+    
+    public boolean[][] getPinPath()
+    {
+        return this.pinPath;
+    }
+    
+    public void setPinPath(boolean[][] pinPath)
+    {
+        this.pinPath = pinPath;
     }
     
     public void checkPin()

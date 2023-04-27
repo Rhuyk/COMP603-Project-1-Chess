@@ -16,7 +16,6 @@ public class PiecesOnBoard {
     private static WhitePieces whitepieces = new WhitePieces();
     private static BlackPieces blackpieces = new BlackPieces();
     private static int moveCounter = 0;
-    private static boolean[][] pinPath;
     
     public PiecesOnBoard()
     {
@@ -28,7 +27,7 @@ public class PiecesOnBoard {
         Piece selectedPiece = board[fromCol][fromRow];
         if(selectedPiece != null)
         {
-            //checkPin();
+            checkPin();
             if(selectedPiece.getColour() == ChessPieceColour.WHITE)
             {
                 if(selectedPiece.getSymbol().equals("wK"))
@@ -180,16 +179,6 @@ public class PiecesOnBoard {
     public boolean isDrawing()
     {
         return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
-    }
-    
-    public void setPinPath(boolean[][] pinPath)
-    {
-        this.pinPath = pinPath;
-    }
-    
-    public boolean[][] getPinPath()
-    {
-        return this.pinPath;
     }
     
     private void resfreshBoard()
@@ -399,6 +388,8 @@ public class PiecesOnBoard {
         {
             i.setIsUnderPinned(false);
         }
+        whitepieces.getTargetAreas();
+        blackpieces.getTargetAreas();
     }
     
     private boolean isChecking()

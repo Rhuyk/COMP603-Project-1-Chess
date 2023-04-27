@@ -152,7 +152,7 @@ public class Pawn extends Piece {
             {
                 for(row = 0; row < 8; row++)
                 {
-                    if(pieces.getPinPath()[col][row] && availableMoves[col][row])
+                    if(super.getPinPath()[col][row] && availableMoves[col][row])
                     {
                         newAvailableMoves[col][row] = true;
                     }

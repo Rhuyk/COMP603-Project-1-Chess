@@ -211,7 +211,7 @@ public class Queen extends Piece
             {
                 for(row = 0; row < 8; row++)
                 {
-                    if(pieces.getPinPath()[col][row] && availableMoves[col][row])
+                    if(super.getPinPath()[col][row] && availableMoves[col][row])
                     {
                         newAvailableMoves[col][row] = true;
                     }
@@ -282,7 +282,7 @@ public class Queen extends Piece
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -337,7 +337,7 @@ public class Queen extends Piece
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -392,7 +392,7 @@ public class Queen extends Piece
                                 pinPath[pathCol][pathRow] = true;
                                 pathRow++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -447,7 +447,7 @@ public class Queen extends Piece
                                 pinPath[pathCol][pathRow] = true;
                                 pathRow--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -504,7 +504,7 @@ public class Queen extends Piece
                                 pathCol++;
                                 pathRow++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -562,7 +562,7 @@ public class Queen extends Piece
                                 pathCol++;
                                 pathRow--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -620,7 +620,7 @@ public class Queen extends Piece
                                 pathCol--;
                                 pathRow++;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
@@ -678,7 +678,7 @@ public class Queen extends Piece
                                 pathCol--;
                                 pathRow--;
                             }
-                            pieces.setPinPath(pinPath);
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
                             break;
                         }
                         else
