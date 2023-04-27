@@ -4,10 +4,7 @@
  */
 package Chess_Project_1;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
-
 
 /**
  *
@@ -93,23 +90,12 @@ public class ChessGame {
                 
             printBoard(board, currentPlayer);
 
-            System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g from c2 to c3): ");
+            System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g 'c2 c4'): ");
             String chessMove = scanner.nextLine();
             
             if(chessMove.equalsIgnoreCase("save"))
             {
-                try
-                {
-                    ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
-                }
-                catch(FileNotFoundException e)
-                {
-                    System.out.println("File not found!");
-                }
-                catch(IOException e)
-                {
-                    System.out.println("IO Exception!");
-                }
+                ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
             }
             
             else if(chessMove.equalsIgnoreCase("load"))
@@ -122,29 +108,50 @@ public class ChessGame {
             {
                 break;
             }
+            else if(chessMove.equalsIgnoreCase("reset"))
+            {
+                board.resetBoard();
+                isWhiteTurn = true;
+            }
             else
             {
                 String[] positions = chessMove.split(" ");
+                
+                if(positions.length != 2)
+                {
+                    System.out.println("You have entered a incorrect format! Please try again.");
+                    continue; 
+                }
+                try
+                {
+                    int fromCol = positions[0].charAt(0) - 'a';
+                    int fromRow = Integer.parseInt(positions[0].substring(1)) - 1;
+                    int toCol = positions[1].charAt(0) - 'a';
+                    int toRow = Integer.parseInt(positions[1].substring(1)) - 1;
 
-                int fromCol = positions[0].charAt(0) - 'a';
-                int fromRow = Integer.parseInt(positions[0].substring(1)) - 1;
-                int toCol = positions[1].charAt(0) - 'a';
-                int toRow = Integer.parseInt(positions[1].substring(1)) - 1;
-                
-                if(board.getPiece(fromCol, fromRow) == null)
-                {
-                    System.out.println("You cannot move that piece. It either doesn't exist.");
-                    continue; 
+                    if(board.getPiece(fromCol, fromRow) == null)
+                    {
+                        System.out.println("You cannot move that piece. It doesn't exist.");
+                        continue; 
+                    }
+                    if(board.getPiece(fromCol, fromRow).getColour() != currentPlayer.getColourPiece())
+                    {
+                        System.out.println("You cannot move that piece. It does not belong to you.");
+                        continue; 
+                    }
+
+                    if(board.movePiece(fromCol, fromRow, toCol, toRow) == true)
+                    {
+                        isWhiteTurn = !isWhiteTurn;
+                    }
                 }
-                if(board.getPiece(fromCol, fromRow).getColour() != currentPlayer.getColourPiece())
+                catch (NumberFormatException e)
                 {
-                    System.out.println("You cannot move that piece. It does not belong to you.");
-                    continue; 
+                    System.out.println("You have entered a incorrect format: Row number must be an integer. e.g 'c2 c4'.");
                 }
-                
-                if(board.movePiece(fromCol, fromRow, toCol, toRow) == true)
+                catch(StringIndexOutOfBoundsException e)
                 {
-                    isWhiteTurn = !isWhiteTurn;
+                    System.out.println("You have entered a incorrect format: move must be in the format 'from to', e.g. 'c3 d4'.");
                 }
             }
         }

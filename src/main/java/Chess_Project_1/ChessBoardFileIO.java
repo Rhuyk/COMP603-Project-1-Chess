@@ -12,11 +12,12 @@ package Chess_Project_1;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChessBoardFileIO {
     
@@ -39,7 +40,7 @@ public class ChessBoardFileIO {
         return filename;
     }
     
-    public static void saveGameForUser(String username, PiecesOnBoard board) throws FileNotFoundException, IOException 
+    public static void saveGameForUser(String username, PiecesOnBoard board)
     {
         String filename = createGameFile(username);
         boolean overwrite = false;
@@ -67,7 +68,11 @@ public class ChessBoardFileIO {
 
         if(overwrite) 
         {
-            deleteUserDataFromFile(username, filename);
+            try {
+                deleteUserDataFromFile(username, filename);
+            } catch (IOException ex) {
+                Logger.getLogger(ChessBoardFileIO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         saveUserDataToFile(username, board);

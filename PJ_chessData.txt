@@ -16,14 +16,14 @@ wP 1 5
 wP 1 6
 wP 1 7
 wP 2 1
-bP 4 6
+bP 5 7
 bP 6 0
 bP 6 1
 bP 6 2
 bP 6 3
 bP 6 4
 bP 6 5
-bP 6 7
+bP 6 6
 bR 7 0
 bN 7 1
 bB 7 2
