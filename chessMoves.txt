@@ -1,0 +1,13 @@
+Jamar is playing the WHITE chess pieces 
+Richard is playing the BLACK chess pieces 
+
+Jamar has moved c2 c3
+Richard has moved c7 c6
+Jamar has moved d1 c2
+Richard has moved d8 c7
+Jamar has moved c2 c4
+Richard has moved g7 g5
+Jamar has moved d1 c2
+Jamar has moved b1 a3
+Richard has moved f8 g7
+

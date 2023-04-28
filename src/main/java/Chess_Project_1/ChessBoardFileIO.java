@@ -38,7 +38,7 @@ public class ChessBoardFileIO {
         return filename;
     }
     
-    public static void saveGameForUser(String username, PiecesOnBoard board)
+    public static boolean saveGameForUser(String username, PiecesOnBoard board)
     {
         String filename = createGameFile(username);
         boolean overwrite;
@@ -54,17 +54,18 @@ public class ChessBoardFileIO {
                 if (!overwrite) 
                 {
                     System.out.println("Game not saved.");
-                    return;
+                    return false;
                 }
             }
         } 
         catch (IOException e) 
         {
             System.out.println("Chess game can not be loaded!");
-            return;
+            return false;
         }
 
         saveUserDataToFile(username, board);
+        return true;
     }
     
     public static void saveUserDataToFile(String username, PiecesOnBoard board)
@@ -90,6 +91,20 @@ public class ChessBoardFileIO {
             System.out.println("Game saved successfully to file!");
             writer.close();
         }  
+        catch (IOException e) 
+        {
+            System.out.println("Chess game can not be saved!");
+        }
+    }
+    
+    public static void saveMovesToText(String moves)
+    {
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream("chessMoves.txt"))) 
+        {
+            writer.println(moves);
+            System.out.println("Game moves successfully to file!");
+            writer.close();
+        }
         catch (IOException e) 
         {
             System.out.println("Chess game can not be saved!");

@@ -12,6 +12,8 @@ import java.util.Scanner;
  */
 public class ChessGame {
     
+    private static String moveHistory = "";
+    
     public static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
     {
         System.out.println("Chess Board: \n");
@@ -74,6 +76,8 @@ public class ChessGame {
         
         Player player1 = new Player(ChessPieceColour.WHITE,"Jamar");
         Player player2 = new Player(ChessPieceColour.BLACK,"Richard");
+        moveHistory += player1.getPlayerName() + " is playing the " + player1.getColourPiece() + " chess pieces \n";
+        moveHistory += player2.getPlayerName() + " is playing the " + player2.getColourPiece() + " chess pieces \n\n";
         boolean isWhiteTurn = true;
         
         System.out.println("Enter 'quit' to leave anytime.");
@@ -89,13 +93,28 @@ public class ChessGame {
             }
                 
             printBoard(board, currentPlayer);
-
+            
+            if(board.isStalemate(currentPlayer.getColourPiece()))
+            {
+                System.out.println("Board is a stalement. ");
+                break;
+            }
+            
+            if(board.isCheckmate(currentPlayer.getColourPiece()))
+            {
+                System.out.println(currentPlayer.getPlayerName() + " has been check mated.");
+                break;
+            }
+            
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g 'c2 c4'): ");
             String chessMove = scanner.nextLine();
             
             if(chessMove.equalsIgnoreCase("save"))
             {
-                ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board);
+                if(ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board))
+                {
+                    ChessBoardFileIO.saveMovesToText(moveHistory);
+                }
             }
             
             else if(chessMove.equalsIgnoreCase("load"))
@@ -122,6 +141,7 @@ public class ChessGame {
                     System.out.println("You have entered a incorrect format! Please try again.");
                     continue; 
                 }
+                
                 try
                 {
                     int fromCol = positions[0].charAt(0) - 'a';
@@ -142,6 +162,7 @@ public class ChessGame {
                     
                     if(board.movePiece(fromCol, fromRow, toCol, toRow))
                     {
+                        moveHistory += currentPlayer.getPlayerName() + " has moved " + chessMove + "\n";
                         System.out.println(currentPlayer.getPlayerName() +" moved "+ chessMove +"\n");
                         isWhiteTurn = !isWhiteTurn;
                     }
@@ -156,7 +177,7 @@ public class ChessGame {
                 }
                 catch(ArrayIndexOutOfBoundsException e)
                 {
-                    System.out.println("You have entered a incorrect format: move must be between a - h, 1-8. e.g 'c2 c4'");
+                    System.out.println("You have entered a incorrect format: move must be between a - h, 1-8. e.g 'c2 c4'.");
                 }
             }
         }
