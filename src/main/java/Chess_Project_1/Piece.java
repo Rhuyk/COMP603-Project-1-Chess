@@ -13,106 +13,117 @@ public class Piece {
     private int row;
     private int column;
     private ChessPieceColour colour;
-    private boolean firstMove;
-    private boolean wasFirstMove;
+    private boolean hasNotMoved;
+    private boolean hasMovedOnce;
     private int lastmoveNum;
-    private boolean isUnderPinned;
+    private boolean isUnderPin;
     private boolean[][] pinPath = new boolean[8][8];
     
+    //a piece constructor
     public Piece(ChessPieceColour colour, int col, int row)
     {
         this.colour = colour;
         this.column = col;
         this.row = row;
-        this.firstMove = true;
-        this.wasFirstMove = false;
+        this.hasNotMoved = true;
+        this.hasMovedOnce = false;
         this.lastmoveNum = 0;
     }
     
+    //return piece's column
     public int getColumn()
     {
         return this.column;
     }
     
+    //return piece's row
     public int getRow()
     {
         return this.row;
     }
     
+    //set piece's column and row
     public void setColAndRow(int col, int row)
     {
         this.column = col;
         this.row = row;
     }
     
+    //return the colour of the piece
     public ChessPieceColour getColour()
     {
         return colour;
     }
     
+    //return the piece's symbol
     public String getSymbol()
     {
         return "?";
     }
     
+    //return the last move number of the piece
     public int getLastMoveNum()
     {
         return this.lastmoveNum;
     }
     
+    //set the move number to the piece
     public void setLastMoveNum(int num)
     {
         this.lastmoveNum = num;
     }
     
-    public void setFirstMove()
+    //set move has being done
+    public void setMove()
     {
-        if(firstMove)
+        if(hasNotMoved)
         {
-            this.wasFirstMove = true;
+            this.hasMovedOnce = true;
         }
         else
         {
-            this.wasFirstMove = false;
+            this.hasMovedOnce = false;
         }
-        this.firstMove = false;
+        this.hasNotMoved = false;
     }
     
-    public boolean isFirstMove()
+    //return true if the piece has not moved yet
+    public boolean hasNotMoved()
     {
-        return this.firstMove;
+        return this.hasNotMoved;
     }
     
-    public boolean isWasFirstMove()
+    //return true if the piece only moved once
+    public boolean hasMovedOnce()
     {
-        return this.wasFirstMove;
+        return this.hasMovedOnce;
     }
     
+    //return the path of pin area on the board
     public boolean[][] getPinPath()
     {
         return this.pinPath;
     }
     
+    //set the pin path to the piece
     public void setPinPath(boolean[][] pinPath)
     {
         this.pinPath = pinPath;
     }
     
-    public void checkPin()
+    //set this piece as under pin
+    public void setUnderPin(boolean is)
     {
-
+        this.isUnderPin = is;
     }
     
-    public void setIsUnderPinned(boolean is)
+    //return true is the piece is under pin, else false
+    public boolean isUnderPin()
     {
-        this.isUnderPinned = is;
+        return this.isUnderPin;
     }
     
-    public boolean isUnderPinned()
-    {
-        return this.isUnderPinned;
-    }
-    
+    //return the available moves of the piece
     public boolean[][] getAvailableMoves()
     {
         boolean[][] availableMoves = new boolean[8][8];
@@ -126,6 +137,7 @@ public class Piece {
         return availableMoves;
     }
     
+    //return the target area of the piece
     public boolean[][] getTargetArea()
     {
         boolean[][] targetArea = new boolean[8][8];
@@ -139,6 +151,7 @@ public class Piece {
         return targetArea;
     }
     
+    //return true is the piece is white
     public boolean isWhite()
     {
         return getColour() == ChessPieceColour.WHITE;

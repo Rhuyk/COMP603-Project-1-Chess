@@ -10,11 +10,13 @@ package Chess_Project_1;
  */
 public class Knight extends Piece {
     
+    //knight piece constructor
     public Knight(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }
     
+    //return white knight or black knight symbol
     @Override
     public String getSymbol()
     {
@@ -28,6 +30,8 @@ public class Knight extends Piece {
         }
     }
     
+    //return knight's available moves (L-patterned move)
+    //move can be unavailable due to the board boundary, the same colour pieces, or under pin.
     @Override
     public boolean[][] getAvailableMoves()
     {
@@ -180,7 +184,8 @@ public class Knight extends Piece {
             }
         }
         
-        if(super.isUnderPinned())
+        //if knight is under pin, then there is no available move for knight
+        if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
             for(boolean[] i : newAvailableMoves)
@@ -197,6 +202,8 @@ public class Knight extends Piece {
         return availableMoves;
     }
     
+    //return knight's targeting squares (L-patterned)
+    //if knight check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
     @Override
     public boolean[][] getTargetArea()
     {
@@ -221,6 +228,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -245,6 +253,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -269,6 +278,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -293,6 +303,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -317,6 +328,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -341,6 +353,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -365,6 +378,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -389,6 +403,7 @@ public class Knight extends Piece {
             
             if(pieces.getPiece(col, row) != null)
             {
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];

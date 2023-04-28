@@ -10,12 +10,14 @@ package Chess_Project_1;
  */
 public class King extends Piece {
     
+    //king piece constructor
     public King(ChessPieceColour colour, int col, int row)
     {
         super(colour, col, row);
     }
     
-     @Override
+    //return white king or black king symbol
+    @Override
     public String getSymbol()
     {
         if (getColour() == ChessPieceColour.WHITE) 
@@ -28,6 +30,8 @@ public class King extends Piece {
         }
     }
     
+    //return king's available moves (the 8 squares around the king)
+    //move can be unavailable due to the board boundary and the same colour pieces
     @Override
     public boolean[][] getAvailableMoves()
     {
@@ -179,6 +183,7 @@ public class King extends Piece {
         return availableMoves;
     }
     
+    //return king's targeting squares (the 8 squares around the king)
     @Override
     public boolean[][] getTargetArea()
     {

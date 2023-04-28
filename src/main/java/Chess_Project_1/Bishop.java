@@ -10,11 +10,13 @@ package Chess_Project_1;
  */
 public class Bishop extends Piece{
     
+    //bishop piece constructor
     public Bishop(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }
     
+    //return white bishop or black bishop symbol
     @Override
     public String getSymbol()
     {
@@ -28,6 +30,8 @@ public class Bishop extends Piece{
         }
     }
     
+    //return bishop's available moves (diagonally)
+    //move can be unavailable due to the board boundary, the same colour pieces, or under pin.
     @Override
     public boolean[][] getAvailableMoves()
     {
@@ -124,7 +128,8 @@ public class Bishop extends Piece{
             }
         }
         
-        if(super.isUnderPinned())
+        //if bishop is under pin, then return the available moves within the pin path
+        if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
             for(boolean[] i : newAvailableMoves)
@@ -152,6 +157,9 @@ public class Bishop extends Piece{
         return availableMoves;
     }
     
+    //return bishop's targeting squares (diagonally)
+    //if bishop pin the opponemt king, send the pin path to the piece that is under the pin and set its isUnderPin to true.
+    //if bishop check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
     @Override
     public boolean[][] getTargetArea()
     {
@@ -178,6 +186,7 @@ public class Bishop extends Piece{
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -198,6 +207,7 @@ public class Bishop extends Piece{
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -214,7 +224,7 @@ public class Bishop extends Piece{
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -256,6 +266,7 @@ public class Bishop extends Piece{
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -276,6 +287,7 @@ public class Bishop extends Piece{
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -292,7 +304,7 @@ public class Bishop extends Piece{
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -334,6 +346,7 @@ public class Bishop extends Piece{
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -354,6 +367,7 @@ public class Bishop extends Piece{
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -370,7 +384,7 @@ public class Bishop extends Piece{
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -412,6 +426,7 @@ public class Bishop extends Piece{
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -432,6 +447,7 @@ public class Bishop extends Piece{
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -448,7 +464,7 @@ public class Bishop extends Piece{
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
 
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)

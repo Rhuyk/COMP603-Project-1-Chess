@@ -10,11 +10,13 @@ package Chess_Project_1;
  */
 public class Rook extends Piece {
     
+    //rook piece constructor
     public Rook(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }
     
+    //return white rook or black rook symbol
     @Override
     public String getSymbol()
     {
@@ -28,6 +30,8 @@ public class Rook extends Piece {
         }
     }
     
+    //return rook's available moves (horizontally and vertically)
+    //move can be unavailable due to the board boundary, the same colour pieces, or under pin.
     @Override
     public boolean[][] getAvailableMoves()
     {
@@ -44,6 +48,7 @@ public class Rook extends Piece {
             }
         }
         
+        //horizontal moves
         col = super.getColumn() +1;
         while(col <= 7)
         {
@@ -62,6 +67,7 @@ public class Rook extends Piece {
             }
         }
         
+        //horizontal moves
         col = super.getColumn() -1;
         while(col >= 0)
         {
@@ -80,6 +86,7 @@ public class Rook extends Piece {
             }
         }
         
+        //vertical moves
         row = super.getRow() +1;
         while(row <= 7)
         {
@@ -98,6 +105,7 @@ public class Rook extends Piece {
             }
         }
         
+        //vertical moves
         row = super.getRow() -1;
         while(row >= 0)
         {
@@ -116,7 +124,8 @@ public class Rook extends Piece {
             }
         }
         
-        if(super.isUnderPinned())
+        //if rook is under pin, then return the available moves within the pin path
+        if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
             for(boolean[] i : newAvailableMoves)
@@ -144,6 +153,9 @@ public class Rook extends Piece {
         return availableMoves;
     }
     
+    //return rook's targeting squares (horizontally and vertically)
+    //if rook pin the opponemt king, send the pin path to the piece that is under the pin and set its isUnderPin to true.
+    //if rook check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
     @Override
     public boolean[][] getTargetArea()
     {
@@ -162,6 +174,7 @@ public class Rook extends Piece {
             }
         }
         
+        //horizontal target squares
         col = super.getColumn() +1;
         row = super.getRow();
         while(col <= 7)
@@ -170,6 +183,7 @@ public class Rook extends Piece {
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -189,6 +203,7 @@ public class Rook extends Piece {
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -204,7 +219,7 @@ public class Rook extends Piece {
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -236,6 +251,7 @@ public class Rook extends Piece {
             col++;
         }
         
+        //horizontal target squares
         col = super.getColumn() -1;
         row = super.getRow();
         while(col >= 0)
@@ -244,6 +260,7 @@ public class Rook extends Piece {
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -263,6 +280,7 @@ public class Rook extends Piece {
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -278,7 +296,7 @@ public class Rook extends Piece {
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -310,6 +328,7 @@ public class Rook extends Piece {
             col--;
         }
         
+        //vertical target squares
         col = super.getColumn();
         row = super.getRow() +1;
         while(row <= 7)
@@ -318,6 +337,7 @@ public class Rook extends Piece {
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -337,6 +357,7 @@ public class Rook extends Piece {
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -352,7 +373,7 @@ public class Rook extends Piece {
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)
@@ -384,6 +405,7 @@ public class Rook extends Piece {
             row++;
         }
         
+        //vertical target squares
         col = super.getColumn();
         row = super.getRow() -1;
         while(row >= 0)
@@ -392,6 +414,7 @@ public class Rook extends Piece {
             {
                 targetArea[col][row] = true;
                 
+                //if check king
                 if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
                     boolean[][] checkPath = new boolean[8][8];
@@ -411,6 +434,7 @@ public class Rook extends Piece {
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
+                //if pin king
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     pinnedCol = col;
@@ -426,7 +450,7 @@ public class Rook extends Piece {
                         else if(pieces.getPiece(col, row).getColour() != super.getColour() 
                                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                         {
-                            pieces.getPiece(pinnedCol, pinnedRow).setIsUnderPinned(true);
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
                             
                             boolean[][] pinPath = new boolean[8][8];
                             for(boolean[] i : pinPath)

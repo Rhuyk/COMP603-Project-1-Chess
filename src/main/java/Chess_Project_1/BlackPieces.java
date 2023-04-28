@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class BlackPieces {
 
+    //black pieces list
     private static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
     private Piece king = new King(ChessPieceColour.BLACK, 4, 7);
@@ -35,6 +36,7 @@ public class BlackPieces {
     private Piece pawn7 = new Pawn(ChessPieceColour.BLACK, 6, 6);
     private Piece pawn8 = new Pawn(ChessPieceColour.BLACK, 7, 6);
     
+    //black pieces list constructor
     public BlackPieces()
     {
         blackPieces.clear();
@@ -56,11 +58,13 @@ public class BlackPieces {
         blackPieces.add(pawn8);
     }
     
+    //return a list of black pieces
     public ArrayList<Piece> getAllPieces()
     {
         return this.blackPieces;
     }
     
+    //return a piece that is located at the selected square from the list
     public Piece getPiece(int col, int row)
     {
         for(Piece i : blackPieces)
@@ -73,6 +77,7 @@ public class BlackPieces {
         return null;
     }
     
+    //return the king piece
     public Piece getKing()
     {
         for(Piece i : blackPieces)
@@ -85,16 +90,19 @@ public class BlackPieces {
         return null;
     }
     
+    //add a piece into the list
     public void addPiece(Piece piece)
     {
         blackPieces.add(piece);
     }
     
+    //remove all pieces from the list
     public void clearPieces()
     {
         blackPieces.clear();
     }
     
+    //remove a piece that is located at a square from the list
     public void removePiece(int col, int row)
     {
         for(Piece i : blackPieces)
@@ -107,6 +115,7 @@ public class BlackPieces {
         }
     }
     
+    //replace a piece from the list that is located at a square with another piece
     public void replacePiece(Piece replacement, int col, int row)
     {
         for(Piece i : blackPieces)
@@ -120,6 +129,7 @@ public class BlackPieces {
         }
     }
     
+    //return the target area on the board from all the black pieces
     public boolean[][] getTargetAreas()
     {
         boolean[][] allTargetArea = new boolean[8][8];
@@ -148,6 +158,7 @@ public class BlackPieces {
         return allTargetArea;
     }
     
+    //return a piece available moves
     public boolean[][] getAvailableMoves(Piece piece)
     {
         return piece.getAvailableMoves();

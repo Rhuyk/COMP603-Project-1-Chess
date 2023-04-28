@@ -10,11 +10,13 @@ package Chess_Project_1;
  */
 public class Pawn extends Piece {
     
+    //pawn piece constructor
     public Pawn(ChessPieceColour colour,int col, int row)
     {
         super(colour, col, row);
     }
     
+    //return white pawn or black pawn symbol
     @Override
     public String getSymbol()
     {
@@ -28,6 +30,8 @@ public class Pawn extends Piece {
         }
     }
     
+    //return pawn's available moves (one square forward, early two squares advance, or one square diagonally forward for capturing)
+    //move can be unavailable due to occupied square by any piece infront, or under pin.
     @Override
     public boolean[][] getAvailableMoves()
     {
@@ -44,8 +48,10 @@ public class Pawn extends Piece {
             }
         }
         
+        //if pawn is white, move row positively
         if(super.getColour() == ChessPieceColour.WHITE)
         {
+            //one square forward
             row = super.getRow() + 1;
             if(row <= 7)
             {
@@ -53,7 +59,8 @@ public class Pawn extends Piece {
                 {
                     availableMoves[super.getColumn()][row] = true;
                     
-                    if(super.isFirstMove())
+                    //two squares advance
+                    if(super.hasNotMoved())
                     {
                         if(pieces.getPiece(super.getColumn(), row+1) == null)
                         {
@@ -63,6 +70,7 @@ public class Pawn extends Piece {
                 }
             }
 
+            //diagonal capture square
             col = super.getColumn() + 1;
             row = super.getRow() + 1;
             if(col <= 7 && row <= 7)
@@ -76,6 +84,7 @@ public class Pawn extends Piece {
                 }
             }
             
+            //diagonal capture square
             col = super.getColumn() - 1;
             row = super.getRow() + 1;
             if(col >= 0 && row <= 7)
@@ -90,8 +99,10 @@ public class Pawn extends Piece {
             }
         }
         
+        //if pawn is black, move row negatively
         if(super.getColour() == ChessPieceColour.BLACK)
         {
+            //one square forward
             row = super.getRow() - 1;
             if(row >= 0)
             {
@@ -99,7 +110,8 @@ public class Pawn extends Piece {
                 {
                     availableMoves[super.getColumn()][row] = true;
                     
-                    if(super.isFirstMove())
+                    //two squares advance
+                    if(super.hasNotMoved())
                     {
                         if(pieces.getPiece(super.getColumn(), row-1) == null)
                         {
@@ -109,7 +121,7 @@ public class Pawn extends Piece {
                 }
             }
 
-            
+            //diagonal capture square
             col = super.getColumn() + 1;
             row = super.getRow() - 1;
             if(col <= 7 && row >= 0)
@@ -123,6 +135,7 @@ public class Pawn extends Piece {
                 }
             }
             
+            //diagonal capture square
             col = super.getColumn() - 1;
             row = super.getRow() - 1;
             if(col >= 0 && row >= 0)
@@ -137,7 +150,8 @@ public class Pawn extends Piece {
             }
         }
         
-        if(super.isUnderPinned())
+        //if pawn is under pin, then return the available moves within the pin path
+        if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
             for(boolean[] i : newAvailableMoves)
@@ -165,6 +179,8 @@ public class Pawn extends Piece {
         return availableMoves;
     }
     
+    //return pawn's targeting squares (one square diagonally infront)
+    //if pawn check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
     @Override
     public boolean[][] getTargetArea()
     {
@@ -181,6 +197,7 @@ public class Pawn extends Piece {
             }
         }
         
+        //if pawn is white, facing row positively
         if(super.getColour() == ChessPieceColour.WHITE)
         {
             col = super.getColumn() + 1;
@@ -191,6 +208,7 @@ public class Pawn extends Piece {
                 
                 if(pieces.getPiece(col, row) != null)
                 {
+                    //if check king
                     if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                     {
                         boolean[][] checkPath = new boolean[8][8];
@@ -215,6 +233,7 @@ public class Pawn extends Piece {
                 
                 if(pieces.getPiece(col, row) != null)
                 {
+                    //if check king
                     if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                     {
                         boolean[][] checkPath = new boolean[8][8];
@@ -232,6 +251,7 @@ public class Pawn extends Piece {
             }
         }
         
+        //if pawn is black, facing row negatively
         if(super.getColour() == ChessPieceColour.BLACK)
         {
             col = super.getColumn() + 1;
@@ -242,6 +262,7 @@ public class Pawn extends Piece {
                 
                 if(pieces.getPiece(col, row) != null)
                 {
+                    //if check king
                     if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                     {
                         boolean[][] checkPath = new boolean[8][8];
@@ -266,6 +287,7 @@ public class Pawn extends Piece {
                 
                 if(pieces.getPiece(col, row) != null)
                 {
+                    //if check king
                     if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
                     {
                         boolean[][] checkPath = new boolean[8][8];
