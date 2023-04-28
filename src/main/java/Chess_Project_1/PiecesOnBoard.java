@@ -218,7 +218,7 @@ public class PiecesOnBoard {
     
     public boolean isDrawing()
     {
-        return (isDeadPosition() || isStalemate() || isThreefoldRepetition() || isFiftyMoveRule());
+        return false;
     }
     
     public void resetBoard()
@@ -241,13 +241,13 @@ public class PiecesOnBoard {
         }
     }
     
-    public boolean isWhiteCheckMate()
+    public boolean isCheckmate(ChessPieceColour colour)
     {
         refreshPiecesStatus();
-        boolean whiteCheckmate = false;
-        if(whiteIsInCheck)
+        boolean isCheckmate = false;
+        if(whiteIsInCheck && colour == ChessPieceColour.WHITE)
         {
-            whiteCheckmate = true;
+            isCheckmate = true;
             for(Piece i : whitepieces.getAllPieces())
             {
                 for(int col = 0; col < 8; col++)
@@ -256,7 +256,7 @@ public class PiecesOnBoard {
                     {
                         if(i.getAvailableMoves()[col][row] && checkPath[col][row])
                         {
-                            whiteCheckmate = false;
+                            isCheckmate = false;
                         }
                     }
                 }
@@ -268,21 +268,14 @@ public class PiecesOnBoard {
                     if(!blackpieces.getTargetAreas()[col][row] 
                             && whitepieces.getKing().getAvailableMoves()[col][row])
                     {
-                        whiteCheckmate = false;
+                        isCheckmate = false;
                     }
                 }
             }
         }
-        return whiteCheckmate;
-    }
-    
-    public boolean isBlackCheckMate()
-    {
-        refreshPiecesStatus();
-        boolean blackCheckmate = false;
-        if(blackIsInCheck)
+        else if(blackIsInCheck && colour == ChessPieceColour.BLACK)
         {
-            blackCheckmate = true;
+            isCheckmate = true;
             for(Piece i : blackpieces.getAllPieces())
             {
                 for(int col = 0; col < 8; col++)
@@ -291,7 +284,7 @@ public class PiecesOnBoard {
                     {
                         if(i.getAvailableMoves()[col][row] && checkPath[col][row])
                         {
-                            blackCheckmate = false;
+                            isCheckmate = false;
                         }
                     }
                 }
@@ -303,12 +296,53 @@ public class PiecesOnBoard {
                     if(!whitepieces.getTargetAreas()[col][row] 
                             && blackpieces.getKing().getAvailableMoves()[col][row])
                     {
-                        blackCheckmate = false;
+                        isCheckmate = false;
                     }
                 }
             }
         }
-        return blackCheckmate;
+        return isCheckmate;
+    }
+    
+    public boolean isStalemate(ChessPieceColour colour)
+    {
+        refreshPiecesStatus();
+        boolean isStalemate = false;
+        if(!whiteIsInCheck && colour == ChessPieceColour.WHITE)
+        {
+            isStalemate = true;
+            for(Piece i : whitepieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row])
+                        {
+                            isStalemate = false;
+                        }
+                    }
+                }
+            }
+        }
+        else if(!blackIsInCheck && colour == ChessPieceColour.BLACK)
+        {
+            isStalemate = true;
+            for(Piece i : blackpieces.getAllPieces())
+            {
+                for(int col = 0; col < 8; col++)
+                {
+                    for(int row = 0; row < 8; row++)
+                    {
+                        if(i.getAvailableMoves()[col][row])
+                        {
+                            isStalemate = false;
+                        }
+                    }
+                }
+            }
+        }
+        return isStalemate;
     }
     
     private boolean isCastling(Piece king, int toCol)
@@ -550,13 +584,9 @@ public class PiecesOnBoard {
         blackpieces.getTargetAreas();
     }
     
-    private boolean isStalemate()
-    {
-        return false;
-    }
-    
     private boolean isDeadPosition()
     {
+        
         return false;
     }
     
