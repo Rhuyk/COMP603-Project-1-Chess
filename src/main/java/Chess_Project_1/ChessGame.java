@@ -74,15 +74,73 @@ public class ChessGame {
         PiecesOnBoard board = new PiecesOnBoard();
         Scanner scanner = new Scanner(System.in);
         
-        Player player1 = new Player(ChessPieceColour.WHITE,"Jamar");
-        Player player2 = new Player(ChessPieceColour.BLACK,"Richard");
+        Player player1 = new Player(ChessPieceColour.WHITE,"Default1");
+        Player player2 = new Player(ChessPieceColour.BLACK,"Default2");
+        boolean isWhiteTurn = true;
+        
+        System.out.println("Welcome to our chess game! ");
+        System.out.println("Created by Feng-Min Hu and Prom Jack Sirisukha for COMP603");
+        
+        while(true)
+        {
+            System.out.print("\nPlayer 1, Please enter your name: ");
+            String player1Name = scanner.nextLine();
+            
+            if(player1Name.isBlank())
+            {
+                System.out.println("Invalid input! Please try again, username cannot be empty");
+                continue;
+            }
+                
+            System.out.print("\n"+player1Name + ", What colour would you like to play? (white or black): ");
+            String piece1Colour = scanner.nextLine();
+            
+            if(piece1Colour.equalsIgnoreCase("black"))
+            {
+                player1 = new Player(ChessPieceColour.BLACK,player1Name);
+            }
+            else if(piece1Colour.equalsIgnoreCase("white"))
+            {
+                player1 = new Player(ChessPieceColour.WHITE,player1Name);
+            }
+            else
+            {
+                
+                System.out.println("Invalid input! Colour has to be either black or white");
+                continue;
+            }
+            
+            System.out.print("\nPlayer 2, Please enter your name: ");
+            String player2Name = scanner.nextLine();
+            if(player2Name.isBlank())
+            {
+                System.out.println("Invalid input! Please try again, username cannot be empty.");
+                continue;
+            }
+            System.out.println();
+            
+            if(player1.getColourPiece() != ChessPieceColour.BLACK)
+            {
+                player2 = new Player(ChessPieceColour.BLACK,player2Name);
+            }
+            else if(player1.getColourPiece() != ChessPieceColour.WHITE)
+            {
+                player2 = new Player(ChessPieceColour.WHITE,player2Name);
+            }
+            
+            break;
+        }
+        
         moveHistory += player1.getPlayerName() + " is playing the " + player1.getColourPiece() + " chess pieces \n";
         moveHistory += player2.getPlayerName() + " is playing the " + player2.getColourPiece() + " chess pieces \n\n";
-        boolean isWhiteTurn = true;
         
         System.out.println("Enter 'quit' to leave anytime.");
         System.out.println("Enter 'save' to save your chess game.");
         System.out.println("Enter 'load' to load your saved game data.");
+        System.out.println("Enter 'resign' to resign the game.");
+        System.out.println("Enter 'draw' to ask for a draw.");
+        
+        System.out.println("");
         
         while(true)
         {
@@ -96,13 +154,27 @@ public class ChessGame {
             
             if(board.isStalemate(currentPlayer.getColourPiece()))
             {
-                System.out.println("Board is a stalement. ");
+                System.out.println("Board is a stalement.");
                 break;
             }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
             {
                 System.out.println(currentPlayer.getPlayerName() + " has been check mated.");
+                System.out.println("This game has offically ended.");
+                
+                isWhiteTurn = !isWhiteTurn;
+                
+                if(!isWhiteTurn)
+                {
+                    currentPlayer = player2;
+                }
+                else
+                {
+                    currentPlayer = player1;
+                }
+                
+                System.out.println(currentPlayer.getPlayerName() + " is the winner.");
                 break;
             }
             
@@ -117,6 +189,50 @@ public class ChessGame {
                 }
             }
             
+            else if(chessMove.equalsIgnoreCase("resign"))
+            {
+                System.out.println(currentPlayer.getPlayerName() + " has resigned.");
+                break;
+            }
+            
+            else if(chessMove.equalsIgnoreCase("draw"))
+            {
+                System.out.println(currentPlayer.getPlayerName() + " has suggested a draw.");
+                
+                isWhiteTurn = !isWhiteTurn;
+                
+                if(!isWhiteTurn)
+                {
+                    currentPlayer = player2;
+                }
+                else
+                {
+                    currentPlayer = player1;
+                }
+                
+                
+                System.out.print(currentPlayer.getPlayerName() + " do you accept? (Y/N): ");
+                String drawChoice = scanner.nextLine();
+                
+                if(drawChoice.equalsIgnoreCase("Y"))
+                {
+                    System.out.println(currentPlayer.getPlayerName() + " has accepted a draw.");
+                    System.out.println("This game has offically ended as a draw.");
+                    break;
+                }
+                else if(drawChoice.equalsIgnoreCase("N"))
+                {
+                    System.out.println(currentPlayer.getPlayerName() + " has rejected a draw.");
+                    System.out.println("This game will continue.");
+                }
+                else
+                {
+                    System.out.println("Invalid input.");
+                    System.out.println("This game will continue.");
+                }
+                isWhiteTurn = !isWhiteTurn;
+            }
+                    
             else if(chessMove.equalsIgnoreCase("load"))
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
@@ -127,11 +243,13 @@ public class ChessGame {
             {
                 break;
             }
+            
             else if(chessMove.equalsIgnoreCase("reset"))
             {
                 board.resetBoard();
                 isWhiteTurn = true;
             }
+            
             else
             {
                 String[] positions = chessMove.split(" ");
@@ -181,5 +299,6 @@ public class ChessGame {
                 }
             }
         }
+        System.out.println("Thank you for playing our chess game!");
     }
 }
