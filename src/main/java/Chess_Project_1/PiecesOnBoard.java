@@ -191,11 +191,11 @@ public class PiecesOnBoard {
         this.checkPath = checkPath;
         if(colour == ChessPieceColour.WHITE)
         {
-            whiteIsInCheck = true;
+            this.whiteIsInCheck = true;
         }
         else if(colour == ChessPieceColour.BLACK)
         {
-            blackIsInCheck = true;
+            this.blackIsInCheck = true;
         }
     }
     
@@ -254,7 +254,7 @@ public class PiecesOnBoard {
                 {
                     for(int row = 0; row < 8; row++)
                     {
-                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row] && !i.getSymbol().equals("wK"))
                         {
                             isCheckmate = false;
                         }
@@ -282,7 +282,7 @@ public class PiecesOnBoard {
                 {
                     for(int row = 0; row < 8; row++)
                     {
-                        if(i.getAvailableMoves()[col][row] && checkPath[col][row])
+                        if(i.getAvailableMoves()[col][row] && checkPath[col][row] && !i.getSymbol().equals("bK"))
                         {
                             isCheckmate = false;
                         }
@@ -317,10 +317,21 @@ public class PiecesOnBoard {
                 {
                     for(int row = 0; row < 8; row++)
                     {
-                        if(i.getAvailableMoves()[col][row])
+                        if(i.getAvailableMoves()[col][row] && !i.getSymbol().equals("wK"))
                         {
                             isStalemate = false;
                         }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!blackpieces.getTargetAreas()[col][row] 
+                            && whitepieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        isStalemate = false;
                     }
                 }
             }
@@ -334,10 +345,21 @@ public class PiecesOnBoard {
                 {
                     for(int row = 0; row < 8; row++)
                     {
-                        if(i.getAvailableMoves()[col][row])
+                        if(i.getAvailableMoves()[col][row] && !i.getSymbol().equals("bK"))
                         {
                             isStalemate = false;
                         }
+                    }
+                }
+            }
+            for(int col = 0; col < 8; col++)
+            {
+                for(int row = 0; row < 8; row++)
+                {
+                    if(!whitepieces.getTargetAreas()[col][row] 
+                            && blackpieces.getKing().getAvailableMoves()[col][row])
+                    {
+                        isStalemate = false;
                     }
                 }
             }

@@ -71,7 +71,7 @@ public class Knight extends Piece {
             }
             else
             {
-                if(pieces.getPiece(col, super.getRow()).getColour() != super.getColour())
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     availableMoves[col][row] = true;
                 }
