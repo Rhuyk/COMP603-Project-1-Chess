@@ -94,11 +94,11 @@ public class ChessGame {
                 
             printBoard(board, currentPlayer);
             
-            if(board.isStalemate(currentPlayer.getColourPiece()))
-            {
-                System.out.println("Board is a stalement. ");
-                break;
-            }
+//            if(board.isStalemate(currentPlayer.getColourPiece()))
+//            {
+//                System.out.println("Board is a stalement. ");
+//                break;
+//            }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
             {

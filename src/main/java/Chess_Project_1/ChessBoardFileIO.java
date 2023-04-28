@@ -10,16 +10,18 @@ package Chess_Project_1;
  */
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class ChessBoardFileIO {
     
-    private static String createGameFile(String username)
+    private static String createGameText(String username)
     {
         String filename = username + "_chessData.txt";
         File file = new File(filename);
@@ -40,17 +42,17 @@ public class ChessBoardFileIO {
     
     public static boolean saveGameForUser(String username, PiecesOnBoard board)
     {
-        String filename = createGameFile(username);
+        String filename = createGameText(username);
         boolean overwrite;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) 
         {
             
-            boolean userFound = checkIfUserExists(username, reader);
+            boolean userFound = checkForUser(username, reader);
 
             if (userFound) 
             {
-                overwrite = getOverwriteChoice();
+                overwrite = getOverwriteOption();
                 if (!overwrite) 
                 {
                     System.out.println("Game not saved.");
@@ -64,11 +66,11 @@ public class ChessBoardFileIO {
             return false;
         }
 
-        saveUserDataToFile(username, board);
+        saveUserDataToText(username, board);
         return true;
     }
     
-    public static void saveUserDataToFile(String username, PiecesOnBoard board)
+    public static void saveUserDataToText(String username, PiecesOnBoard board)
     {
         
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(username + "_chessData.txt"))) 
@@ -99,9 +101,9 @@ public class ChessBoardFileIO {
     
     public static void saveMovesToText(String moves)
     {
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream("chessMoves.txt"))) 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("chessMoves.txt")))
         {
-            writer.println(moves);
+            writer.write(moves);
             System.out.println("Game moves successfully to file!");
             writer.close();
         }
@@ -171,7 +173,7 @@ public class ChessBoardFileIO {
         return board;
     }
 
-    private static boolean checkIfUserExists(String username, BufferedReader reader) throws IOException 
+    private static boolean checkForUser(String username, BufferedReader reader) throws IOException 
     {
         String line;
         
@@ -187,7 +189,7 @@ public class ChessBoardFileIO {
         return false;
     }
 
-    private static boolean getOverwriteChoice() 
+    private static boolean getOverwriteOption() 
     {
         System.out.print("Do you wish to overwrite (Y/N): ");
         Scanner scanner = new Scanner(System.in);
