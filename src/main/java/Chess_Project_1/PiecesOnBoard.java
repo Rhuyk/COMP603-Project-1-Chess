@@ -115,7 +115,7 @@ public class PiecesOnBoard {
                 }
                 else
                 {
-                    if(whitepieces.getAvailableMoves(selectedPiece)[toCol][toRow] && checkPath[toCol][toRow])
+                    if(blackpieces.getAvailableMoves(selectedPiece)[toCol][toRow] && checkPath[toCol][toRow])
                     {
                         moveCounter++;
                         blackpieces.getPiece(fromCol, fromRow).setLastMoveNum(moveCounter);
@@ -444,13 +444,11 @@ public class PiecesOnBoard {
             {
                 whitepieces.getPiece(0, 0).setFirstMove();
                 whitepieces.getPiece(0, 0).setColAndRow(3, 0);
-                refreshBoard();
             }
             else if(toCol == 6) //short castle
             {
                 whitepieces.getPiece(7, 0).setFirstMove();
                 whitepieces.getPiece(7, 0).setColAndRow(5, 0);
-                refreshBoard();
             }
         }
         else if(king.getColour() == ChessPieceColour.BLACK)
@@ -464,15 +462,14 @@ public class PiecesOnBoard {
             {
                 blackpieces.getPiece(0, 7).setFirstMove();
                 blackpieces.getPiece(0, 7).setColAndRow(3, 7);
-                refreshBoard();
             }
             else if(toCol == 6) //short castle
             {
                 blackpieces.getPiece(7, 7).setFirstMove();
                 blackpieces.getPiece(7, 7).setColAndRow(5, 7);
-                refreshBoard();
             }
         }
+        refreshBoard();
     }
     
     private boolean isEnPassant(Piece pawn, int toCol)
@@ -567,24 +564,25 @@ public class PiecesOnBoard {
             if(userInput.equalsIgnoreCase("queen"))
             {
                 promotion = new Queen(ChessPieceColour.BLACK, col, row);
-                whitepieces.replacePiece(promotion, col, row);
+                blackpieces.replacePiece(promotion, col, row);
             }
             else if(userInput.equalsIgnoreCase("bishop"))
             {
                 promotion = new Bishop(ChessPieceColour.BLACK, col, row);
-                whitepieces.replacePiece(promotion, col, row);
+                blackpieces.replacePiece(promotion, col, row);
             }
             else if(userInput.equalsIgnoreCase("Knight"))
             {
                 promotion = new Knight(ChessPieceColour.BLACK, col, row);
-                whitepieces.replacePiece(promotion, col, row);
+                blackpieces.replacePiece(promotion, col, row);
             }
             else if(userInput.equalsIgnoreCase("Rook"))
             {
                 promotion = new Rook(ChessPieceColour.BLACK, col, row);
-                whitepieces.replacePiece(promotion, col, row);
+                blackpieces.replacePiece(promotion, col, row);
             }
         }
+        refreshBoard();
     }
     
     private void refreshPiecesStatus()
@@ -606,19 +604,19 @@ public class PiecesOnBoard {
         blackpieces.getTargetAreas();
     }
     
-    private boolean isDeadPosition()
-    {
-        
-        return false;
-    }
-    
-    private boolean isThreefoldRepetition()
-    {
-        return false;
-    }
-    
-    private boolean isFiftyMoveRule()
-    {
-        return false;
-    }
+//    private boolean isDeadPosition()
+//    {
+//        
+//        return false;
+//    }
+//    
+//    private boolean isThreefoldRepetition()
+//    {
+//        return false;
+//    }
+//    
+//    private boolean isFiftyMoveRule()
+//    {
+//        return false;
+//    }
 }

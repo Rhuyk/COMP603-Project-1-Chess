@@ -190,7 +190,7 @@ public class Bishop extends Piece{
                     }
                     int pathCol = super.getColumn();
                     int pathRow = super.getRow();
-                    while(pathCol != col && pathRow != row)
+                    while(!(pathCol == col && pathRow == row))
                     {
                         checkPath[pathCol][pathRow] = true;
                         pathCol++;
@@ -226,7 +226,7 @@ public class Bishop extends Piece{
                             }
                             int pathCol = super.getColumn();
                             int pathRow = super.getRow();
-                            while(pathCol != col && pathRow != row)
+                            while(!(pathCol == col && pathRow == row))
                             {
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol++;
@@ -268,7 +268,7 @@ public class Bishop extends Piece{
                     }
                     int pathCol = super.getColumn();
                     int pathRow = super.getRow();
-                    while(pathCol != col && pathRow != row)
+                    while(!(pathCol == col && pathRow == row))
                     {
                         checkPath[pathCol][pathRow] = true;
                         pathCol++;
@@ -304,7 +304,7 @@ public class Bishop extends Piece{
                             }
                             int pathCol = super.getColumn();
                             int pathRow = super.getRow();
-                            while(pathCol != col && pathRow != row)
+                            while(!(pathCol == col && pathRow == row))
                             {
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol++;
@@ -346,7 +346,7 @@ public class Bishop extends Piece{
                     }
                     int pathCol = super.getColumn();
                     int pathRow = super.getRow();
-                    while(pathCol != col && pathRow != row)
+                    while(!(pathCol == col && pathRow == row))
                     {
                         checkPath[pathCol][pathRow] = true;
                         pathCol--;
@@ -382,7 +382,7 @@ public class Bishop extends Piece{
                             }
                             int pathCol = super.getColumn();
                             int pathRow = super.getRow();
-                            while(pathCol != col && pathRow != row)
+                            while(!(pathCol == col && pathRow == row))
                             {
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol--;
@@ -424,7 +424,7 @@ public class Bishop extends Piece{
                     }
                     int pathCol = super.getColumn();
                     int pathRow = super.getRow();
-                    while(pathCol != col && pathRow != row)
+                    while(!(pathCol == col && pathRow == row))
                     {
                         checkPath[pathCol][pathRow] = true;
                         pathCol--;
@@ -460,7 +460,7 @@ public class Bishop extends Piece{
                             }
                             int pathCol = super.getColumn();
                             int pathRow = super.getRow();
-                            while(pathCol != col && pathRow != row)
+                            while(!(pathCol == col && pathRow == row))
                             {
                                 pinPath[pathCol][pathRow] = true;
                                 pathCol--;

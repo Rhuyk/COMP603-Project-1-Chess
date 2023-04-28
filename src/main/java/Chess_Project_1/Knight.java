@@ -190,18 +190,7 @@ public class Knight extends Piece {
                     j = false;
                 }
             }
-            
-            for(col = 0; col < 8; col++)
-            {
-                for(row = 0; row < 8; row++)
-                {
-                    if(super.getPinPath()[col][row] && availableMoves[col][row])
-                    {
-                        newAvailableMoves[col][row] = true;
-                    }
-                }
-            }
-            
+
             return newAvailableMoves;
         }
         
