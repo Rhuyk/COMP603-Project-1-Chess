@@ -18,7 +18,6 @@ public class ChessGame {
     public static void main(String[] args) 
     {
         PiecesOnBoard board = new PiecesOnBoard();
-        
         Player player1 = new Player(ChessPieceColour.WHITE,"Default1");
         Player player2 = new Player(ChessPieceColour.BLACK,"Default2");
         
@@ -42,7 +41,7 @@ public class ChessGame {
         playChessGame(player1, player2, board);
         
         while(true)
-        {
+        {          
             System.out.println("Type in 'rematch' to play again.");
             System.out.println("Type in 'new' to start a new game.");
             System.out.println("Type in 'quit' to leave the game.");
@@ -95,7 +94,7 @@ public class ChessGame {
             if(board.isStalemate(currentPlayer.getColourPiece()))
             {
                 System.out.println("Board is a stalement.");
-                gameEnded = true;
+                break;
             }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
@@ -115,7 +114,7 @@ public class ChessGame {
                 }
                 
                 System.out.println(currentPlayer.getPlayerName() + " is the winner.");
-                gameEnded = true;
+                break;
             }
             
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g 'c2 c4'): ");
@@ -123,10 +122,12 @@ public class ChessGame {
             
             if(chessMove.equalsIgnoreCase("save"))
             {
+                //playerNames = player1.getPlayerName() + "-" + player2.getPlayerName();
+                //chessGamesMap.put(playerNames, board);
                 Player whiteTemp = player1;
                 Player blackTemp = player2;
- 
-                if(ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),whiteTemp.getPlayerName(),blackTemp.getPlayerName(),board))
+                
+                if(ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),whiteTemp,blackTemp,board))
                 {
                     ChessBoardFileIO.saveMovesToText(moveHistory);
                 }
@@ -328,5 +329,4 @@ public class ChessGame {
         System.out.println("   +----+----+----+----+----+----+----+----+");
         System.out.println(column);
     }
-    
 }

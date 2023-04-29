@@ -17,7 +17,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class ChessBoardFileIO {
     
@@ -40,15 +45,15 @@ public class ChessBoardFileIO {
         return filename;
     }
     
-    public static boolean saveGameForUser(String currentPlayer,String player1, String player2, PiecesOnBoard board)
+    public static boolean saveGameForUser(String currentPlayer,Player player1, Player player2, PiecesOnBoard board)
     {
         String filename = createGameText(currentPlayer);
         boolean overwrite;
+        HashMap<String,String> chessData = new HashMap();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) 
         {
-            
-            boolean userFound = checkForUser(player1, reader);
+            boolean userFound = checkForUser(player1.getPlayerName(), reader);
 
             if (userFound) 
             {
@@ -66,18 +71,18 @@ public class ChessBoardFileIO {
             return false;
         }
 
-        saveUserDataToText(currentPlayer,player1, player2, board);
+        saveUserDataToText(currentPlayer,player1, player2, board,chessData);
         return true;
     }
     
-    public static void saveUserDataToText(String currentPlayer,String player1, String player2, PiecesOnBoard board)
+    public static void saveUserDataToText(String currentPlayer,Player player1, Player player2, PiecesOnBoard board,HashMap<String, String> chessData)
     {
         
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(currentPlayer + "_chessData.txt"))) 
         {
-            writer.println(player1);
-            writer.println(player2);
-                
+            writer.println(player1.getPlayerName());
+            writer.println(player2.getPlayerName());
+            
             for (int row = 0; row < 8; row++) 
             {
                 for (int col = 0; col < 8; col++) 
@@ -86,10 +91,19 @@ public class ChessBoardFileIO {
                     if (piece != null)
                     {
                         String symbol = piece.getSymbol();
-                        writer.println(symbol + " " + col + " " + row);
+                        String position = String.valueOf(col) + " " +String.valueOf(row);
+                        chessData.put(position, symbol);
                     }
                 }
             }
+            for (Map.Entry<String, String> entry : chessData.entrySet()) 
+            {
+                String position = entry.getKey();
+                String symbol = entry.getValue();
+                writer.println(symbol + " " + position);
+            }
+            
+                    
             writer.println("###");
             System.out.println("Game saved successfully to file!");
             writer.close();
@@ -97,6 +111,10 @@ public class ChessBoardFileIO {
         catch (IOException e) 
         {
             System.out.println("Chess game can not be saved!");
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("Error saving player names!");
         }
     }
     
@@ -118,72 +136,69 @@ public class ChessBoardFileIO {
     {
         String filename = player1 + "_chessData.txt";
         PiecesOnBoard board = new PiecesOnBoard();
-        
-        try {
+        Set<String> uniquePiece = new HashSet<>();
+
+        try 
+        {
             BufferedReader reader;
             reader = new BufferedReader(new FileReader(filename));
             String line;
             StringBuilder gameDataBuilder = new StringBuilder();
 
-            boolean userFound = false;
             String line2 = reader.readLine();
-            if(player1.equals(line2))
+            if(player1.equals(line2)) 
             {
                 current.setColourPiece(ChessPieceColour.WHITE);
             }
             line2 = reader.readLine();
-            if(player1.equals(line2))
+            if(player1.equals(line2)) 
             {
                 current.setColourPiece(ChessPieceColour.BLACK);
             }
 
             while ((line = reader.readLine()) != null) 
             {
-                if(player1.equals(line))
-                {
-                    userFound = true;
-                }
-
                 if (line.equals("###")) 
                 {
                     board.clearBoard();
                     board.clearAllPieces();
-                    userFound = true;
                     String gameData = gameDataBuilder.toString();
-                    String[] lines = gameData.split("\n");
-                    
-                    for (String gameLine : lines) 
-                    {
-                        String[] parts = gameLine.split(" ");
-                        if (parts.length >= 3) 
-                        { 
-                            String symbol = parts[0];
-                            int col = Integer.parseInt(parts[1]);
-                            int row = Integer.parseInt(parts[2]);
+                    StringTokenizer tokenizer = new StringTokenizer(gameData, "\n");
 
-                        Piece piece = createPiece(symbol, col, row);
-                        board.addPiece(col, row, piece);
+                    while (tokenizer.hasMoreTokens()) {
+                        String gameLine = tokenizer.nextToken();
+                        StringTokenizer lineTokenizer = new StringTokenizer(gameLine, " ");
+                        if (lineTokenizer.countTokens() >= 3) {
+                            String symbol = lineTokenizer.nextToken();
+                            int col = Integer.parseInt(lineTokenizer.nextToken());
+                            int row = Integer.parseInt(lineTokenizer.nextToken());
+                            String location = col + "," + row;
+
+                            if (!uniquePiece.contains(location)) {
+                                Piece piece = createPiece(symbol, col, row);
+                                board.addPiece(col, row, piece);
+                                uniquePiece.add(location);
+                            }
                         }
                     }
+
                     board.refreshBoard();
                     gameDataBuilder = new StringBuilder();
-                    userFound = false;
+                    uniquePiece.clear();
                 } 
                 else 
                 {
                     gameDataBuilder.append(line).append("\n");
                 }
             }
+                System.out.println("Game file has been loaded!");
+            } catch (IOException e) {
+                System.out.println("Error: Game file could not be loaded!");
+            }
 
-            System.out.println("Game file has been loaded!");
-        } 
-        catch (IOException e) 
-        {
-            System.out.println("Error: Game file could not be loaded!");
-        }
-        
         return board;
     }
+
 
     private static boolean checkForUser(String player1, BufferedReader reader) throws IOException 
     {
