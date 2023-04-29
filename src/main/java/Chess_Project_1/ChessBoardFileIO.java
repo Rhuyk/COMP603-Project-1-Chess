@@ -21,9 +21,9 @@ import java.util.Scanner;
 
 public class ChessBoardFileIO {
     
-    private static String createGameText(String player1)
+    private static String createGameText(String currentPlayer)
     {
-        String filename = player1 + "_chessData.txt";
+        String filename = currentPlayer + "_chessData.txt";
         File file = new File(filename);
         try 
         {
@@ -40,9 +40,9 @@ public class ChessBoardFileIO {
         return filename;
     }
     
-    public static boolean saveGameForUser(String player1, String player2, PiecesOnBoard board)
+    public static boolean saveGameForUser(String currentPlayer,String player1, String player2, PiecesOnBoard board)
     {
-        String filename = createGameText(player1);
+        String filename = createGameText(currentPlayer);
         boolean overwrite;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) 
@@ -66,14 +66,14 @@ public class ChessBoardFileIO {
             return false;
         }
 
-        saveUserDataToText(player1, player2, board);
+        saveUserDataToText(currentPlayer,player1, player2, board);
         return true;
     }
     
-    public static void saveUserDataToText(String player1, String player2, PiecesOnBoard board)
+    public static void saveUserDataToText(String currentPlayer,String player1, String player2, PiecesOnBoard board)
     {
         
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(player1 + "_chessData.txt"))) 
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(currentPlayer + "_chessData.txt"))) 
         {
             writer.println(player1);
             writer.println(player2);

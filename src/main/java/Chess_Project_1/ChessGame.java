@@ -126,7 +126,7 @@ public class ChessGame {
                 Player whiteTemp = player1;
                 Player blackTemp = player2;
  
-                if(ChessBoardFileIO.saveGameForUser(whiteTemp.getPlayerName(),blackTemp.getPlayerName(),board))
+                if(ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),whiteTemp.getPlayerName(),blackTemp.getPlayerName(),board))
                 {
                     ChessBoardFileIO.saveMovesToText(moveHistory);
                 }
@@ -179,10 +179,7 @@ public class ChessGame {
             else if(chessMove.equalsIgnoreCase("load"))
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName(),currentPlayer);
-                if(board != null)
-                {
-                    
-                }
+                isWhiteTurn = currentPlayer.getColourPiece() != ChessPieceColour.BLACK;
                 System.out.println("Welcome back! " + currentPlayer.getPlayerName());
             }
             
