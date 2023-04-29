@@ -1,5 +1,12 @@
 pj is playing the WHITE chess pieces 
 jake is playing the BLACK chess pieces 
 
+<<<<<<< HEAD
 pj has moved a2 a4
 jake has moved a7 a5
+=======
+richard has moved e2 e4
+p has moved f7 f6
+richard has moved d1 h5
+p has moved g7 g6
+>>>>>>> origin/master

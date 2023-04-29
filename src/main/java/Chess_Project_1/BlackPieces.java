@@ -133,11 +133,11 @@ public class BlackPieces {
     public boolean[][] getTargetAreas()
     {
         boolean[][] allTargetArea = new boolean[8][8];
-        for(boolean[] i : allTargetArea)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                allTargetArea[i][j] = false;
             }
         }
         

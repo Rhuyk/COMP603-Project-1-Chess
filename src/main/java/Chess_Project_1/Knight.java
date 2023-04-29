@@ -9,6 +9,9 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Knight extends Piece {
+    private boolean[][] availableMoves = new boolean[8][8];
+    private boolean[][] targetArea = new boolean[8][8];
+    private PiecesOnBoard pieces;
     
     //knight piece constructor
     public Knight(ChessPieceColour colour,int col, int row)
@@ -35,164 +38,58 @@ public class Knight extends Piece {
     @Override
     public boolean[][] getAvailableMoves()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
-        int col;
-        int row;
+        pieces = new PiecesOnBoard();
+        int col, row;
         
-        boolean[][] availableMoves = new boolean[8][8];
-        for(boolean[] i : availableMoves)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                availableMoves[i][j] = false;
             }
         }
         
         col = super.getColumn() + 2;
         row = super.getRow() + 1;
-        if(col <= 7 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
                 
         col = super.getColumn() + 2;
         row = super.getRow() - 1;
-        if(col <= 7 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() + 1;
         row = super.getRow() + 2;
-        if(col <= 7 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() + 1;
         row = super.getRow() - 2;
-        if(col <= 7 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() - 1;
         row = super.getRow() + 2;
-        if(col >= 0 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() - 1;
         row = super.getRow() - 2;
-        if(col >= 0 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() - 2;
         row = super.getRow() + 2;
-        if(col >= 0 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() - 2;
         row = super.getRow() - 2;
-        if(col >= 0 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         //if knight is under pin, then there is no available move for knight
         if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
-            for(boolean[] i : newAvailableMoves)
+            for(int i = 0; i < 8; i++)
             {
-                for(boolean j : i)
+                for(int j = 0; j < 8; j++)
                 {
-                    j = false;
+                    newAvailableMoves[i][j] = false;
                 }
             }
 
@@ -207,219 +104,95 @@ public class Knight extends Piece {
     @Override
     public boolean[][] getTargetArea()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
-        int col;
-        int row;
+        pieces = new PiecesOnBoard();
+        int col, row;
         
-        boolean[][] targetArea = new boolean[8][8];
-        for(boolean[] i : targetArea)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                targetArea[i][j] = false;
             }
         }
         
         col = super.getColumn() + 2;
         row = super.getRow() + 1;
-        if(col <= 7 && row <= 7)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
                 
         col = super.getColumn() + 2;
         row = super.getRow() - 1;
-        if(col <= 7 && row >= 0)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() + 1;
         row = super.getRow() + 2;
-        if(col <= 7 && row <= 7)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() + 1;
         row = super.getRow() - 2;
-        if(col <= 7 && row >= 0)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() - 1;
         row = super.getRow() + 2;
-        if(col >= 0 && row <= 7)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() - 1;
         row = super.getRow() - 2;
-        if(col >= 0 && row >= 0)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() - 2;
         row = super.getRow() + 2;
-        if(col >= 0 && row <= 7)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() - 2;
         row = super.getRow() - 2;
-        if(col >= 0 && row >= 0)
-        {
-            targetArea[col][row] = true;
-            
-            if(pieces.getPiece(col, row) != null)
-            {
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    checkPath[super.getColumn()][super.getRow()] = true;
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-            }
-        }
+        setTargetArea(col, row);
         
         return targetArea;
+    }
+    
+    //set knight's available squares
+    private void setAvailableMoves(int col, int row)
+    {
+        if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+    }
+    
+    //set knight's targeting squares as targeted
+    private void setTargetArea(int col, int row)
+    {
+        if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            targetArea[col][row] = true;
+            
+            if(pieces.getPiece(col, row) != null)
+            {
+                //if knight check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
+                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(int i = 0; i < 8; i++)
+                    {
+                        for(int j = 0; j < 8; j++)
+                        {
+                            checkPath[i][j] = false;
+                        }
+                    }
+                    checkPath[super.getColumn()][super.getRow()] = true;
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
+                }
+            }
+        }
     }
 }

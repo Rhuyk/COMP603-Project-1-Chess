@@ -197,6 +197,7 @@ public class PiecesOnBoard {
     //return an area on the board of a piece checking a king (check path)
     public boolean[][] getCheckPath()
     {
+        refreshPiecesStatus();
         return this.checkPath;
     }
     
@@ -212,6 +213,18 @@ public class PiecesOnBoard {
         {
             this.blackIsInCheck = true;
         }
+    }
+    
+    //return true if white is in check, else false
+    public boolean whiteIsInCheck()
+    {
+        return whiteIsInCheck;
+    }
+    
+    //return true if black is in check, else false
+    public boolean blackIsInCheck()
+    {
+        return blackIsInCheck;
     }
     
     //clear all pieces from the board
@@ -661,20 +674,4 @@ public class PiecesOnBoard {
         whitepieces.getTargetAreas();
         blackpieces.getTargetAreas();
     }
-    
-//    private boolean isDeadPosition()
-//    {
-//        
-//        return false;
-//    }
-//    
-//    private boolean isThreefoldRepetition()
-//    {
-//        return false;
-//    }
-//    
-//    private boolean isFiftyMoveRule()
-//    {
-//        return false;
-//    }
 }

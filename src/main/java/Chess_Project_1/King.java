@@ -9,7 +9,9 @@ package Chess_Project_1;
  * @author rh200
  */
 public class King extends Piece {
-    
+    boolean[][] availableMoves = new boolean[8][8];
+    boolean[][] targetArea = new boolean[8][8];
+    PiecesOnBoard pieces;
     //king piece constructor
     public King(ChessPieceColour colour, int col, int row)
     {
@@ -31,153 +33,60 @@ public class King extends Piece {
     }
     
     //return king's available moves (the 8 squares around the king)
-    //move can be unavailable due to the board boundary and the same colour pieces
     @Override
     public boolean[][] getAvailableMoves()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
+        pieces = new PiecesOnBoard();
         int col;
         int row;
-        
-        boolean[][] availableMoves = new boolean[8][8];
-        for(boolean[] i : availableMoves)
+
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                availableMoves[i][j] = false;
             }
         }
         
         col = super.getColumn() +1;
-        if(col <= 7)
-        {
-            if(pieces.getPiece(col, super.getRow()) == null)
-            {
-                availableMoves[col][super.getRow()] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, super.getRow()).getColour() != super.getColour())
-                {
-                    availableMoves[col][super.getRow()] = true;
-                }
-            }
-        }
+        row = super.getRow();
+        setAvailableMoves(col, row);
                 
         col = super.getColumn() -1;
-        if(col >= 0)
-        {
-            if(pieces.getPiece(col, super.getRow()) == null)
-            {
-                availableMoves[col][super.getRow()] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, super.getRow()).getColour() != super.getColour())
-                {
-                    availableMoves[col][super.getRow()] = true;
-                }
-            }
-        }
+        row = super.getRow();
+        setAvailableMoves(col, row);
         
+        col = super.getColumn();
         row = super.getRow() +1;
-        if(row <= 7)
-        {
-            if(pieces.getPiece(super.getColumn(), row) == null)
-            {
-                availableMoves[super.getColumn()][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(super.getColumn(), row).getColour() != super.getColour())
-                {
-                    availableMoves[super.getColumn()][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
+        col = super.getColumn();
         row = super.getRow() -1;
-        if(row >= 0)
-        {
-            if(pieces.getPiece(super.getColumn(), row) == null)
-            {
-                availableMoves[super.getColumn()][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(super.getColumn(), row).getColour() != super.getColour())
-                {
-                    availableMoves[super.getColumn()][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() +1;
-        if(col <= 7 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() -1;
-        if(col <= 7 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() +1;
-        if(col >= 0 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() -1;
-        if(col >= 0 && row >= 0)
+        setAvailableMoves(col, row);
+        
+        if(super.getColour() == ChessPieceColour.WHITE && pieces.whiteIsInCheck())
         {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-            }
+            setUnavailableMoves();
+        }
+        else if(super.getColour() == ChessPieceColour.BLACK && pieces.blackIsInCheck())
+        {
+            setUnavailableMoves();
         }
         
         return availableMoves;
@@ -187,71 +96,146 @@ public class King extends Piece {
     @Override
     public boolean[][] getTargetArea()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
-        int col;
-        int row;
+        pieces = new PiecesOnBoard();
+        int col, row;
         
-        boolean[][] targetArea = new boolean[8][8];
-        for(boolean[] i : targetArea)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                targetArea[i][j] = false;
             }
         }
         
         col = super.getColumn() +1;
-        if(col <= 7)
-        {
-            targetArea[col][super.getRow()] = true;
-        }
+        row = super.getRow();
+        setTargetArea(col, row);
                 
         col = super.getColumn() -1;
-        if(col >= 0)
-        {
-            targetArea[col][super.getRow()] = true;
-        }
+        row = super.getRow();
+        setTargetArea(col, row);
         
+        col = super.getColumn();
         row = super.getRow() +1;
-        if(row <= 7)
-        {
-            targetArea[super.getColumn()][row] = true;
-        }
+        setTargetArea(col, row);
         
+        col = super.getColumn();
         row = super.getRow() -1;
-        if(row >= 0)
-        {
-            targetArea[super.getColumn()][row] = true;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() +1;
-        if(col <= 7 && row <= 7)
-        {
-            targetArea[col][row] = true;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() -1;
-        if(col <= 7 && row >= 0)
-        {
-            targetArea[col][row] = true;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() +1;
-        if(col >= 0 && row <= 7)
-        {
-            targetArea[col][row] = true;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() -1;
-        if(col >= 0 && row >= 0)
-        {
-            targetArea[col][row] = true;
-        }
+        setTargetArea(col, row);
         
         return targetArea;
+    }
+    
+    //set the square as availbale if within the board boundary and not occupied by same colour piece
+    private void setAvailableMoves(int col, int row)
+    {
+        if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+            }
+        }
+    }
+    
+    //set the square as targeted
+    private void setTargetArea(int col, int row)
+    {
+        if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            targetArea[col][row] = true;
+        }
+    }
+    
+    //set the square behind the king while being checked as unavailable square
+    private void setUnavailableMove(int col, int row)
+    {
+        if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            if(pieces.getCheckPath()[col][row])
+            {
+                if((col - super.getColumn()) > 0)
+                {
+                    col = super.getColumn() - 1;
+                }
+                else if((col - super.getColumn()) < 0)
+                {
+                    col = super.getColumn() + 1;
+                }
+                if((row - super.getRow()) > 0)
+                {
+                    row = super.getRow() - 1;
+                }
+                else if((row - super.getRow()) < 0)
+                {
+                    row = super.getRow() + 1;
+                }
+                if(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+                {
+                    availableMoves[col][row] = false;
+                }
+            }
+        }
+    }
+    
+    //set the square behind the king while being checked as unavailable square (from any direction)
+    private void setUnavailableMoves()
+    {
+        int col, row;
+
+        col = super.getColumn()+1;
+        row = super.getRow();
+        setUnavailableMove(col, row);
+
+        col = super.getColumn()-1;
+        row = super.getRow();
+        setUnavailableMove(col, row);
+
+        col = super.getColumn();
+        row = super.getRow()+1;
+        setUnavailableMove(col, row);
+
+        col = super.getColumn();
+        row = super.getRow()-1;
+        setUnavailableMove(col, row);
+
+        col = super.getColumn()+1;
+        row = super.getRow()+1;
+        setUnavailableMove(col, row);
+
+        col = super.getColumn()-1;
+        row = super.getRow()+1;
+        setUnavailableMove(col, row);
+
+        col = super.getColumn()+1;
+        row = super.getRow()-1;
+        setUnavailableMove(col, row);
+
+        col = super.getColumn()-1;
+        row = super.getRow()-1;
+        setUnavailableMove(col, row);
     }
 }
