@@ -21,9 +21,9 @@ import java.util.Scanner;
 
 public class ChessBoardFileIO {
     
-    private static String createGameText(String username)
+    private static String createGameText(String player1)
     {
-        String filename = username + "_chessData.txt";
+        String filename = player1 + "_chessData.txt";
         File file = new File(filename);
         try 
         {
@@ -40,15 +40,15 @@ public class ChessBoardFileIO {
         return filename;
     }
     
-    public static boolean saveGameForUser(String username, PiecesOnBoard board)
+    public static boolean saveGameForUser(String player1, String player2, PiecesOnBoard board)
     {
-        String filename = createGameText(username);
+        String filename = createGameText(player1);
         boolean overwrite;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) 
         {
             
-            boolean userFound = checkForUser(username, reader);
+            boolean userFound = checkForUser(player1, reader);
 
             if (userFound) 
             {
@@ -66,16 +66,17 @@ public class ChessBoardFileIO {
             return false;
         }
 
-        saveUserDataToText(username, board);
+        saveUserDataToText(player1, player2, board);
         return true;
     }
     
-    public static void saveUserDataToText(String username, PiecesOnBoard board)
+    public static void saveUserDataToText(String player1, String player2, PiecesOnBoard board)
     {
         
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(username + "_chessData.txt"))) 
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(player1 + "_chessData.txt"))) 
         {
-            writer.println(username);
+            writer.println(player1);
+            writer.println(player2);
                 
             for (int row = 0; row < 8; row++) 
             {
@@ -85,7 +86,7 @@ public class ChessBoardFileIO {
                     if (piece != null)
                     {
                         String symbol = piece.getSymbol();
-                        writer.println(symbol + " " + row + " " + col);
+                        writer.println(symbol + " " + col + " " + row);
                     }
                 }
             }
@@ -112,10 +113,10 @@ public class ChessBoardFileIO {
             System.out.println("Chess game can not be saved!");
         }
     }
-
-    public static PiecesOnBoard loadGame(String username) 
+    
+    public static PiecesOnBoard loadGame(String player1, Player current) 
     {
-        String filename = username + "_chessData.txt";
+        String filename = player1 + "_chessData.txt";
         PiecesOnBoard board = new PiecesOnBoard();
         
         try {
@@ -125,9 +126,20 @@ public class ChessBoardFileIO {
             StringBuilder gameDataBuilder = new StringBuilder();
 
             boolean userFound = false;
+            String line2 = reader.readLine();
+            if(player1.equals(line2))
+            {
+                current.setColourPiece(ChessPieceColour.WHITE);
+            }
+            line2 = reader.readLine();
+            if(player1.equals(line2))
+            {
+                current.setColourPiece(ChessPieceColour.BLACK);
+            }
+
             while ((line = reader.readLine()) != null) 
             {
-                if(username.equals(line))
+                if(player1.equals(line))
                 {
                     userFound = true;
                 }
@@ -146,8 +158,8 @@ public class ChessBoardFileIO {
                         if (parts.length >= 3) 
                         { 
                             String symbol = parts[0];
-                            int row = Integer.parseInt(parts[1]);
-                            int col = Integer.parseInt(parts[2]);
+                            int col = Integer.parseInt(parts[1]);
+                            int row = Integer.parseInt(parts[2]);
 
                         Piece piece = createPiece(symbol, col, row);
                         board.addPiece(col, row, piece);
@@ -173,13 +185,13 @@ public class ChessBoardFileIO {
         return board;
     }
 
-    private static boolean checkForUser(String username, BufferedReader reader) throws IOException 
+    private static boolean checkForUser(String player1, BufferedReader reader) throws IOException 
     {
         String line;
         
         while ((line = reader.readLine()) != null) 
         {
-            if (username.equals(line)) 
+            if (player1.equals(line)) 
             {
                 System.out.println("Player Name already exists in the file.");
                 return true;

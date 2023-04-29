@@ -1,12 +1,5 @@
-Jamar is playing the WHITE chess pieces 
-Richard is playing the BLACK chess pieces 
+pj is playing the WHITE chess pieces 
+jeff is playing the BLACK chess pieces 
 
-Jamar has moved f2 f3
-Richard has moved d7 d5
-Jamar has moved c4 d5
-Richard has moved d8 d5
-Jamar has moved e2 e3
-Richard has moved d5 d4
-Jamar has moved d1 d4
-Richard has moved b8 c6
-Jamar has moved d4 d8
+pj has moved a2 a4
+jeff has moved a7 a5

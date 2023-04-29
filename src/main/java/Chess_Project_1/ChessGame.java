@@ -13,123 +13,19 @@ import java.util.Scanner;
 public class ChessGame {
     
     private static String moveHistory = "";
-    
-    public static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
-    {
-        System.out.println("Chess Board: \n");
-        System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
-        
-        String column = "     a    b    c    d    e    f    g    h\n";
-        int currentRow = 7;
-        int rowNumber = 8;
-        int rowChange = -1;
-
-        if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
-        {
-            currentRow = 0;
-            rowNumber = 1;
-            rowChange = 1;
-            column = "     h    g    f    e    d    c    b    a\n";
-        }
-
-        System.out.println(column);
-        
-        for(int i = 0; i < 8; i++)
-        {
-            System.out.println("   +----+----+----+----+----+----+----+----+");
-            System.out.print((rowNumber) + "  | ");
-
-            for(int j = 0; j < 8; j++)
-            {
-                int currentCol = j;
-                
-                if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
-                {
-                    currentCol = 7 - j;
-                }
-                
-                Piece piece = board.getBoard()[currentCol][currentRow];
-
-                if(piece == null)
-                {
-                    System.out.print("-- | ");
-                }
-                else
-                {
-                    System.out.print(piece.getSymbol() + " | ");
-                }
-            }
-
-            System.out.println(rowNumber);
-            currentRow += rowChange;
-            rowNumber += rowChange;
-        }
-        
-        System.out.println("   +----+----+----+----+----+----+----+----+");
-        System.out.println(column);
-    }
+    private static final Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) 
     {
         PiecesOnBoard board = new PiecesOnBoard();
-        Scanner scanner = new Scanner(System.in);
         
         Player player1 = new Player(ChessPieceColour.WHITE,"Default1");
         Player player2 = new Player(ChessPieceColour.BLACK,"Default2");
-        boolean isWhiteTurn = true;
         
         System.out.println("Welcome to our chess game! ");
         System.out.println("Created by Feng-Min Hu and Prom Jack Sirisukha for COMP603");
         
-        while(true)
-        {
-            System.out.print("\nPlayer 1, Please enter your name: ");
-            String player1Name = scanner.nextLine();
-            
-            if(player1Name.isBlank())
-            {
-                System.out.println("Invalid input! Please try again, username cannot be empty");
-                continue;
-            }
-                
-            System.out.print("\n"+player1Name + ", What colour would you like to play? (white or black): ");
-            String piece1Colour = scanner.nextLine();
-            
-            if(piece1Colour.equalsIgnoreCase("black"))
-            {
-                player1 = new Player(ChessPieceColour.BLACK,player1Name);
-            }
-            else if(piece1Colour.equalsIgnoreCase("white"))
-            {
-                player1 = new Player(ChessPieceColour.WHITE,player1Name);
-            }
-            else
-            {
-                
-                System.out.println("Invalid input! Colour has to be either black or white");
-                continue;
-            }
-            
-            System.out.print("\nPlayer 2, Please enter your name: ");
-            String player2Name = scanner.nextLine();
-            if(player2Name.isBlank())
-            {
-                System.out.println("Invalid input! Please try again, username cannot be empty.");
-                continue;
-            }
-            System.out.println();
-            
-            if(player1.getColourPiece() != ChessPieceColour.BLACK)
-            {
-                player2 = new Player(ChessPieceColour.BLACK,player2Name);
-            }
-            else if(player1.getColourPiece() != ChessPieceColour.WHITE)
-            {
-                player2 = new Player(ChessPieceColour.WHITE,player2Name);
-            }
-            
-            break;
-        }
+        startNewPlayers(player1,player2);
         
         moveHistory += player1.getPlayerName() + " is playing the " + player1.getColourPiece() + " chess pieces \n";
         moveHistory += player2.getPlayerName() + " is playing the " + player2.getColourPiece() + " chess pieces \n\n";
@@ -139,10 +35,54 @@ public class ChessGame {
         System.out.println("Enter 'load' to load your saved game data.");
         System.out.println("Enter 'resign' to resign the game.");
         System.out.println("Enter 'draw' to ask for a draw.");
+        System.out.println("Enter 'reset' to restart the board.");
         
         System.out.println("");
         
+        playChessGame(player1, player2, board);
+        
         while(true)
+        {
+            System.out.println("Type in 'rematch' to play again.");
+            System.out.println("Type in 'new' to start a new game.");
+            System.out.println("Type in 'quit' to leave the game.");
+            String userInput = scanner.nextLine();
+
+            if(userInput.equalsIgnoreCase("rematch"))
+            {
+                System.out.println("Starting up a rematch!");
+                board.clearAllPieces();
+                board.clearBoard();
+                board.resetBoard();
+                board.refreshBoard();
+                board = new PiecesOnBoard();
+                playChessGame(player1, player2, board);
+            }
+            else if(userInput.equalsIgnoreCase("quit"))
+            {
+                break;
+            }
+            else if(userInput.equalsIgnoreCase("new"))
+            {
+                System.out.println("Starting up new game!");
+                board.clearAllPieces();
+                board.clearBoard();
+                board.resetBoard();
+                board.refreshBoard();
+                board = new PiecesOnBoard();
+                startNewPlayers(player1,player2);
+                playChessGame(player1, player2, board);
+            }
+        }
+        System.out.println("Thank you for playing our chess game!");
+    }
+    
+    private static void playChessGame(Player player1, Player player2, PiecesOnBoard board)
+    {
+        boolean isWhiteTurn = true;
+        boolean gameEnded = false;
+        
+        while(!gameEnded)
         {
             Player currentPlayer = player1;
             if(!isWhiteTurn)
@@ -155,7 +95,7 @@ public class ChessGame {
             if(board.isStalemate(currentPlayer.getColourPiece()))
             {
                 System.out.println("Board is a stalement.");
-                break;
+                gameEnded = true;
             }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
@@ -175,7 +115,7 @@ public class ChessGame {
                 }
                 
                 System.out.println(currentPlayer.getPlayerName() + " is the winner.");
-                break;
+                gameEnded = true;
             }
             
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g 'c2 c4'): ");
@@ -183,7 +123,10 @@ public class ChessGame {
             
             if(chessMove.equalsIgnoreCase("save"))
             {
-                if(ChessBoardFileIO.saveGameForUser(currentPlayer.getPlayerName(),board))
+                Player whiteTemp = player1;
+                Player blackTemp = player2;
+ 
+                if(ChessBoardFileIO.saveGameForUser(whiteTemp.getPlayerName(),blackTemp.getPlayerName(),board))
                 {
                     ChessBoardFileIO.saveMovesToText(moveHistory);
                 }
@@ -192,7 +135,7 @@ public class ChessGame {
             else if(chessMove.equalsIgnoreCase("resign"))
             {
                 System.out.println(currentPlayer.getPlayerName() + " has resigned.");
-                break;
+                gameEnded = true;
             }
             
             else if(chessMove.equalsIgnoreCase("draw"))
@@ -218,7 +161,7 @@ public class ChessGame {
                 {
                     System.out.println(currentPlayer.getPlayerName() + " has accepted a draw.");
                     System.out.println("This game has offically ended as a draw.");
-                    break;
+                    gameEnded = true;
                 }
                 else if(drawChoice.equalsIgnoreCase("N"))
                 {
@@ -235,13 +178,12 @@ public class ChessGame {
                     
             else if(chessMove.equalsIgnoreCase("load"))
             {
-                board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName());
+                board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName(),currentPlayer);
+                if(board != null)
+                {
+                    
+                }
                 System.out.println("Welcome back! " + currentPlayer.getPlayerName());
-            }
-            
-            else if(chessMove.equalsIgnoreCase("quit"))
-            {
-                break;
             }
             
             else if(chessMove.equalsIgnoreCase("reset"))
@@ -299,6 +241,95 @@ public class ChessGame {
                 }
             }
         }
-        System.out.println("Thank you for playing our chess game!");
     }
+    
+    public static void startNewPlayers(Player player1, Player player2) 
+    {
+        while(true)
+        {
+            System.out.print("\nPlayer 1, Please enter your name: ");
+            String player1Name = scanner.nextLine();
+            
+            if(player1Name.isEmpty())
+            {
+                System.out.println("Invalid input! Please try again, username cannot be empty");
+                continue;
+            }
+            
+            System.out.print("\n"+player1Name + ", player 1 will play as white.\n");
+            player1.setPlayerName(player1Name);
+            player1.setColourPiece(ChessPieceColour.WHITE);
+            
+            System.out.print("\nPlayer 2, Please enter your name: ");
+            String player2Name = scanner.nextLine();
+            
+            System.out.print("\n"+player2Name + ", player 2 will play as black.\n");
+            if(player2Name.isEmpty())
+            {
+                System.out.println("Invalid input! Please try again, username cannot be empty.");
+                continue;
+            }
+            player2.setPlayerName(player2Name);
+            player2.setColourPiece(ChessPieceColour.BLACK);
+            System.out.println();
+            
+            break;
+        }
+    }
+    
+    private static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
+    {
+        System.out.println("Chess Board: \n");
+        System.out.println("Currently playing as: " + CurrentPlayer.getColourPiece() + "\n");
+        
+        String column = "     a    b    c    d    e    f    g    h\n";
+        int currentRow = 7;
+        int rowNumber = 8;
+        int rowChange = -1;
+
+        if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+        {
+            currentRow = 0;
+            rowNumber = 1;
+            rowChange = 1;
+            column = "     h    g    f    e    d    c    b    a\n";
+        }
+
+        System.out.println(column);
+        
+        for(int i = 0; i < 8; i++)
+        {
+            System.out.println("   +----+----+----+----+----+----+----+----+");
+            System.out.print((rowNumber) + "  | ");
+
+            for(int j = 0; j < 8; j++)
+            {
+                int currentCol = j;
+                
+                if(CurrentPlayer.getColourPiece() == ChessPieceColour.BLACK)
+                {
+                    currentCol = 7 - j;
+                }
+                
+                Piece piece = board.getBoard()[currentCol][currentRow];
+
+                if(piece == null)
+                {
+                    System.out.print("-- | ");
+                }
+                else
+                {
+                    System.out.print(piece.getSymbol() + " | ");
+                }
+            }
+
+            System.out.println(rowNumber);
+            currentRow += rowChange;
+            rowNumber += rowChange;
+        }
+        
+        System.out.println("   +----+----+----+----+----+----+----+----+");
+        System.out.println(column);
+    }
+    
 }
