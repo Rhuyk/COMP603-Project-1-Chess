@@ -74,11 +74,11 @@ public class Rook extends Piece {
         if(super.isUnderPin())
         {
             boolean[][] newAvailableMoves = new boolean[8][8];
-            for(boolean[] i : newAvailableMoves)
+            for(int i = 0; i < 8; i++)
             {
-                for(boolean j : i)
+                for(int j = 0; j < 8; j++)
                 {
-                    j = false;
+                    newAvailableMoves[i][j] = false;
                 }
             }
             
@@ -140,6 +140,7 @@ public class Rook extends Piece {
         return targetArea;
     }
     
+    //return a further column away from the rook
     private int setColUpOrDown(int col)
     {
         if((col - super.getColumn()) > 0)
@@ -154,6 +155,7 @@ public class Rook extends Piece {
         return col;
     }
     
+    //return a further row away from the rook
     private int setRowUpOrDown(int row)
     {
         if((row - super.getRow()) > 0)
@@ -167,6 +169,7 @@ public class Rook extends Piece {
         return row;
     }
         
+    //set rook's available squares
     private void setAvailableMoves(int col, int row)
     {
         while(col <= 7 && col >= 0 && row <= 7 && row >= 0)
@@ -188,6 +191,7 @@ public class Rook extends Piece {
         }
     }
     
+    //set rook's targeting squares as targeted
     private void setTargetArea(int col, int row)
     {
         while(col <= 7 && col >= 0 && row <= 7 && row >= 0)
@@ -196,7 +200,7 @@ public class Rook extends Piece {
             {
                 targetArea[col][row] = true;
                 
-                //if check king
+                //if rook check the opponent king, send the check path to the PiecesOnBoard class for movement restriction.
                 if(pieces.getPiece(col, row).getColour() != super.getColour() 
                 && pieces.getPiece(col, row).getSymbol().contains("K"))
                 {
@@ -232,7 +236,8 @@ public class Rook extends Piece {
                     }
                     pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
                 }
-                //if pin king
+                
+                //if rook pin the opponemt king, send the pin path to the piece that is under pin and set its isUnderPin to true.
                 else if(pieces.getPiece(col, row).getColour() != super.getColour())
                 {
                     int pinnedCol = col;
