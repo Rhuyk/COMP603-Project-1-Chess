@@ -76,6 +76,18 @@ public class ChessGame {
         System.out.println("Thank you for playing our chess game!");
     }
     
+    /**
+    * Method: playChessGame
+    * 
+    * This private method simulates a 2 player chess game. This takes in the first and second player and the board.
+    * The method uses a while loop to simulate the game, it sets the currentPlayer based on the 'boolean' 'isWhiteTurn'.
+    * This allows the user to switch back and fourth on each move. It will also check for if the board is in a 'stalement' or
+    * the player is in a checkmate. If true, then the game will end. If false, then the game will continue. Which gives the
+    * user options whether to save their game or load their previous game. However, if their input is 'resign' the loop will break
+    * which ends the game.
+    * 
+    */    
+    
     private static void playChessGame(Player player1, Player player2, PiecesOnBoard board)
     {
         boolean isWhiteTurn = true;
@@ -94,13 +106,14 @@ public class ChessGame {
             if(board.isStalemate(currentPlayer.getColourPiece()))
             {
                 System.out.println("Board is a stalement.");
+                System.out.println("This game has offically ended via stalement");
                 break;
             }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
             {
                 System.out.println(currentPlayer.getPlayerName() + " has been check mated.");
-                System.out.println("This game has offically ended.");
+                System.out.println("This game has offically ended via stalement");
                 
                 isWhiteTurn = !isWhiteTurn;
                 
@@ -122,8 +135,6 @@ public class ChessGame {
             
             if(chessMove.equalsIgnoreCase("save"))
             {
-                //playerNames = player1.getPlayerName() + "-" + player2.getPlayerName();
-                //chessGamesMap.put(playerNames, board);
                 Player whiteTemp = player1;
                 Player blackTemp = player2;
                 
@@ -136,6 +147,7 @@ public class ChessGame {
             else if(chessMove.equalsIgnoreCase("resign"))
             {
                 System.out.println(currentPlayer.getPlayerName() + " has resigned.");
+                System.out.println("This game has offically ended via resignation");
                 gameEnded = true;
             }
             
@@ -241,6 +253,16 @@ public class ChessGame {
         }
     }
     
+    /**
+    * Method: startNewPlayers
+    * 
+    * This private method is used to set up the 2 player chess game by taking in two player object and assigning them their names
+    * chess piece 'colours'. The loop will not break if the player enter invalid names such as nothing. 
+    * 
+    * @param player1
+    * @param player2
+    */
+    
     public static void startNewPlayers(Player player1, Player player2) 
     {
         while(true)
@@ -274,6 +296,15 @@ public class ChessGame {
             break;
         }
     }
+    
+    /**
+    * Method: printBoard
+    * 
+    * This method will print out the current state of the chess board, this includes the pieces and their locations.
+    * It takes in the board and the current player. First, it will print out some information on the player and then,
+    * it will print out the board.
+    * 
+    */ 
     
     private static void printBoard(PiecesOnBoard board, Player CurrentPlayer)
     {

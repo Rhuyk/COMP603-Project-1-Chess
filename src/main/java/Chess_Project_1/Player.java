@@ -19,21 +19,53 @@ public class Player {
         this.colourPiece = colourPiece;
     }
 
+    /**
+    * Method: getColourPiece
+    * 
+    * This method will return the player chess piece 'colour'.
+    * 
+    * @return 
+    */ 
+    
     public ChessPieceColour getColourPiece() 
     {
         return colourPiece;
     }
 
+    /**
+    * Method: getColourPiece
+    * 
+    * This method will modify the player chess piece 'colour'.
+    * 
+    * @param colourPiece
+    */ 
+    
     public void setColourPiece(ChessPieceColour colourPiece) 
     {
         this.colourPiece = colourPiece;
     }
 
+    /**
+    * Method: getPlayerName
+    * 
+    * This method will return the player name.
+    * 
+    * @return 
+    */     
+    
     public String getPlayerName() 
     {
         return playerName;
     }
  
+    /**
+    * Method: getColourPiece
+    * 
+    * This method will modify the player name.
+    * 
+    * @param playerName
+    */    
+    
     public void setPlayerName(String playerName) 
     {
         this.playerName = playerName;

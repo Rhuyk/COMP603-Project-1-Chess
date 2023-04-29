@@ -26,6 +26,14 @@ import java.util.StringTokenizer;
 
 public class ChessBoardFileIO {
     
+    /**
+    * Method: createGameText
+    * 
+    * This method takes in the current player name and returns a string representing
+    * the name of the file which stores the chess game data. I
+    * 
+    */ 
+    
     private static String createGameText(String currentPlayer)
     {
         String filename = currentPlayer + "_chessData.txt";
@@ -44,6 +52,21 @@ public class ChessBoardFileIO {
         
         return filename;
     }
+    
+    /**
+    * Method: saveGameForUser
+    * 
+    * This method takes in the current player object, the two players representing black and white and the chess board.
+    * First, it initializes a 'hashmap' called 'chessdata' to store the chess location data. Then it uses to reader to 
+    * read the contents of the file. Then it runs the checkForUser to check if the user is present in the file. If so, they get
+    * a overwrite option. Finally, the method returns true, meaning the game data has been saved successfully.
+    * 
+    * @param currentPlayer
+    * @param player1
+    * @param player2
+    * @param board
+    * @return 
+    */ 
     
     public static boolean saveGameForUser(String currentPlayer,Player player1, Player player2, PiecesOnBoard board)
     {
@@ -74,6 +97,20 @@ public class ChessBoardFileIO {
         saveUserDataToText(currentPlayer,player1, player2, board,chessData);
         return true;
     }
+    
+    /**
+    * Method: saveUserDataToText
+    * 
+    * This method saves the game data to the specified text file. The method will loop through the board rows and columns
+    * to get each piece at each location. If a piece is found at the location, it will be add that piece symbol and location
+    * to the HashMap. Then it will loop through the HashMap and write each pair to the text as "symbol col row".
+    * 
+    * @param currentPlayer
+    * @param player1
+    * @param player2
+    * @param board
+    * @param chessData
+    */ 
     
     public static void saveUserDataToText(String currentPlayer,Player player1, Player player2, PiecesOnBoard board,HashMap<String, String> chessData)
     {
@@ -118,6 +155,14 @@ public class ChessBoardFileIO {
         }
     }
     
+    /**
+    * Method: saveMovesToText
+    * 
+    * This method will save the player moves to a text file. This text file is readable and can informative to the player.
+    * Therefore, allowing them to study their moves and their opponent moves as well.
+    * 
+    * @param moves
+    */ 
     public static void saveMovesToText(String moves)
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("chessMoves.txt")))
@@ -131,6 +176,20 @@ public class ChessBoardFileIO {
             System.out.println("Chess game can not be saved!");
         }
     }
+    
+    /**
+    * Method: loadGame
+    * 
+    * This method purpose is to load a saved game from a text file and return a PiecesOnBoard object which contains chess game.
+    * The method first creates a new board and HashSet. This HashSet is used to keep track of unique pieces.
+    * Then, it reads the game data from the file, and uses StringBuilder to accumulate the board state information. 
+    * Once, it reaches the delimiter '###'. It will use StringTokenizer to 'Tokenize' the accumulated board state and 
+    * create new pieces when necessary. Finally, all the pieces are added to the board if there no duplicate pieces.
+    * 
+    * @param player1
+    * @param current
+    * @return 
+    */ 
     
     public static PiecesOnBoard loadGame(String player1, Player current) 
     {
@@ -191,15 +250,23 @@ public class ChessBoardFileIO {
                     gameDataBuilder.append(line).append("\n");
                 }
             }
-                System.out.println("Game file has been loaded!");
-            } catch (IOException e) {
+            reader.close();
+            System.out.println("Game file has been loaded!");
+            } catch (IOException e) 
+            {
                 System.out.println("Error: Game file could not be loaded!");
             }
 
         return board;
     }
 
-
+    /**
+    * Method: checkForUser
+    * 
+    * This private method will check if the user is present in the text file.
+    * 
+    */ 
+    
     private static boolean checkForUser(String player1, BufferedReader reader) throws IOException 
     {
         String line;
@@ -215,7 +282,14 @@ public class ChessBoardFileIO {
 
         return false;
     }
-
+    
+    /**
+    * Method: checkForUser
+    * 
+    * This private method will give the user options whether to overwrite the data or not.
+    * 
+    */ 
+    
     private static boolean getOverwriteOption() 
     {
         System.out.print("Do you wish to overwrite (Y/N): ");
@@ -224,6 +298,14 @@ public class ChessBoardFileIO {
 
         return choice.equalsIgnoreCase("Y");
     }
+    
+    /**
+    * Method: createPiece
+    * 
+    * This private method will create a chess piece at the specified column and row. It has a switch case on the
+    * symbol to create that specific piece when found in the text file.
+    * 
+    */
     
     private static Piece createPiece(String symbol,int column,int row) {
         switch (symbol) {
