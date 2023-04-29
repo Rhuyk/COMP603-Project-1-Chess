@@ -95,7 +95,7 @@ public class ChessGame {
             if(board.isStalemate(currentPlayer.getColourPiece()))
             {
                 System.out.println("Board is a stalement.");
-                gameEnded = true;
+                break;
             }
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
@@ -115,7 +115,7 @@ public class ChessGame {
                 }
                 
                 System.out.println(currentPlayer.getPlayerName() + " is the winner.");
-                gameEnded = true;
+                break;
             }
             
             System.out.println(currentPlayer.getPlayerName()+" Enter your chess move(e.g 'c2 c4'): ");

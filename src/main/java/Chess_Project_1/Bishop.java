@@ -9,6 +9,9 @@ package Chess_Project_1;
  * @author rh200
  */
 public class Bishop extends Piece{
+    private boolean[][] availableMoves = new boolean[8][8];
+    private boolean[][] targetArea = new boolean[8][8];
+    private PiecesOnBoard pieces;
     
     //bishop piece constructor
     public Bishop(ChessPieceColour colour,int col, int row)
@@ -35,98 +38,33 @@ public class Bishop extends Piece{
     @Override
     public boolean[][] getAvailableMoves()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
+        pieces = new PiecesOnBoard();
         int col;
         int row;
         
-        boolean[][] availableMoves = new boolean[8][8];
-        for(boolean[] i : availableMoves)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                availableMoves[i][j] = false;
             }
         }
         
         col = super.getColumn() +1;
         row = super.getRow() +1;
-        while(col <= 7 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-                col++;
-                row++;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-                break;
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() -1;
-        while(col <= 7 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-                col++;
-                row--;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-                break;
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() +1;
-        while(col >= 0 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-                col--;
-                row++;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-                break;
-            }
-        }
+        setAvailableMoves(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() -1;
-        while(col >= 0 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) == null)
-            {
-                availableMoves[col][row] = true;
-                col--;
-                row--;
-            }
-            else
-            {
-                if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    availableMoves[col][row] = true;
-                }
-                break;
-            }
-        }
+        setAvailableMoves(col, row);
         
         //if bishop is under pin, then return the available moves within the pin path
         if(super.isUnderPin())
@@ -163,341 +101,194 @@ public class Bishop extends Piece{
     @Override
     public boolean[][] getTargetArea()
     {
-        PiecesOnBoard pieces = new PiecesOnBoard();
+        pieces = new PiecesOnBoard();
         int col;
         int row;
-        int pinnedCol;
-        int pinnedRow;
         
-        boolean[][] targetArea = new boolean[8][8];
-        for(boolean[] i : targetArea)
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                targetArea[i][j] = false;
             }
         }
         
         col = super.getColumn() +1;
         row = super.getRow() +1;
-        while(col <= 7 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) != null)
-            {
-                targetArea[col][row] = true;
-                
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    int pathCol = super.getColumn();
-                    int pathRow = super.getRow();
-                    while(!(pathCol == col && pathRow == row))
-                    {
-                        checkPath[pathCol][pathRow] = true;
-                        pathCol++;
-                        pathRow++;
-                    }
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-                //if pin king
-                else if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    pinnedCol = col;
-                    pinnedRow = row;
-                    col++;
-                    row++;
-                    
-                    for(; col <= 7 && row <= 7; col++, row++)
-                    {
-                        if(pieces.getPiece(col, row) == null)
-                        {
-                            continue;
-                        }
-                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
-                                && pieces.getPiece(col, row).getSymbol().contains("K"))
-                        {
-                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
-                            
-                            boolean[][] pinPath = new boolean[8][8];
-                            for(boolean[] i : pinPath)
-                            {
-                                for(boolean j : i)
-                                {
-                                    j = false;
-                                }
-                            }
-                            int pathCol = super.getColumn();
-                            int pathRow = super.getRow();
-                            while(!(pathCol == col && pathRow == row))
-                            {
-                                pinPath[pathCol][pathRow] = true;
-                                pathCol++;
-                                pathRow++;
-                            }
-                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            targetArea[col][row] = true;
-            col++;
-            row++;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() +1;
         row = super.getRow() -1;
-        while(col <= 7 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) != null)
-            {
-                targetArea[col][row] = true;
-                
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    int pathCol = super.getColumn();
-                    int pathRow = super.getRow();
-                    while(!(pathCol == col && pathRow == row))
-                    {
-                        checkPath[pathCol][pathRow] = true;
-                        pathCol++;
-                        pathRow--;
-                    }
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-                //if pin king
-                else if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    pinnedCol = col;
-                    pinnedRow = row;
-                    col++;
-                    row--;
-                    
-                    for(; col <= 7 && row >= 0; col++, row--)
-                    {
-                        if(pieces.getPiece(col, row) == null)
-                        {
-                            continue;
-                        }
-                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
-                                && pieces.getPiece(col, row).getSymbol().contains("K"))
-                        {
-                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
-                            
-                            boolean[][] pinPath = new boolean[8][8];
-                            for(boolean[] i : pinPath)
-                            {
-                                for(boolean j : i)
-                                {
-                                    j = false;
-                                }
-                            }
-                            int pathCol = super.getColumn();
-                            int pathRow = super.getRow();
-                            while(!(pathCol == col && pathRow == row))
-                            {
-                                pinPath[pathCol][pathRow] = true;
-                                pathCol++;
-                                pathRow--;
-                            }
-                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            targetArea[col][row] = true;
-            col++;
-            row--;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() +1;
-        while(col >= 0 && row <= 7)
-        {
-            if(pieces.getPiece(col, row) != null)
-            {
-                targetArea[col][row] = true;
-                
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    int pathCol = super.getColumn();
-                    int pathRow = super.getRow();
-                    while(!(pathCol == col && pathRow == row))
-                    {
-                        checkPath[pathCol][pathRow] = true;
-                        pathCol--;
-                        pathRow++;
-                    }
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-                //if pin king
-                else if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    pinnedCol = col;
-                    pinnedRow = row;
-                    col--;
-                    row++;
-                    
-                    for(; col >= 0 && row <= 7; col--, row++)
-                    {
-                        if(pieces.getPiece(col, row) == null)
-                        {
-                            continue;
-                        }
-                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
-                                && pieces.getPiece(col, row).getSymbol().contains("K"))
-                        {
-                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
-                            
-                            boolean[][] pinPath = new boolean[8][8];
-                            for(boolean[] i : pinPath)
-                            {
-                                for(boolean j : i)
-                                {
-                                    j = false;
-                                }
-                            }
-                            int pathCol = super.getColumn();
-                            int pathRow = super.getRow();
-                            while(!(pathCol == col && pathRow == row))
-                            {
-                                pinPath[pathCol][pathRow] = true;
-                                pathCol--;
-                                pathRow++;
-                            }
-                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            targetArea[col][row] = true;
-            col--;
-            row++;
-        }
+        setTargetArea(col, row);
         
         col = super.getColumn() -1;
         row = super.getRow() -1;
-        while(col >= 0 && row >= 0)
-        {
-            if(pieces.getPiece(col, row) != null)
-            {
-                targetArea[col][row] = true;
-                
-                //if check king
-                if(pieces.getPiece(col, row).getColour() != super.getColour() && pieces.getPiece(col, row).getSymbol().contains("K"))
-                {
-                    boolean[][] checkPath = new boolean[8][8];
-                    for(boolean[] i : checkPath)
-                    {
-                        for(boolean j : i)
-                        {
-                            j = false;
-                        }
-                    }
-                    int pathCol = super.getColumn();
-                    int pathRow = super.getRow();
-                    while(!(pathCol == col && pathRow == row))
-                    {
-                        checkPath[pathCol][pathRow] = true;
-                        pathCol--;
-                        pathRow--;
-                    }
-                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
-                }
-                //if pin king
-                else if(pieces.getPiece(col, row).getColour() != super.getColour())
-                {
-                    pinnedCol = col;
-                    pinnedRow = row;
-                    col--;
-                    row--;
-
-                    for(; col >= 0 && row >= 0; col--, row--)
-                    {
-                        if(pieces.getPiece(col, row) == null)
-                        {
-                            continue;
-                        }
-                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
-                                && pieces.getPiece(col, row).getSymbol().contains("K"))
-                        {
-                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
-
-                            boolean[][] pinPath = new boolean[8][8];
-                            for(boolean[] i : pinPath)
-                            {
-                                for(boolean j : i)
-                                {
-                                    j = false;
-                                }
-                            }
-                            int pathCol = super.getColumn();
-                            int pathRow = super.getRow();
-                            while(!(pathCol == col && pathRow == row))
-                            {
-                                pinPath[pathCol][pathRow] = true;
-                                pathCol--;
-                                pathRow--;
-                            }
-                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            targetArea[col][row] = true;
-            col--;
-            row--;
-        }
+        setTargetArea(col, row);
         
         return targetArea;
+    }
+    
+    private int setColUpOrDown(int col)
+    {
+        if((col - super.getColumn()) > 0)
+        {
+            col++;
+        }
+        else if((col - super.getColumn()) < 0)
+        {
+            col--;
+        }
+        
+        return col;
+    }
+    
+    private int setRowUpOrDown(int row)
+    {
+        if((row - super.getRow()) > 0)
+        {
+            row++;
+        }
+        else if((row - super.getRow()) < 0)
+        {
+            row--;
+        }
+        return row;
+    }
+        
+    private void setAvailableMoves(int col, int row)
+    {
+        while(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) == null)
+            {
+                availableMoves[col][row] = true;
+                col = setColUpOrDown(col);
+                row = setRowUpOrDown(row);
+            }
+            else
+            {
+                if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    availableMoves[col][row] = true;
+                }
+                break;
+            }
+        }
+    }
+    
+    private void setTargetArea(int col, int row)
+    {
+        while(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+        {
+            if(pieces.getPiece(col, row) != null)
+            {
+                targetArea[col][row] = true;
+                
+                //if check king
+                if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                {
+                    boolean[][] checkPath = new boolean[8][8];
+                    for(int i = 0; i < 8; i++)
+                    {
+                        for(int j = 0; j < 8; j++)
+                        {
+                            checkPath[i][j] = false;
+                        }
+                    }
+                    int pathCol = super.getColumn();
+                    int pathRow = super.getRow();
+                    while(!(pathCol == col && pathRow == row))
+                    {
+                        checkPath[pathCol][pathRow] = true;
+                        if(pathCol < col)
+                        {
+                            pathCol++;
+                        }
+                        else if(pathCol > col)
+                        {
+                            pathCol--;
+                        }
+                        if(pathRow < row)
+                        {
+                            pathRow++;
+                        }
+                        else if(pathRow > row)
+                        {
+                            pathRow--;
+                        }
+                    }
+                    pieces.setInCheck(pieces.getPiece(col, row).getColour(), checkPath);
+                }
+                //if pin king
+                else if(pieces.getPiece(col, row).getColour() != super.getColour())
+                {
+                    int pinnedCol = col;
+                    int pinnedRow = row;
+                    col = setColUpOrDown(col);
+                    row = setRowUpOrDown(row);
+                    
+                    while(col <= 7 && col >= 0 && row <= 7 && row >= 0)
+                    {
+                        if(pieces.getPiece(col, row) == null)
+                        {
+                            col = setColUpOrDown(col);
+                            row = setRowUpOrDown(row);
+                            continue;
+                        }
+                        else if(pieces.getPiece(col, row).getColour() != super.getColour() 
+                                && pieces.getPiece(col, row).getSymbol().contains("K"))
+                        {
+                            pieces.getPiece(pinnedCol, pinnedRow).setUnderPin(true);
+                            
+                            boolean[][] pinPath = new boolean[8][8];
+                            for(int i = 0; i < 8; i++)
+                            {
+                                for(int j = 0; j < 8; j++)
+                                {
+                                    pinPath[i][j] = false;
+                                }
+                            }
+                            int pathCol = super.getColumn();
+                            int pathRow = super.getRow();
+                            while(!(pathCol == col && pathRow == row))
+                            {
+                                pinPath[pathCol][pathRow] = true;
+                                if(pathCol < col)
+                                {
+                                    pathCol++;
+                                }
+                                else if(pathCol > col)
+                                {
+                                    pathCol--;
+                                }
+                                if(pathRow < row)
+                                {
+                                    pathRow++;
+                                }
+                                else if(pathRow > row)
+                                {
+                                    pathRow--;
+                                }
+                            }
+                            pieces.getPiece(pinnedCol, pinnedRow).setPinPath(pinPath);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+            targetArea[col][row] = true;
+            col = setColUpOrDown(col);
+            row = setRowUpOrDown(row);
+        }
     }
 }

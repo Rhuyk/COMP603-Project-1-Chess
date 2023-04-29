@@ -1,7 +1,7 @@
-jeff is playing the WHITE chess pieces 
-pj is playing the BLACK chess pieces 
+richard is playing the WHITE chess pieces 
+p is playing the BLACK chess pieces 
 
-jeff has moved a2 a3
-jeff has moved a2 a3
-pj has moved b2 b3
-jeff has moved b7 b5
+richard has moved e2 e4
+p has moved f7 f6
+richard has moved d1 h5
+p has moved g7 g6

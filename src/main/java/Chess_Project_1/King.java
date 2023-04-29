@@ -9,7 +9,7 @@ package Chess_Project_1;
  * @author rh200
  */
 public class King extends Piece {
-    
+    boolean[][] availableMoves = new boolean[8][8];
     //king piece constructor
     public King(ChessPieceColour colour, int col, int row)
     {
@@ -38,13 +38,12 @@ public class King extends Piece {
         PiecesOnBoard pieces = new PiecesOnBoard();
         int col;
         int row;
-        
-        boolean[][] availableMoves = new boolean[8][8];
-        for(boolean[] i : availableMoves)
+
+        for(int i = 0; i < 8; i++)
         {
-            for(boolean j : i)
+            for(int j = 0; j < 8; j++)
             {
-                j = false;
+                availableMoves[i][j] = false;
             }
         }
         
