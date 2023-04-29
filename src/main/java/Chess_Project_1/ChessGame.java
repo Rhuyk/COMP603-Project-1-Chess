@@ -179,7 +179,7 @@ public class ChessGame {
             else if(chessMove.equalsIgnoreCase("load"))
             {
                 board = ChessBoardFileIO.loadGame(currentPlayer.getPlayerName(),currentPlayer);
-                isWhiteTurn = currentPlayer.getColourPiece() != ChessPieceColour.BLACK;
+                
                 System.out.println("Welcome back! " + currentPlayer.getPlayerName());
             }
             
