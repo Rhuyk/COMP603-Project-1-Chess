@@ -22,26 +22,26 @@ public class ChessGame {
         Player player2 = new Player(ChessPieceColour.BLACK,"Default2");
         
         System.out.println("Welcome to our chess game! ");
-        System.out.println("Created by Feng-Min Hu and Prom Jack Sirisukha for COMP603");
+        System.out.println("Created by Feng-Min Hu and Prom Jack Sirisukha for COMP603 Project 1");
         
         startNewPlayers(player1,player2);
         
         moveHistory += player1.getPlayerName() + " is playing the " + player1.getColourPiece() + " chess pieces \n";
         moveHistory += player2.getPlayerName() + " is playing the " + player2.getColourPiece() + " chess pieces \n\n";
         
+        System.out.println("Commands: ");
         System.out.println("Enter 'quit' to leave anytime.");
-        System.out.println("Enter 'save' to save your chess game.");
-        System.out.println("Enter 'load' to load your saved game data.");
-        System.out.println("Enter 'resign' to resign the game.");
         System.out.println("Enter 'draw' to ask for a draw.");
+        System.out.println("Enter 'resign' to resign the game.");
         System.out.println("Enter 'reset' to restart the board.");
-        
-        System.out.println("");
+        System.out.println("Enter 'save' to save your chess game.");
+        System.out.println("Enter 'load' to load your saved game data.\n");
         
         playChessGame(player1, player2, board);
         
         while(true)
         {          
+            System.out.println();
             System.out.println("Type in 'rematch' to play again.");
             System.out.println("Type in 'new' to start a new game.");
             System.out.println("Type in 'quit' to leave the game.");
@@ -149,6 +149,11 @@ public class ChessGame {
                 System.out.println(currentPlayer.getPlayerName() + " has resigned.");
                 System.out.println("This game has offically ended via resignation");
                 gameEnded = true;
+            }
+            else if(chessMove.equalsIgnoreCase("quit"))
+            {
+                System.out.println("Thank you for playing our chess game!");
+                System.exit(0);
             }
             
             else if(chessMove.equalsIgnoreCase("draw"))
@@ -267,7 +272,7 @@ public class ChessGame {
     {
         while(true)
         {
-            System.out.print("\nPlayer 1, Please enter your name: ");
+            System.out.println("\nPlayer 1 will play as white, Please enter your name:");
             String player1Name = scanner.nextLine();
             
             if(player1Name.isEmpty())
@@ -275,20 +280,30 @@ public class ChessGame {
                 System.out.println("Invalid input! Please try again, username cannot be empty");
                 continue;
             }
+            else if(player1Name.equalsIgnoreCase("quit"))
+            {
+                System.out.println("Program has been terminated.");
+                System.exit(0);
+            }
             
-            System.out.print("\n"+player1Name + ", player 1 will play as white.\n");
+            
             player1.setPlayerName(player1Name);
             player1.setColourPiece(ChessPieceColour.WHITE);
             
-            System.out.print("\nPlayer 2, Please enter your name: ");
+            System.out.println("\nPlayer 2 will play as black, Please enter your name:");
             String player2Name = scanner.nextLine();
             
-            System.out.print("\n"+player2Name + ", player 2 will play as black.\n");
             if(player2Name.isEmpty())
             {
                 System.out.println("Invalid input! Please try again, username cannot be empty.");
                 continue;
             }
+            else if(player2Name.equalsIgnoreCase("quit"))
+            {
+                System.out.println("Program has been terminated.");
+                System.exit(0);
+            }
+            
             player2.setPlayerName(player2Name);
             player2.setColourPiece(ChessPieceColour.BLACK);
             System.out.println();
