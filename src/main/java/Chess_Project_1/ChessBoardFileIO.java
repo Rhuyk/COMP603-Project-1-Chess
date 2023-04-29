@@ -30,7 +30,7 @@ public class ChessBoardFileIO {
     * Method: createGameText
     * 
     * This method takes in the current player name and returns a string representing
-    * the name of the file which stores the chess game data. I
+    * the name of the file which stores the chess game data. 
     * 
     */ 
     
