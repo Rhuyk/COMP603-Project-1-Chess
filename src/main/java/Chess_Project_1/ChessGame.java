@@ -112,8 +112,7 @@ public class ChessGame {
             
             if(board.isCheckmate(currentPlayer.getColourPiece()))
             {
-                System.out.println(currentPlayer.getPlayerName() + " has been check mated.");
-                System.out.println("This game has offically ended via stalement");
+                System.out.println(currentPlayer.getPlayerName() + " has been checkmated.");
                 
                 isWhiteTurn = !isWhiteTurn;
                 
